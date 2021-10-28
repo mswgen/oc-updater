@@ -18,7 +18,7 @@ window.addEventListener('load', async () => {
             }
             const ocver = ipc.sendSync('check-opencore-version', `${efidir}/OC/OpenCore.efi`);
             if (ocver == 'not-found') {
-                return alert('Unknown OpenCore Version. It might be DEBUG build or too old version. (0.6.9 and newer is supported)');
+                return alert('Unknown OpenCore Version. It might be DEBUG build or too old version. (0.6.8 and newer is supported)');
             }
             const kexts = ipc.sendSync('kextinfo', `${efidir}/OC/Kexts`);
             document.querySelector<HTMLElement>('#get-started')!.style.display = 'none';
