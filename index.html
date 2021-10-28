@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OpenCore Updater</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <script src="dist/renderer.js"></script>
+</head>
+
+<body>
+    <div id="get-started">
+        <img src="./Logo.png" alt="OpenCore Logo" height="30%" width="30%">
+        <h1>OpenCore Updater</h1>
+        <h2>Current supported version: 0.7.4</h2>
+        <button id="start">Get started</button>
+    </div>
+    <div id="efiinfo">
+        <h1>Your EFI info</h1>
+        <p>Latest version is 0.7.4.</p>
+        <p>Your OpenCore version is <span id="oc-version"></span>.</p>
+        <p>You're using the following kexts:</p>
+        <div id="using-kexts"></div>
+        <p id="is-outdated">Your OpenCore is up to date.</p>
+        <button id="update">Update to 0.7.4</button>
+    </div>
+    <div id="update-in-progress">
+        <h1>Updating...</h1>
+        <p>Your EFI is being updated.</p>
+        <br><br>
+        <p id="progress">1/7. Downloading OpenCore...</p>
+        <!--
+            1. Downloading OpenCore...
+            2. Downloading kexts...
+            3. Downloading binary data...
+            4. Creating backup...
+            5. Swapping files...
+            6. Updating config.plist...
+            7. Cleaning up...
+        -->
+    </div>
+    <div id="success">
+        <img src="checkmark-flat.png" alt="checkmark" height="30%" width="30%">
+        <h1>You're up to date!</h1>
+        <p>OpenCore is updated. However, these kexts are not updated. There might be a newer version of them.</p>
+        <p id="kexts-not-updated"></p>
+        <p>There's also a backup of your old EFI. It is at <span id="backup-location"></span>.</p>
+    </div>
+</body>
+
+</html>

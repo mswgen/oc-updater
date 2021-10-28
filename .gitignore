@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Electron builder output
+out/
+
+# macOS DS_Store
+**/.DS_Store
