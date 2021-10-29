@@ -1,5 +1,5 @@
 {
-    "appId": "com.mswgen.${name}",
+    "appId": "com.mswgen.opencore-updater",
     "copyright": "Copyright (c) 2021 mswgen",
     "directories": {
         "output": "out"
