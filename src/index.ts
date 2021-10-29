@@ -4,6 +4,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import os from 'os';
 import cp from 'child_process';
+import plist from 'plist';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
     '962bd270c8c2eec39b887d71b5204817e2d41349558f30d77fb91969288c0648': '0.7.4',
@@ -255,6 +256,12 @@ electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
             }
         }
         ocver++;
+    }
+    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/config.plist`, 'utf8'));
+    if (plistParsed.Misc.Security.Vault != 'Optional') {
+        plistParsed.Misc.Security.Vault = 'Optional';
+        evt.returnValue = 'vault-disabled';
+        return;
     }
     evt.returnValue = 'success'
 });

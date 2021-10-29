@@ -1,4 +1,9 @@
 const electron = require('electron');
 electron.contextBridge.exposeInMainWorld('electron', {
-  ipcRenderer: electron.ipcRenderer
-})
+  ipcRenderer: {
+    send: electron.ipcRenderer.send,
+    sendSync: electron.ipcRenderer.sendSync,
+    on: electron.ipcRenderer.on,
+    once: electron.ipcRenderer.once
+  }
+});

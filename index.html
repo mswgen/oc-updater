@@ -15,6 +15,27 @@
         <h2>Current supported version: 0.7.4</h2>
         <button id="start">Get started</button>
     </div>
+    <div id="select-opencore-version">
+        <h1>Select OpenCore version</h1>
+        <p>Your OpenCore version is unknown. Please select your version.</p>
+        <p>However, there are some limitations.</p>
+        <ul>
+            <li>DEBUG builds will be replaced with RELEASE.</li>
+            <li>32-bit versions will be replaced with 64-bit.</li>
+            <li>If you're using OpenCore vault, it will be removed. If this is your case, please set config.plist-Misc-Security-Vault to Optional.</li>
+            <li>Versions older than 0.6.8 are not supported.</li>
+        </ul>
+        <select id="oc-version-selection">
+            <option value="0.7.4" selected>0.7.4</option>
+            <option value="0.7.3">0.7.3</option>
+            <option value="0.7.2">0.7.2</option>
+            <option value="0.7.1">0.7.1</option>
+            <option value="0.7.0">0.7.0</option>
+            <option value="0.6.9">0.6.9</option>
+            <option value="0.6.8">0.6.8</option>
+        </select>
+        <button id="confirm-version">Select this version</button>
+    </div>
     <div id="efiinfo">
         <h1>Your EFI info</h1>
         <p>Latest version is 0.7.4.</p>
@@ -42,8 +63,9 @@
     <div id="success">
         <img src="checkmark-flat.png" alt="checkmark" height="30%" width="30%">
         <h1>You're up to date!</h1>
-        <p>OpenCore is updated. However, these kexts are not updated. There might be a newer version of them.</p>
+        <p>OpenCore is updated. <span id="kexts-not-updated-exists">However, these kexts are not updated. There might be a newer version of them.</span></p>
         <p id="kexts-not-updated"></p>
+        <p id="vault-removed">OpenCore vault was detected and config.plist-Misc-Security-Vault is set to Optional. If you want to enable vaulting, please create vault again.</p>
         <p>There's also a backup of your old EFI. It is at <span id="backup-location"></span>.</p>
     </div>
 </body>
