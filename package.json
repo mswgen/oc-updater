@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/mswgen/oc-updater#readme",
   "dependencies": {
-    "axios": "^0.24.0",
-    "node-stream-zip": "^1.15.0",
     "plist": "^3.0.4"
   },
   "devDependencies": {

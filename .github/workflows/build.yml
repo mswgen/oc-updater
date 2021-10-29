@@ -1,0 +1,51 @@
+name: Build and Release
+on:
+  push:
+  workflow_dispatch:
+  pull_request:
+jobs:
+  build:
+    name: Build macOS App
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+          persist-credentials: false 
+      - name: Install Dependencies
+        run: yarn
+      - name: Build
+        run: yarn build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac
+          path: out/OpenCore Updater-*.*.*-universal.dmg
+  release:
+    name: Release
+    needs: build
+    runs-on: macos-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Determine tag name
+        id: tagname
+        run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
+      - name: Create a new Tag
+        run: git tag v${{ steps.tagname.outputs.name }}
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: "Changes: \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/main/README.md#installation) carefully!**"
+          draft: true
+          tag_name: ${{ steps.tagname.outputs.name }}
+          files: |
+            mac/*
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
