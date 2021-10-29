@@ -17,7 +17,10 @@ const checksums = {
     '12ef265cd9cd21b15533d82d2b626b77227fafa9d22a9fc75980dd04be78aed2': '0.7.0',
     '632315073fe02423f8ece95abb645e1e138c770669dbfe6f1e9eb12845f70083': '0.6.9',
     '6693c29a482c75e023831103105564fafbf539536f832fa38f74039bfb87a340': '0.6.9',
-    'aafb2a0ce07c2b783661c82bcc99cb6d951b6584fbc05d0ca689baedf49e2ea6': '0.6.8'
+    'aafb2a0ce07c2b783661c82bcc99cb6d951b6584fbc05d0ca689baedf49e2ea6': '0.6.8',
+    'e9bb917abdfb8d33ae11c07527e7ce53449eb71c418163bf1f375434b4f1aa07': '0.6.7',
+    '2d9ce668c930c5a601024f2b4d4f6cfcbff14b9c52b2e717192fc02752922807': '0.6.7',
+    'e7125f54c4a59d01bbb35d9dfb84fc310c0f7a954adf6e41f021827fab382606': '0.6.6'
 }
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
@@ -148,6 +151,7 @@ electron.ipcMain.on('create-backup', (evt, dir) => {
 electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
+    if (fs.existsSync(`${dir}/OC/Tools/VerifyMsrE2.efi`)) fs.renameSync(`${dir}/OC/Tools/VerifyMsrE2.efi`, `${dir}/OC/Tools/ControlMsrE2.efi`);
     for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers`)) {
         if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
             fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);

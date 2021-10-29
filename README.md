@@ -44,7 +44,7 @@ So if you want to use OpenCore Vault, you need to create vault again and enable 
 
 OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't recognize your OpenCore version. You can just manually select the version you are using and press `Select this version`.
 
-If you are using too old version (before 0.6.8), you need to manually update to 0.6.8 and then use this app to update to the latest version.
+If you are using too old version (before 0.6.6), you need to manually update to 0.6.6 and then use this app to update to the latest version.
 
 Also, if you are using the DEBUG build or 32-Bit version of OpenCore, you can't use the app.
 
