@@ -9,7 +9,7 @@ export default {
         if (fs.existsSync(`${ocDir}/Bootstrap`)) {
             fs.rmdirSync(`${ocDir}/Bootstrap`, { recursive: true });
             plistParsed.Misc.Boot.LauncherPath = 'Default';
-            plistParsed.Misc.Boot.LauncherOption = plistParsed.Misc.Security.BootProtect == 'BootstrapShort' ? 'Short' : (plistParsed.Misc.Boot.Security.BootProtect == 'Bootstrap' ? 'Full' : 'Disabled');
+            plistParsed.Misc.Boot.LauncherOption = plistParsed.Misc.Security.BootProtect == 'BootstrapShort' ? 'Short' : (plistParsed.Misc.Security.BootProtect == 'Bootstrap' ? 'Full' : 'Disabled');
             delete plistParsed.Misc.Security.BootProtect;
         }
         /*
