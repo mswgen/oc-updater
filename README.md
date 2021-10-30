@@ -20,9 +20,9 @@ When the app opens, press `Get Started`. A dialog will appear asking you to sele
 
 Select your EFI directory. It's usually /Volumes/EFI/EFI. It should have BOOT and OC directories inside.
 
-If your OpenCore version is recognized, your OpenCore version and list of kexts you are using will be displayed.
+If your OpenCore version is detect, your OpenCore version and list of kexts you are using will be displayed.
 
-If your OpenCore version is not recognized, you will be asked to select the OpenCore version you are using. Select the version you are using and press `Select this version`.
+If your OpenCore version is not detected, you will be asked to select the OpenCore version you are using. Select the version you are using and press `Select this version`.
 
 If you are not using the latest version of OpenCore, the app will ask you to update. Press `Update` to update OpenCore.
 
@@ -40,9 +40,9 @@ If you were using OpenCore Vault, this message will appear. This is because the 
 
 So if you want to use OpenCore Vault, you need to create vault again and enable it in the config.plist.
 
-### My OpenCore version is not recognized
+### My OpenCore version is not detected
 
-OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't recognize your OpenCore version. You can just manually select the version you are using and press `Select this version`.
+OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't detect your OpenCore version. You can just manually select the version you are using and press `Select this version`.
 
 If you are using too old version (before 0.6.4), you need to manually update to 0.6.4 first and then use this app to update to the latest version.
 
