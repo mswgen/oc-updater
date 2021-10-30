@@ -14,6 +14,20 @@ function afterOcverSelection(ocver: string, efidir: string) {
                 document.querySelector('#is-outdated')!.innerHTML = 'Your OpenCore is outdated.';
                 document.querySelector<HTMLElement>('#update')!.style.display = 'block';
                 document.querySelector('#update')?.addEventListener('click', async () => {
+                    if (ocverNum < 66) {
+                        if (ipc.sendSync('check-bootstrap', efidir)) {
+                            if (!confirm (`Warning: Bootstrap.efi detected
+You're using Bootstrap.efi. Bootstrap.efi was replaced by LauncherOption from 0.6.6.
+To update, Bootstrap.efi must be disabled and NVRAM should be reset.
+To do this, open config.plist and
+1. set Misc-Security-BootProtect to None
+2. set Misc-Security-AllowNvramReset to true
+3. reboot and select Reset NVRAM
+4. reboot to macOS and run this app again
+If you already did this, you may proceed, otherwise, you must quit this app, do the steps above, and re-run this app.
+Do you want to contnue?`)) ipc.send('quit');
+                        }
+                    }
                     document.querySelector<HTMLElement>('#efiinfo')!.style.display = 'none';
                     document.querySelector<HTMLElement>('#update-in-progress')!.style.display = 'block';
                     await sleep(1000);

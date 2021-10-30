@@ -44,7 +44,7 @@ So if you want to use OpenCore Vault, you need to create vault again and enable 
 
 OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't recognize your OpenCore version. You can just manually select the version you are using and press `Select this version`.
 
-If you are using too old version (before 0.6.6), you need to manually update to 0.6.6 and then use this app to update to the latest version.
+If you are using too old version (before 0.6.4), you need to manually update to 0.6.4 first and then use this app to update to the latest version.
 
 Also, if you are using the DEBUG build or 32-Bit version of OpenCore, you can't use the app.
 
@@ -77,6 +77,27 @@ Unfortunately, the app cannot automatically update itself. You need to manually 
 When you launch the updated version, a dialog will appear saying that the app cannot be opened. This is because the app is not signed. Please do the same thing you did when installing the app the first time.
 
 There's no plan to sign the app.
+
+### When updating from 0.6.5 to 0.6.6, I get a warning
+
+In 0.6.6, config.plist - Misc - Security - BootProtect and /EFI/OC/Bootstrap/Bootstrap.efi are changed to config.plist - Misc - Boot - LauncherOption.
+
+If you didn't use Bootstrap, there's no problem with this. However, if you used Bootstrap, the warning will appear.
+
+OpenCore's Bootstrap.efi creates a boot entry in the boot menu and every time it boots, it checks if the boot entry is at the top of the boot menu. If it's not, it will move the boot entry to the top of the boot menu. The BIOS expects to boot from Bootstrap.efi.
+
+However, when updating, Bootstrap.efi will be removed, but the boot entry will not be removed. This is the problem
+
+If you want to update to 0.6.6, you need to manually remove the boot entry. You can do this by following the steps below:
+
+1. Open /EFI/OC/config.plist
+2. Set Misc - Security - BootProtect to None
+3. Set Misc - Security - AllowNvramReset to True
+4. Reboot and from the OpenCore boot picker, select `Reset NVRAM`
+5. When your computer reboots, enter BIOS settings and confirm that `UEFI OS` (which is the BOOTx64.efi of OpenCore) is at the top of the boot menu. If it's not, you need to move the boot entry to the top of the boot menu.
+6. Save and reboot to macOS.
+7. Run OpenCore Updater again.
+8. Now, the warning will not appear.
 
 ## How to build
 

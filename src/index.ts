@@ -1,4 +1,4 @@
-import electron from 'electron';
+import electron, { app } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
@@ -20,7 +20,9 @@ const checksums = {
     'aafb2a0ce07c2b783661c82bcc99cb6d951b6584fbc05d0ca689baedf49e2ea6': '0.6.8',
     'e9bb917abdfb8d33ae11c07527e7ce53449eb71c418163bf1f375434b4f1aa07': '0.6.7',
     '2d9ce668c930c5a601024f2b4d4f6cfcbff14b9c52b2e717192fc02752922807': '0.6.7',
-    'e7125f54c4a59d01bbb35d9dfb84fc310c0f7a954adf6e41f021827fab382606': '0.6.6'
+    'e7125f54c4a59d01bbb35d9dfb84fc310c0f7a954adf6e41f021827fab382606': '0.6.6',
+    '56d29f797c2de69720dd60d495c1541bf1ddc226973a65b48540f753c412d46d': '0.6.5',
+    '4c7782012375abd7a041dfa80d6ca00a8a281f09df11498efbbf1bc544604331': '0.6.4'
 }
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
@@ -152,9 +154,16 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
     if (fs.existsSync(`${dir}/OC/Tools/VerifyMsrE2.efi`)) fs.renameSync(`${dir}/OC/Tools/VerifyMsrE2.efi`, `${dir}/OC/Tools/ControlMsrE2.efi`);
+    // if VBoxHfs.efi exists at ${dir}/OC/Drivers, rename it to OpenHfsPlus.efi
+    if (fs.existsSync(`${dir}/OC/Drivers/VBoxHfs.efi`)) fs.renameSync(`${dir}/OC/Drivers/VBoxHfs.efi`, `${dir}/OC/Drivers/OpenHfsPlus.efi`);
     for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers`)) {
         if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
             fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
+        }
+    }
+    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers`)) {
+        if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
+            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
         }
     }
     for (let tool of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Tools`)) {
@@ -272,4 +281,23 @@ electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
 electron.ipcMain.on('finish', evt => {
     cp.execSync(`rm -rf ${os.homedir()}/.oc-update/${PID}`);
     evt.returnValue = `${os.homedir()}/EFI-${PID}`
+});
+electron.ipcMain.on('check-bootstrap', (evt, efidir) => {
+    // read ${efidir}/OC directory, if Bootstrap directory doesn't exist, return false
+    // otherwise, read ${efidir}/OC/config.plist or ${efidir}/OC/Config.plist
+    // if plist - Misc - Security - BootProtect is either Bootstrap or BootstrapShort, return true
+    // otherwise, return false
+    if (!fs.readdirSync(`${efidir}/OC`).includes('Bootstrap')) {
+        evt.returnValue = false;
+        return;
+    }
+    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/config.plist`, 'utf8'));
+    if (plistParsed.Misc.Security.BootProtect == 'Bootstrap' || plistParsed.Misc.Security.BootProtect == 'BootstrapShort') {
+        evt.returnValue = true;
+        return;
+    }
+    evt.returnValue = false;
+});
+electron.ipcMain.on('quit', () => {
+    app.quit();
 });
