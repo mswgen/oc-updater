@@ -22,7 +22,9 @@ const checksums = {
     '2d9ce668c930c5a601024f2b4d4f6cfcbff14b9c52b2e717192fc02752922807': '0.6.7',
     'e7125f54c4a59d01bbb35d9dfb84fc310c0f7a954adf6e41f021827fab382606': '0.6.6',
     '56d29f797c2de69720dd60d495c1541bf1ddc226973a65b48540f753c412d46d': '0.6.5',
-    '4c7782012375abd7a041dfa80d6ca00a8a281f09df11498efbbf1bc544604331': '0.6.4'
+    '4c7782012375abd7a041dfa80d6ca00a8a281f09df11498efbbf1bc544604331': '0.6.4',
+    '5c0f302dd84548996182940322e0acbebb6d88d8ae6d8afaba0ac2599ad0384e': '0.6.3',
+    'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
