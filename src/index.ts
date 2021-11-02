@@ -7,6 +7,7 @@ import cp from 'child_process';
 import plist from 'plist';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'fb65a4c2af86b4209f10cadf9345947ec1d897f3c00b94eda6aa8649539a0357': '0.7.5',
     '8488c9aa2b2e7e71a4673c9601b7e2f78096bdc44e9db72be726fb673385376a': '0.7.5',
     '962bd270c8c2eec39b887d71b5204817e2d41349558f30d77fb91969288c0648': '0.7.4',
     '3b8f5278b4871c8c2a0efe1239d4a845acefd987381233c997c02972b10e110f': '0.7.3',
