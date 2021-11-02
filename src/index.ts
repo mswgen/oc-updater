@@ -7,6 +7,7 @@ import cp from 'child_process';
 import plist from 'plist';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '8488c9aa2b2e7e71a4673c9601b7e2f78096bdc44e9db72be726fb673385376a': '0.7.5',
     '962bd270c8c2eec39b887d71b5204817e2d41349558f30d77fb91969288c0648': '0.7.4',
     '3b8f5278b4871c8c2a0efe1239d4a845acefd987381233c997c02972b10e110f': '0.7.3',
     'e515a3b404e35801ef89ed65e9109a81ff77b3d6589e9ad6cc609e3cd9347d0a': '0.7.2',
@@ -96,7 +97,7 @@ electron.ipcMain.on('kextinfo', (evt, kextdir) => {
     evt.returnValue = fs.readdirSync(kextdir).filter(x => x.endsWith('.kext')).filter(x => !x.startsWith('._'));
 });
 electron.ipcMain.on('download-oc', evt => {
-    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore-0.7.4-RELEASE.zip https://github.com/acidanthera/OpenCorePkg/releases/download/0.7.4/OpenCore-0.7.4-RELEASE.zip; mkdir OpenCore-0.7.4-RELEASE; cd OpenCore-0.7.4-RELEASE; unzip ../OpenCore-0.7.4-RELEASE.zip`);
+    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore-0.7.5-RELEASE.zip https://github.com/acidanthera/OpenCorePkg/releases/download/0.7.5/OpenCore-0.7.5-RELEASE.zip; mkdir OpenCore-0.7.5-RELEASE; cd OpenCore-0.7.5-RELEASE; unzip ../OpenCore-0.7.5-RELEASE.zip`);
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('download-kexts', (evt, kexts) => {
@@ -104,16 +105,16 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VirtualSMC-1.2.7-RELEASE.zip https://github.com/acidanthera/VirtualSMC/releases/download/1.2.7/VirtualSMC-1.2.7-RELEASE.zip; mkdir VirtualSMC-1.2.7-RELEASE; cd VirtualSMC-1.2.7-RELEASE; unzip ../VirtualSMC-1.2.7-RELEASE.zip`);
     }
     if (kexts.includes('Lilu.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o Lilu-1.5.6-RELEASE.zip https://github.com/acidanthera/Lilu/releases/download/1.5.6/Lilu-1.5.6-RELEASE.zip; mkdir Lilu-1.5.6-RELEASE; cd Lilu-1.5.6-RELEASE; unzip ../Lilu-1.5.6-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o Lilu-1.5.7-RELEASE.zip https://github.com/acidanthera/Lilu/releases/download/1.5.7/Lilu-1.5.7-RELEASE.zip; mkdir Lilu-1.5.7-RELEASE; cd Lilu-1.5.7-RELEASE; unzip ../Lilu-1.5.7-RELEASE.zip`);
     }
     if (kexts.includes('WhateverGreen.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o WhateverGreen-1.5.4-RELEASE.zip https://github.com/acidanthera/WhateverGreen/releases/download/1.5.4/WhateverGreen-1.5.4-RELEASE.zip; mkdir WhateverGreen-1.5.4-RELEASE; cd WhateverGreen-1.5.4-RELEASE; unzip ../WhateverGreen-1.5.4-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o WhateverGreen-1.5.5-RELEASE.zip https://github.com/acidanthera/WhateverGreen/releases/download/1.5.5/WhateverGreen-1.5.5-RELEASE.zip; mkdir WhateverGreen-1.5.5-RELEASE; cd WhateverGreen-1.5.5-RELEASE; unzip ../WhateverGreen-1.5.5-RELEASE.zip`);
     }
     if (kexts.includes('AppleALC.kext') || kexts.includes('AppleALCU.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AppleALC-1.6.5-RELEASE.zip https://github.com/acidanthera/AppleALC/releases/download/1.6.5/AppleALC-1.6.5-RELEASE.zip; mkdir AppleALC-1.6.5-RELEASE; cd AppleALC-1.6.5-RELEASE; unzip ../AppleALC-1.6.5-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AppleALC-1.6.6-RELEASE.zip https://github.com/acidanthera/AppleALC/releases/download/1.6.6/AppleALC-1.6.6-RELEASE.zip; mkdir AppleALC-1.6.6-RELEASE; cd AppleALC-1.6.6-RELEASE; unzip ../AppleALC-1.6.6-RELEASE.zip`);
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VoodooPS2Controller-2.2.6-RELEASE.zip https://github.com/acidanthera/VoodooPS2/releases/download/2.2.6/VoodooPS2Controller-2.2.6-RELEASE.zip; mkdir VoodooPS2Controller-2.2.6-RELEASE; cd VoodooPS2Controller-2.2.6-RELEASE; unzip ../VoodooPS2Controller-2.2.6-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VoodooPS2Controller-2.2.7-RELEASE.zip https://github.com/acidanthera/VoodooPS2/releases/download/2.2.7/VoodooPS2Controller-2.2.7-RELEASE.zip; mkdir VoodooPS2Controller-2.2.7-RELEASE; cd VoodooPS2Controller-2.2.7-RELEASE; unzip ../VoodooPS2Controller-2.2.7-RELEASE.zip`);
     }
     if (kexts.includes('VoodooI2C.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VoodooI2C-2.6.5.zip https://github.com/VoodooI2C/VoodooI2C/releases/download/2.6.5/VoodooI2C-2.6.5.zip; mkdir VoodooI2C-2.6.5; cd VoodooI2C-2.6.5; unzip ../VoodooI2C-2.6.5.zip`);
@@ -153,14 +154,14 @@ electron.ipcMain.on('create-backup', (evt, dir) => {
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
-    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
-    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
+    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
+    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
     if (fs.existsSync(`${dir}/OC/Tools/VerifyMsrE2.efi`)) fs.renameSync(`${dir}/OC/Tools/VerifyMsrE2.efi`, `${dir}/OC/Tools/ControlMsrE2.efi`);
     // if VBoxHfs.efi exists at ${dir}/OC/Drivers, rename it to OpenHfsPlus.efi
     if (fs.existsSync(`${dir}/OC/Drivers/VBoxHfs.efi`)) fs.renameSync(`${dir}/OC/Drivers/VBoxHfs.efi`, `${dir}/OC/Drivers/OpenHfsPlus.efi`);
-    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers`)) {
+    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/OC/Drivers`)) {
         if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
-            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
+            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
         }
     }
     for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers`)) {
@@ -168,14 +169,9 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
             fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
         }
     }
-    for (let tool of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Tools`)) {
+    for (let tool of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/OC/Tools`)) {
         if (fs.existsSync(`${dir}/OC/Tools/${tool}`)) {
-            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.4-RELEASE/X64/EFI/OC/Tools/${tool}`, `${dir}/OC/Tools/${tool}`);
-        }
-    }
-    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers`)) {
-        if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
-            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
+            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.5-RELEASE/X64/EFI/OC/Tools/${tool}`, `${dir}/OC/Tools/${tool}`);
         }
     }
     cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources" "${dir}/OC"`);
@@ -198,19 +194,19 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VirtualSMC-1.2.7-RELEASE/Kexts/SMCDellSensors.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('Lilu.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/Lilu-1.5.6-RELEASE/Lilu.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/Lilu-1.5.7-RELEASE/Lilu.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('WhateverGreen.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/WhateverGreen-1.5.4-RELEASE/WhateverGreen.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/WhateverGreen-1.5.5-RELEASE/WhateverGreen.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AppleALC.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.5-RELEASE/AppleALC.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.6-RELEASE/AppleALC.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AppleALCU.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.5-RELEASE/AppleALCU.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.6-RELEASE/AppleALCU.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VoodooPS2Controller-2.2.6-RELEASE/VoodooPS2Controller.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VoodooPS2Controller-2.2.7-RELEASE/VoodooPS2Controller.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('VoodooI2C.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VoodooI2C-2.6.5/VoodooI2C.kext" "${dir}/OC/Kexts"`);
@@ -261,7 +257,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
 });
 electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
     while (true) {
-        if (ocver == 74) break;
+        if (ocver == 75) break;
         console.log(updates[ocver.toString()]);
         if (updates[ocver.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {

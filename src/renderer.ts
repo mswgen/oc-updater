@@ -10,7 +10,7 @@ function afterOcverSelection(ocver: string, efidir: string) {
             const ocverNum = Number(ocver.split('.').join(''));
             document.querySelector('#oc-version')!.innerHTML = ocver;
             document.querySelector('#using-kexts')!.innerHTML = kexts.join('<br>');
-            if (ocverNum < 74) {
+            if (ocverNum < 75) {
                 document.querySelector('#is-outdated')!.innerHTML = 'Your OpenCore is outdated.';
                 document.querySelector<HTMLElement>('#update')!.style.display = 'block';
                 document.querySelector('#update')?.addEventListener('click', async () => {
