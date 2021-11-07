@@ -144,6 +144,29 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o IntelBluetoothFirmware-2.0.1.zip https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v2.0.1/IntelBluetoothFirmware-v2.0.1.zip; mkdir IntelBluetoothFirmware-2.0.1; cd IntelBluetoothFirmware-2.0.1; unzip ../IntelBluetoothFirmware-2.0.1.zip`);
     }
+    if (kexts.includes('CpuTscSync.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o CpuTscSync-1.0.5-RELEASE.zip https://github.com/acidanthera/CpuTscSync/releases/download/1.0.5/CpuTscSync-1.0.5-RELEASE.zip; mkdir CpuTscSync-1.0.5-RELEASE; cd CpuTscSync-1.0.5-RELEASE; unzip ../CpuTscSync-1.0.5-RELEASE.zip`);
+    }
+    if (kexts.includes('AirportBrcmFixup.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AirportBrcmFixup-2.1.3-RELEASE.zip https://github.com/acidanthera/AirportBrcmFixup/releases/download/2.1.3/AirportBrcmFixup-2.1.3-RELEASE.zip; mkdir AirportBrcmFixup-2.1.3-RELEASE; cd AirportBrcmFixup-2.1.3-RELEASE; unzip ../AirportBrcmFixup-2.1.3-RELEASE.zip`);
+    }
+    /*
+    if kexts include one of these - check all of them together
+
+    BlueToolFixup.kext
+    BrcmBluetoothInjector.kext
+    BrcmBluetoothInjectorLegacy.kext
+    BrcmFirmwareData.kext
+    BrcmFirmwareRepo.kext
+    BrcmNonPatchRAM.kext
+    BrcmNonPatchRAM2.kext
+    BrcmPatchRAM.kext
+    BrcmPatchRAM2.kext
+    BrcmPatchRAM3.kext
+    */
+    if (kexts.includes('BlueToolFixup.kext') || kexts.includes('BrcmBluetoothInjector.kext') || kexts.includes('BrcmBluetoothInjectorLegacy.kext') || kexts.includes('BrcmFirmwareData.kext') || kexts.includes('BrcmFirmwareRepo.kext') || kexts.includes('BrcmNonPatchRAM.kext') || kexts.includes('BrcmNonPatchRAM2.kext') || kexts.includes('BrcmPatchRAM.kext') || kexts.includes('BrcmPatchRAM2.kext') || kexts.includes('BrcmPatchRAM3.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o BrcmPatchRAM-2.6.1-RELEASE.zip https://github.com/acidanthera/BrcmPatchRAM/releases/download/2.6.1/BrcmPatchRAM-2.6.1-RELEASE.zip; mkdir BrcmPatchRAM-2.6.1-RELEASE; cd BrcmPatchRAM-2.6.1-RELEASE; unzip ../BrcmPatchRAM-2.6.1-RELEASE.zip`);
+    }
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('download-bindata', evt => {
@@ -253,6 +276,59 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     }
     if (kexts.includes('IntelBluetoothInjector.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware-2.0.1/IntelBluetoothFirmware-v2.0.1/IntelBluetoothInjector.kext" "${dir}/OC/Kexts"`);
+    }
+    // CpuTscSync.kext -> replace with CpuTscSync-1.0.5-RELEASE/CpuTscSync.kext
+    if (kexts.includes('CpuTscSync.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CpuTscSync-1.0.5-RELEASE/CpuTscSync.kext" "${dir}/OC/Kexts"`);
+    }
+    // AirportBrcmFixup.kext -> replace with AirportBrcmFixup-2.3.1-RELEASE/AirportBrcmFixup.kext
+    if (kexts.includes('AirportBrcmFixup.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportBrcmFixup-2.3.1-RELEASE/AirportBrcmFixup.kext" "${dir}/OC/Kexts"`);
+    }
+    /*
+    if one of these kexts are installed: replace it with the appropriate kext in BrcmPatchRAM-2.6.1-RELEASE
+    these kexts include:
+
+    BlueToolFixup.kext
+    BrcmBluetoothInjector.kext
+    BrcmBluetoothInjectorLegacy.kext
+    BrcmFirmwareData.kext
+    BrcmFirmwareRepo.kext
+    BrcmNonPatchRAM.kext
+    BrcmNonPatchRAM2.kext
+    BrcmPatchRAM.kext
+    BrcmPatchRAM2.kext
+    BrcmPatchRAM3.kext
+    */
+    if (kexts.includes('BlueToolFixup.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BlueToolFixup.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmBluetoothInjector.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmBluetoothInjector.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmBluetoothInjectorLegacy.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmBluetoothInjectorLegacy.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmFirmwareData.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmFirmwareData.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmFirmwareRepo.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmFirmwareRepo.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmNonPatchRAM.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmNonPatchRAM.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmNonPatchRAM2.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmNonPatchRAM2.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmPatchRAM.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmPatchRAM.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmPatchRAM2.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmPatchRAM2.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('BrcmPatchRAM3.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmPatchRAM3.kext" "${dir}/OC/Kexts"`);
     }
     evt.returnValue = 'success'
 });

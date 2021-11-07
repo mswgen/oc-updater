@@ -67,6 +67,19 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * IntelBluetoothFirmware
 * IntelBluetoothInjector
 * NVMeFix
+* CpuTscSync
+* AirportBrcmFixup
+* BrcmPatchRAM kexts
+  * BlueToolFixup
+  * BrcmBluetoothInjector
+  * BrcmBluetoothInjectorLegacy
+  * BrcmFirmwareData
+  * BrcmFirmwareRepo
+  * BrcmNonPatchRAM
+  * BrcmNonPatchRAM2
+  * BrcmPatchRAM
+  * BrcmPatchRAM2
+  * BrcmPatchRAM3
 
 all other kexts (including USBInjectAll, XHCI-Unsupported, VoodooRMI, etc.) will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
 
@@ -91,29 +104,36 @@ However, when updating, Bootstrap.efi will be removed, but the boot entry will n
 If you want to update to 0.6.6, you need to manually remove the boot entry. You can do this by following the steps below:
 
 1. Open /EFI/OC/config.plist
-2. Set Misc - Security - BootProtect to None
-3. Set Misc - Security - AllowNvramReset to True
-4. Reboot and from the OpenCore boot picker, select `Reset NVRAM`
-5. When your computer reboots, enter BIOS settings and confirm that `UEFI OS` (which is the BOOTx64.efi of OpenCore) is at the top of the boot menu. If it's not, you need to move the boot entry to the top of the boot menu.
-6. Save and reboot to macOS.
-7. Run OpenCore Updater again.
-8. Now, the warning will not appear.
+1. Set Misc - Security - BootProtect to None
+1. Set Misc - Security - AllowNvramReset to True
+1. Reboot and from the OpenCore boot picker, select `Reset NVRAM`
+1. When your computer reboots, enter BIOS settings and confirm that `UEFI OS` (which is the BOOTx64.efi of OpenCore) is at the top of the boot menu. If it's not, you need to move the boot entry to the top of the boot menu.
+1. Save and reboot to macOS.
+1. Run OpenCore Updater again.
+1. Now, the warning will not appear.
+
+### After updating, OpenCore Configurator cannot read config.plist
+
+This is not a bug of OpenCore Updater. It's a bug of OpenCore Configurator. It occurs because:
+
+1. When updating, OpenCore Updater reads config.plist, parse it as JavaScript object, make necessary changes, build it as plist again, and write it back to config.plist.
+1. OpenCore Updater uses [plist](https://npmjs.com/package/plist) NPM module to read and write config.plist.
+1. The plist module writes empty data as `<data/>` and empty string as `<string/>`.
+1. However, due to a bug in OpenCore Configurator, it thinks that `<data/>` and `<data></data>` are different. They are actually the same.
+1. Therefore, OpenCore Configurator cannot read config.plist.
+
+However, since many people are using OpenCore Configurator, I will fix this bug soon.
 
 ## How to build
 
 1. Install [Node.js](https://nodejs.org/en/download/). Version 16 (Currently LTS) is recommended.
 
-2. Clone or download the source code.
-
-3. Open the terminal and type: `npm i -g yarn` to install yarn.
-
-4. Type `yarn` to install the dependencies.
-
-5. To open the app for development, type `yarn start`.
-
-6. Type `yarn build` to build the app. You need a Mac or Hackintosh to build the app.
-
-7. You can find the DMG file in the `out` directory. This app can run on both Intel Mac (Including Hackintosh) and Apple Silicon Mac.
+1. Clone or download the source code.
+1. Open the terminal and type: `npm i -g yarn` to install yarn.
+1. Type `yarn` to install the dependencies.
+1. To open the app for development, type `yarn start`.
+1. Type `yarn build` to build the app. You need a Mac or Hackintosh to build the app.
+1. You can find the DMG file in the `out` directory. This app can run on both Intel Mac (Including Hackintosh) and Apple Silicon Mac.
 
 ## Credits
 
@@ -143,7 +163,7 @@ And many people who contributed to the project.
 
 Copyright (c) 2021 mswgen. All rights reserved.
 
-Licensed under the [MIT license](./LICENSE). Please see the LICENSE file for more information.
+Licensed under the MIT license. Please see the [LICENSE](./LICENSE) file for more information.
 
 OpenCore and the OpenCore logo are trademarks of Acidanthera.
 
