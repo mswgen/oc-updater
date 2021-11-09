@@ -129,6 +129,15 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
     if (kexts.includes('RealtekRTL8111.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RealtekRTL8111-V2.4.2.zip https://github.com/Mieze/RTL8111_driver_for_OS_X/releases/download/2.4.2/RealtekRTL8111-V2.4.2.zip; mkdir RealtekRTL8111-V2.4.2; cd RealtekRTL8111-V2.4.2; unzip ../RealtekRTL8111-V2.4.2.zip`);
     }
+    if (kexts.includes('AtherosE2200Ethernet.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AtherosE2200Ethernet-V2.2.2.zip https://github.com/Mieze/AtherosE2200Ethernet/releases/download/2.2.2/AtherosE2200Ethernet-V2.2.2.zip; mkdir AtherosE2200Ethernet-V2.2.2; cd AtherosE2200Ethernet-V2.2.2; unzip ../AtherosE2200Ethernet-V2.2.2.zip`);
+    }
+    if (kexts.includes('USBInjectAll.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RehabMan-USBInjectAll-2018-1108.zip https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/RehabMan-USBInjectAll-2018-1108.zip; mkdir RehabMan-USBInjectAll-2018-1108; cd RehabMan-USBInjectAll-2018-1108; unzip ..RehabMan-USBInjectAll-2018-1108.zip`);
+    }
+    if (kexts.includes('XHCI-unsupported.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OS-X-USB-Inject-All-master.zip https://github.com/RehabMan/OS-X-USB-Inject-All/archive/refs/heads/master.zip; mkdir OS-X-USB-Inject-All-master; cd OS-X-USB-Inject-All-master; unzip ../OS-X-USB-Inject-All-master.zip`);
+    }
     if (kexts.includes('IntelMausi.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o IntelMausi-1.0.7-RELEASE.zip https://github.com/acidanthera/IntelMausi/releases/download/1.0.7/IntelMausi-1.0.7-RELEASE.zip; mkdir IntelMausi-1.0.7-RELEASE; cd IntelMausi-1.0.7-RELEASE; unzip ../IntelMausi-1.0.7-RELEASE.zip`);
     }
@@ -259,6 +268,15 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     if (kexts.includes('RealtekRTL8111.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RealtekRTL8111-V2.4.2/RealtekRTL8111-V2.4.2/Release/RealtekRTL8111.kext" "${dir}/OC/Kexts"`);
     }
+    if (kexts.includes('AtherosE2200Ethernet.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AtherosE2200Ethernet-V2.2.2/AtherosE2200Ethernet-V2.2.2/Release/AtherosE2200Ethernet.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('USBInjectAll.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RehabMan-USBInjectAll-2018-1108/Release/USBInjectAll.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('XHCI-unsupported.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/OS-X-USB-Inject-All-master/OS-X-USB-Inject-All-master/XHCI-unsupported.kext" "${dir}/OC/Kexts"`);
+    }
     if (kexts.includes('IntelMausi.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelMausi-1.0.7-RELEASE/IntelMausi.kext" "${dir}/OC/Kexts"`);
     }
@@ -345,17 +363,56 @@ electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
         }
         ocver++;
     }
-    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/config.plist`, 'utf8'));
+    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8'));
     if (plistParsed.Misc.Security.Vault != 'Optional') {
         plistParsed.Misc.Security.Vault = 'Optional';
+        // build plistParsed, and write it back to file
+        fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plist.build(plistParsed));
         evt.returnValue = 'vault-disabled';
         return;
     }
     evt.returnValue = 'success'
 });
-electron.ipcMain.on('finish', evt => {
+electron.ipcMain.on('finish', (evt, efidir) => {
     cp.execSync(`rm -rf ${os.homedir()}/.oc-update/${PID}`);
-    evt.returnValue = `${os.homedir()}/EFI-${PID}`
+    // read config.plist or Config.plist and assign to plistRaw (type string)
+    let plistRaw: string = fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
+    // don't parse plistRaw
+    // in plistRaw, replace all <data/> to <data></data>
+    // replace all <string/> to <string></string>
+    // do the same for all <array/> and <dict/>
+    // don't use regex, instead use while true and break
+    while (true) {
+        if (plistRaw.includes('<data/>')) {
+            plistRaw = plistRaw.replace('<data/>', '<data></data>');
+        } else {
+            break;
+        }
+    }
+    while (true) {
+        if (plistRaw.includes('<string/>')) {
+            plistRaw = plistRaw.replace('<string/>', '<string></string>');
+        } else {
+            break;
+        }
+    }
+    while (true) {
+        if (plistRaw.includes('<array/>')) {
+            plistRaw = plistRaw.replace('<array/>', '<array></array>');
+        } else {
+            break;
+        }
+    }
+    while (true) {
+        if (plistRaw.includes('<dict/>')) {
+            plistRaw = plistRaw.replace('<dict/>', '<dict></dict>');
+        } else {
+            break;
+        }
+    }
+    // write plistRaw back
+    fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plistRaw);
+    evt.returnValue = `${os.homedir()}/EFI-${PID}`;
 });
 electron.ipcMain.on('check-bootstrap', (evt, efidir) => {
     // read ${efidir}/OC directory, if Bootstrap directory doesn't exist, return false
@@ -366,7 +423,7 @@ electron.ipcMain.on('check-bootstrap', (evt, efidir) => {
         evt.returnValue = false;
         return;
     }
-    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/config.plist`, 'utf8'));
+    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8'));
     if (plistParsed.Misc.Security.BootProtect == 'Bootstrap' || plistParsed.Misc.Security.BootProtect == 'BootstrapShort') {
         evt.returnValue = true;
         return;

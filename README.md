@@ -80,6 +80,9 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
   * BrcmPatchRAM
   * BrcmPatchRAM2
   * BrcmPatchRAM3
+* AtherosE2200Ethernet
+* USBInjectAll
+* XHCI-unsupported
 
 all other kexts (including USBInjectAll, XHCI-Unsupported, VoodooRMI, etc.) will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
 
@@ -112,17 +115,9 @@ If you want to update to 0.6.6, you need to manually remove the boot entry. You 
 1. Run OpenCore Updater again.
 1. Now, the warning will not appear.
 
-### After updating, OpenCore Configurator cannot read config.plist
+### After updating, OpenCore Configurator, Xcode, and PlistEdit Pro cannot read config.plist
 
-This is not a bug of OpenCore Updater. It's a bug of OpenCore Configurator. It occurs because:
-
-1. When updating, OpenCore Updater reads config.plist, parse it as JavaScript object, make necessary changes, build it as plist again, and write it back to config.plist.
-1. OpenCore Updater uses [plist](https://npmjs.com/package/plist) NPM module to read and write config.plist.
-1. The plist module writes empty data as `<data/>` and empty string as `<string/>`.
-1. However, due to a bug in OpenCore Configurator, it thinks that `<data/>` and `<data></data>` are different. They are actually the same.
-1. Therefore, OpenCore Configurator cannot read config.plist.
-
-However, since many people are using OpenCore Configurator, I will fix this bug soon.
+Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it to 1.0.8.
 
 ## How to build
 

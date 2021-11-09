@@ -49,7 +49,7 @@ Do you want to contnue?`)) ipc.send('quit');
             const vaultResult = ipc.sendSync('update-config-plist', efidir, ocverNum);
             document.querySelector('#progress')!.innerHTML = '7/7. Cleaning up...'
             await sleep(1000);
-            const backupLoc = ipc.sendSync('finish', efidir, ocverNum);
+            const backupLoc = ipc.sendSync('finish', efidir);
             const kextsNotUpdated = kexts.filter((x: string) => !([
                 'VirtualSMC.kext',
                 'SMCProcessor.kext',
@@ -88,7 +88,10 @@ Do you want to contnue?`)) ipc.send('quit');
                 'BrcmNonPatchRAM2.kext',
                 'BrcmPatchRAM.kext',
                 'BrcmPatchRAM2.kext',
-                'BrcmPatchRAM3.kext'
+                'BrcmPatchRAM3.kext',
+                'AtherosE2200Ethernet.kext',
+                'USBInjectAll.kext',
+                'XHCI-unsupported.kext'
             ].includes(x)))
             if (kextsNotUpdated.length > 0) {
                 document.querySelector('#kexts-not-updated')!.innerHTML = kextsNotUpdated.join('<br>');
