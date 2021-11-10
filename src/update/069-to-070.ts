@@ -19,7 +19,7 @@ export default {
             cnt2++;
         }
         plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].ForceDisplayRotationInEFI = 0;
-        plistParsed.PlatformInfo.Generic.AdviseFatures = plistParsed.PlatformInfo.Generic.AdviseWindows;
+        plistParsed.PlatformInfo.Generic.AdviseFeatures = plistParsed.PlatformInfo.Generic.AdviseWindows;
         delete plistParsed.PlatformInfo.Generic.AdviseWindows;
         plistParsed.UEFI.Output.GopPassThrough = plistParsed.UEFI.Output.GopPassThrough == true ? 'Enabled' : 'Disabled';
         plistParsed.UEFI.ProtocolOverrides.AppleEg2Info = false;
