@@ -25,7 +25,7 @@ export default {
 
         if plist - UEFI - Drivers (array of string) has VBoxHfs.efi, rename it to OpenHfsPlus.efi
         */
-        plistParsed.Misc.Kernel.Quirks.SetApfsTrimTimeout = -1;
+        plistParsed.Kernel.Quirks.SetApfsTrimTimeout = -1;
         plistParsed.PlatformInfo.UseRawUuidEncoding = false;
         plistParsed.PlatformInfo.Generic.MaxBIOSVersion = false;
         plistParsed.UEFI.Quirks.DisableSecurityPolicy = false;
