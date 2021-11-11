@@ -133,7 +133,7 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AtherosE2200Ethernet-V2.2.2.zip https://github.com/Mieze/AtherosE2200Ethernet/releases/download/2.2.2/AtherosE2200Ethernet-V2.2.2.zip; mkdir AtherosE2200Ethernet-V2.2.2; cd AtherosE2200Ethernet-V2.2.2; unzip ../AtherosE2200Ethernet-V2.2.2.zip`);
     }
     if (kexts.includes('USBInjectAll.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RehabMan-USBInjectAll-2018-1108.zip https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/RehabMan-USBInjectAll-2018-1108.zip; mkdir RehabMan-USBInjectAll-2018-1108; cd RehabMan-USBInjectAll-2018-1108; unzip ..RehabMan-USBInjectAll-2018-1108.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RehabMan-USBInjectAll-2018-1108.zip https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/RehabMan-USBInjectAll-2018-1108.zip; mkdir RehabMan-USBInjectAll-2018-1108; cd RehabMan-USBInjectAll-2018-1108; unzip ../RehabMan-USBInjectAll-2018-1108.zip`);
     }
     if (kexts.includes('XHCI-unsupported.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OS-X-USB-Inject-All-master.zip https://github.com/RehabMan/OS-X-USB-Inject-All/archive/refs/heads/master.zip; mkdir OS-X-USB-Inject-All-master; cd OS-X-USB-Inject-All-master; unzip ../OS-X-USB-Inject-All-master.zip`);
