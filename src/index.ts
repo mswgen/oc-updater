@@ -43,7 +43,7 @@ function createWindow(): void {
             preload: `${__dirname}/preload.js`
         }
     });
-    window.loadFile(path.join(__dirname, '../index.html'));
+    window.loadFile(path.join(__dirname, app.getLocale() == 'ko' ? '../index-korean.html' : '../index.html'));
 }
 electron.app.whenReady().then(() => {
     createWindow();
@@ -55,9 +55,9 @@ electron.app.whenReady().then(() => {
 electron.ipcMain.on('select-efi-directory', evt => {
     const dir = electron.dialog.showOpenDialogSync(window, {
         title: 'Select EFI directory',
-        buttonLabel: 'Select',
+        buttonLabel: app.getLocale() == 'ko' ? '선택하기' : 'Select',
         properties: ['openDirectory', 'showHiddenFiles'],
-        message: 'Select the EFI directory you want to update. It should have BOOT and OC directory inside.'
+        message: app.getLocale() == 'ko' ? '업데이트할 EFI 디렉토리를 선택해주세요. 디렉토리 바로 아래에 BOOT와 OC 디렉토리가 있어야 해요.' : 'Select EFI directory to update. Directory should contain BOOT and OC directories.'
     });
     if (!dir) {
         evt.returnValue = 'cancel button pressed';

@@ -1,6 +1,8 @@
 # OpenCore Updater
 Update your OpenCore easily.
 
+English | [한국어(Korean)](./README-ko.md)
+
 ## Installation
 This app is supported on macOS only. 
 
@@ -20,13 +22,13 @@ When the app opens, press `Get Started`. A dialog will appear asking you to sele
 
 Select your EFI directory. It's usually /Volumes/EFI/EFI. It should have BOOT and OC directories inside.
 
-If your OpenCore version is detect, your OpenCore version and list of kexts you are using will be displayed.
+If your OpenCore version is detected, your OpenCore version and list of kexts you are using will be displayed.
 
 If your OpenCore version is not detected, you will be asked to select the OpenCore version you are using. Select the version you are using and press `Select this version`.
 
 If you are not using the latest version of OpenCore, the app will ask you to update. Press `Update` to update OpenCore.
 
-The app will start to download OpenCore, kexts, and Binary Data. this might take some time and you might see the spinning beach ball.
+The app will start to download OpenCore, kexts, and Binary Data. this might take some time and you might see the spinning beach ball. DO NOT CLOSE THE APP.
 
 When the app finishes downloading, it will create a backup of your old EFI and will swap files with the new ones.
 
@@ -50,7 +52,7 @@ Also, if you are using the DEBUG build or 32-Bit version of OpenCore, you can't 
 
 ### Some kexts are not updated
 
-OpenCore Updater doesn't update all kexts, but it will update the ones that are listed in the app. The list of kexts that thid app can update is:
+OpenCore Updater doesn't update all kexts, but it will update the ones that are listed in the app. The list of kexts that this app can update is:
 
 * VirtualSMC and plugins
 * Lilu
@@ -84,11 +86,11 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * USBInjectAll
 * XHCI-unsupported
 
-all other kexts (including USBInjectAll, XHCI-Unsupported, VoodooRMI, etc.) will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
+all other kexts will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
 
 ### Auto app update support
 
-Unfortunately, the app cannot automatically update itself. You need to manually update the app. This is because the app is not signed. You can download the latest version from [release page](https://github.com/mswgen/oc-updater/releases) and replace the app in /Applications.
+Auto update is not supported. You need to manually update the app. This is because the app is not signed. You can download the latest version from [release page](https://github.com/mswgen/oc-updater/releases) and replace the app in /Applications.
 
 When you launch the updated version, a dialog will appear saying that the app cannot be opened. This is because the app is not signed. Please do the same thing you did when installing the app the first time.
 
@@ -99,10 +101,6 @@ There's no plan to sign the app.
 In 0.6.6, config.plist - Misc - Security - BootProtect and /EFI/OC/Bootstrap/Bootstrap.efi are changed to config.plist - Misc - Boot - LauncherOption.
 
 If you didn't use Bootstrap, there's no problem with this. However, if you used Bootstrap, the warning will appear.
-
-OpenCore's Bootstrap.efi creates a boot entry in the boot menu and every time it boots, it checks if the boot entry is at the top of the boot menu. If it's not, it will move the boot entry to the top of the boot menu. The BIOS expects to boot from Bootstrap.efi.
-
-However, when updating, Bootstrap.efi will be removed, but the boot entry will not be removed. This is the problem
 
 If you want to update to 0.6.6, you need to manually remove the boot entry. You can do this by following the steps below:
 
@@ -117,7 +115,7 @@ If you want to update to 0.6.6, you need to manually remove the boot entry. You 
 
 ### After updating, OpenCore Configurator, Xcode, and PlistEdit Pro cannot read config.plist
 
-Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it to 1.0.8.
+Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it to 1.0.8 or later.
 
 ## How to build
 
@@ -155,8 +153,6 @@ Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it t
 And many people who contributed to the project.
 
 ## License
-
-Copyright (c) 2021 mswgen. All rights reserved.
 
 Licensed under the MIT license. Please see the [LICENSE](./LICENSE) file for more information.
 
