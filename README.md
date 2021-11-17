@@ -85,6 +85,9 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * AtherosE2200Ethernet
 * USBInjectAll
 * XHCI-unsupported
+* CtlnaAHCIPort
+* SATA-unsupported
+* AppleMCEReporterDisabler
 
 all other kexts will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
 

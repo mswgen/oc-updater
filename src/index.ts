@@ -176,6 +176,15 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
     if (kexts.includes('BlueToolFixup.kext') || kexts.includes('BrcmBluetoothInjector.kext') || kexts.includes('BrcmBluetoothInjectorLegacy.kext') || kexts.includes('BrcmFirmwareData.kext') || kexts.includes('BrcmFirmwareRepo.kext') || kexts.includes('BrcmNonPatchRAM.kext') || kexts.includes('BrcmNonPatchRAM2.kext') || kexts.includes('BrcmPatchRAM.kext') || kexts.includes('BrcmPatchRAM2.kext') || kexts.includes('BrcmPatchRAM3.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o BrcmPatchRAM-2.6.1-RELEASE.zip https://github.com/acidanthera/BrcmPatchRAM/releases/download/2.6.1/BrcmPatchRAM-2.6.1-RELEASE.zip; mkdir BrcmPatchRAM-2.6.1-RELEASE; cd BrcmPatchRAM-2.6.1-RELEASE; unzip ../BrcmPatchRAM-2.6.1-RELEASE.zip`);
     }
+    if (kexts.includes('CtlnaAHCIPort.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o CtlnaAHCIPort.kext.zip https://github.com/dortania/OpenCore-Install-Guide/raw/master/extra-files/CtlnaAHCIPort.kext.zip; mkdir CtlnaAHCIPort; cd CtlnaAHCIPort; unzip ../CtlnaAHCIPort.kext.zip`);
+    }
+    if (kexts.includes('SATA-unsupported.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o SATA-unsupported.kext.zip https://github.com/khronokernel/Legacy-Kexts/raw/master/Injectors/Zip/SATA-unsupported.kext.zip; mkdir SATA-unsuppported; cd SATA-unsupported; unzip ../SATA-unsupported.kext.zip`);
+    }
+    if (kexts.includes('AppleMCEReporterDisabler.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AppleMCEReporterDisabler.kext.zip https://github.com/acidanthera/bugtracker/files/3703498/AppleMCEReporterDisabler.kext.zip; mkdir AppleMCEReporterDisabler.k cd AppleMCEReporterDisabler.kunzip ../AppleMCEReporterDisabler.kext.zip`);
+    }
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('download-bindata', evt => {
@@ -347,6 +356,16 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     }
     if (kexts.includes('BrcmPatchRAM3.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM-2.6.1-RELEASE/BrcmPatchRAM3.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('CtlnaAHCIPort.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CtlnaAHCIPort/CtlnaAHCIPort.kext" "${dir}/OC/Kexts"`);
+    }
+    // do the same for SATA-unsupported and AppleMCEReporterDisabler
+    if (kexts.includes('SATA-unsupported.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/SATA-unsupported/SATA-unsupported.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('AppleMCEReporterDisabler.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleMCEReporterDisabler/AppleMCEReporterDisabler.kext" "${dir}/OC/Kexts"`);
     }
     evt.returnValue = 'success'
 });

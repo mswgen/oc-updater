@@ -101,7 +101,10 @@ Do you want to contnue?`)) ipc.send('quit');
                 'BrcmPatchRAM3.kext',
                 'AtherosE2200Ethernet.kext',
                 'USBInjectAll.kext',
-                'XHCI-unsupported.kext'
+                'XHCI-unsupported.kext',
+                'CtlnaAHCIPort.kext',
+                'SATA-unsupported.kext',
+                'AppleMCEReporterDisabler.kext'
             ].includes(x)))
             if (kextsNotUpdated.length > 0) {
                 document.querySelector('#kexts-not-updated')!.innerHTML = kextsNotUpdated.join('<br>');
