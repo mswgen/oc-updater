@@ -156,6 +156,9 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
     if (kexts.includes('CpuTscSync.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o CpuTscSync-1.0.5-RELEASE.zip https://github.com/acidanthera/CpuTscSync/releases/download/1.0.5/CpuTscSync-1.0.5-RELEASE.zip; mkdir CpuTscSync-1.0.5-RELEASE; cd CpuTscSync-1.0.5-RELEASE; unzip ../CpuTscSync-1.0.5-RELEASE.zip`);
     }
+    if (kexts.includes('CPUFriend.kext')) {
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o CPUFriend-1.2.4-RELEASE.zip https://github.com/acidanthera/CPUFriend/releases/download/1.2.4/CPUFriend-1.2.4-RELEASE.zip; mkdir CPUFriend-1.2.4-RELEASE; cd CPUFriend-1.2.4-RELEASE; unzip ../CPUFriend-1.2.4-RELEASE.zip`);
+    }
     if (kexts.includes('AirportBrcmFixup.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AirportBrcmFixup-2.1.3-RELEASE.zip https://github.com/acidanthera/AirportBrcmFixup/releases/download/2.1.3/AirportBrcmFixup-2.1.3-RELEASE.zip; mkdir AirportBrcmFixup-2.1.3-RELEASE; cd AirportBrcmFixup-2.1.3-RELEASE; unzip ../AirportBrcmFixup-2.1.3-RELEASE.zip`);
     }
@@ -307,6 +310,10 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     // CpuTscSync.kext -> replace with CpuTscSync-1.0.5-RELEASE/CpuTscSync.kext
     if (kexts.includes('CpuTscSync.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CpuTscSync-1.0.5-RELEASE/CpuTscSync.kext" "${dir}/OC/Kexts"`);
+    }
+    // CPUFriend.kext -> replace with CPUFriend-1.2.4-RELEASE/CPUFriend.kext
+    if (kexts.includes('CPUFriend.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CPUFriend-1.2.4-RELEASE/CPUFriend.kext" "${dir}/OC/Kexts"`);
     }
     // AirportBrcmFixup.kext -> replace with AirportBrcmFixup-2.3.1-RELEASE/AirportBrcmFixup.kext
     if (kexts.includes('AirportBrcmFixup.kext')) {
