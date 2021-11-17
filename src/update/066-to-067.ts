@@ -6,11 +6,13 @@ export default {
     exec: (file: string) => {
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         let cnt = 0;
-        for (let booterPatch of plistParsed.Booter.Patch) {
-            if (booterPatch.Identifier == '') {
-                plistParsed.Booter.Patch[cnt].Identifier = 'Any';
+        if ('Patch' in plistParsed.Booter) {
+            for (let booterPatch of plistParsed.Booter.Patch) {
+                if (booterPatch.Identifier == '') {
+                    plistParsed.Booter.Patch[cnt].Identifier = 'Any';
+                }
+                cnt++;
             }
-            cnt++;
         }
         plistParsed.UEFI.Audio.ResetTrafficClass = false;
         delete plistParsed.UEFI.Input.KeyMergeThreshold;

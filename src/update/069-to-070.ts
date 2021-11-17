@@ -23,6 +23,7 @@ export default {
         delete plistParsed.PlatformInfo.Generic.AdviseWindows;
         plistParsed.UEFI.Output.GopPassThrough = plistParsed.UEFI.Output.GopPassThrough == true ? 'Enabled' : 'Disabled';
         plistParsed.UEFI.ProtocolOverrides.AppleEg2Info = false;
+        if (!('PickerVariant' in plistParsed.Misc.Boot)) plistParsed.Misc.Boot.PickerVariant = 'Modern';
         switch (plistParsed.Misc.Boot.PickerVariant) {
             case 'Auto':
                 plistParsed.Misc.Boot.PickerVariant = 'Auto';
@@ -35,6 +36,9 @@ export default {
                 break;
             case 'Old':
                 plistParsed.Misc.Boot.PickerVariant = 'Acidanthera\\Chardonnay';
+                break;
+            default:
+                plistParsed.Misc.Boot.PickerVariant = 'Acidanthera\\GoldenGate';
                 break;
         }
         fs.writeFileSync(file, plist.build(plistParsed));
