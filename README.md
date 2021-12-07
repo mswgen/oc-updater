@@ -154,7 +154,9 @@ Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it t
 
 [exacore39](https://x86.co.kr/@exacore39) for testing.
 
-[JGP](https://x86.co.kr/@JGP) for testing and update guides.
+[JGP](https://x86.co.kr/@JGP) for testing.
+
+[Gongdeugi](https://x86.co.kr/@공득이) for testing.
 
 And many people who contributed to the project.
 
