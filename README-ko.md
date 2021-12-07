@@ -89,6 +89,8 @@ OpenCore Updater는 모든 kext를 업데이트하지 않고, 앱 내부 리스�
 * CtlnaAHCIPort
 * SATA-unsupported
 * AppleMCEReporterDisabler
+* RealtekCardReader
+* RealtekCardReaderFriend
 
 나머지 kext는 업데이트되지 않습니다. 하지만 업데이트되지 않은 kext의 새 버전이 있을 경우 수동으로 업데이트해주세요.
 

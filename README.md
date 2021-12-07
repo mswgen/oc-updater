@@ -89,6 +89,8 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * CtlnaAHCIPort
 * SATA-unsupported
 * AppleMCEReporterDisabler
+* RealtekCardReader
+* RealtekCardReaderFriend
 
 all other kexts will not be updated. However, there might be a newer version of those kexts. If this is the case, you should update them manually.
 
