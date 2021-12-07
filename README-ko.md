@@ -150,7 +150,9 @@ Bootstrap을 사용하지 않았다면 이 메세지는 뜨지 않습니다. 하
 
 [exacore39](https://x86.co.kr/@exacore39): 테스트
 
-[JGP](https://x86.co.kr/@JGP): 테스트, 업데이트 가이드
+[JGP](https://x86.co.kr/@JGP): 테스트
+
+[공득이](https://x86.co.kr/@공득이): 테스트
 
 그리고 이 프로젝트의 기여자들
 
@@ -158,7 +160,7 @@ Bootstrap을 사용하지 않았다면 이 메세지는 뜨지 않습니다. 하
 
 MIT 라이선스를 사용합니다. 자세한 사항은 [LICENSE](./LICENSE) 파일을 참고해주세요.
 
-OpenCore와 OpenCore logo는 Acidanthera의 상표입니다.
+OpenCore와 OpenCore 로고는 Acidanthera의 상표입니다.
 
 Apple과 macOS는 Apple Inc의 상표입니다. Apple은 이 프로젝트와 연괸되어있지 않습니다.
 
