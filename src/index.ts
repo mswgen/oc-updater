@@ -391,7 +391,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
 });
 electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
     while (true) {
-        if (ocver == 75) break;
+        if (ocver == 76) break;
         console.log(updates[ocver.toString()]);
         if (updates[ocver.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
