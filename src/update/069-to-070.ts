@@ -15,7 +15,7 @@ export default {
         }
         let cnt2 = 0;
         for (let tool of plistParsed.Misc.Tools) {
-            plistParsed.Misc.Tools[cnt].Flavour = 'Auto';
+            plistParsed.Misc.Tools[cnt2].Flavour = 'Auto';
             cnt2++;
         }
         plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].ForceDisplayRotationInEFI = 0;
