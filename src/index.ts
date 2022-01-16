@@ -7,6 +7,7 @@ import cp from 'child_process';
 import plist from 'plist';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '66c298f39508308dd97fa9fc03c1244f9818ff01170fdd798b697c8fcb20c2e2': '0.7.7',
     '032e1631b5729edfeab02998550d432ec5bbfc5c3715b8c81c7d386415f1ff7e': '0.7.6',
     'fb65a4c2af86b4209f10cadf9345947ec1d897f3c00b94eda6aa8649539a0357': '0.7.5',
     '8488c9aa2b2e7e71a4673c9601b7e2f78096bdc44e9db72be726fb673385376a': '0.7.5',
@@ -99,7 +100,7 @@ electron.ipcMain.on('kextinfo', (evt, kextdir) => {
     evt.returnValue = fs.readdirSync(kextdir).filter(x => x.endsWith('.kext')).filter(x => !x.startsWith('._'));
 });
 electron.ipcMain.on('download-oc', evt => {
-    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore-0.7.6-RELEASE.zip https://github.com/acidanthera/OpenCorePkg/releases/download/0.7.6/OpenCore-0.7.6-RELEASE.zip; mkdir OpenCore-0.7.6-RELEASE; cd OpenCore-0.7.6-RELEASE; unzip ../OpenCore-0.7.6-RELEASE.zip`);
+    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore-0.7.7-RELEASE.zip https://github.com/acidanthera/OpenCorePkg/releases/download/0.7.7/OpenCore-0.7.7-RELEASE.zip; mkdir OpenCore-0.7.7-RELEASE; cd OpenCore-0.7.7-RELEASE; unzip ../OpenCore-0.7.7-RELEASE.zip`);
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('download-kexts', (evt, kexts) => {
@@ -107,13 +108,13 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VirtualSMC-1.2.8-RELEASE.zip https://github.com/acidanthera/VirtualSMC/releases/download/1.2.8/VirtualSMC-1.2.8-RELEASE.zip; mkdir VirtualSMC-1.2.8-RELEASE; cd VirtualSMC-1.2.8-RELEASE; unzip ../VirtualSMC-1.2.8-RELEASE.zip`);
     }
     if (kexts.includes('Lilu.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o Lilu-1.5.8-RELEASE.zip https://github.com/acidanthera/Lilu/releases/download/1.5.8/Lilu-1.5.8-RELEASE.zip; mkdir Lilu-1.5.8-RELEASE; cd Lilu-1.5.8-RELEASE; unzip ../Lilu-1.5.8-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o Lilu-1.5.9-RELEASE.zip https://github.com/acidanthera/Lilu/releases/download/1.5.9/Lilu-1.5.9-RELEASE.zip; mkdir Lilu-1.5.9-RELEASE; cd Lilu-1.5.9-RELEASE; unzip ../Lilu-1.5.9-RELEASE.zip`);
     }
     if (kexts.includes('WhateverGreen.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o WhateverGreen-1.5.5-RELEASE.zip https://github.com/acidanthera/WhateverGreen/releases/download/1.5.5/WhateverGreen-1.5.5-RELEASE.zip; mkdir WhateverGreen-1.5.5-RELEASE; cd WhateverGreen-1.5.5-RELEASE; unzip ../WhateverGreen-1.5.5-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o WhateverGreen-1.5.6-RELEASE.zip https://github.com/acidanthera/WhateverGreen/releases/download/1.5.6/WhateverGreen-1.5.6-RELEASE.zip; mkdir WhateverGreen-1.5.6-RELEASE; cd WhateverGreen-1.5.6-RELEASE; unzip ../WhateverGreen-1.5.6-RELEASE.zip`);
     }
     if (kexts.includes('AppleALC.kext') || kexts.includes('AppleALCU.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AppleALC-1.6.7-RELEASE.zip https://github.com/acidanthera/AppleALC/releases/download/1.6.7/AppleALC-1.6.7-RELEASE.zip; mkdir AppleALC-1.6.7-RELEASE; cd AppleALC-1.6.7-RELEASE; unzip ../AppleALC-1.6.7-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AppleALC-1.6.8-RELEASE.zip https://github.com/acidanthera/AppleALC/releases/download/1.6.8/AppleALC-1.6.8-RELEASE.zip; mkdir AppleALC-1.6.8-RELEASE; cd AppleALC-1.6.8-RELEASE; unzip ../AppleALC-1.6.8-RELEASE.zip`);
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o VoodooPS2Controller-2.2.7-RELEASE.zip https://github.com/acidanthera/VoodooPS2/releases/download/2.2.7/VoodooPS2Controller-2.2.7-RELEASE.zip; mkdir VoodooPS2Controller-2.2.7-RELEASE; cd VoodooPS2Controller-2.2.7-RELEASE; unzip ../VoodooPS2Controller-2.2.7-RELEASE.zip`);
@@ -146,13 +147,13 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o NVMeFix-1.0.9-RELEASE.zip https://github.com/acidanthera/NVMeFix/releases/download/1.0.9/NVMeFix-1.0.9-RELEASE.zip; mkdir NVMeFix-1.0.9-RELEASE; cd NVMeFix-1.0.9-RELEASE; unzip ../NVMeFix-1.0.9-RELEASE.zip`);
     }
     if (kexts.includes('itlwm.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o itlwm-2.0.0.zip https://github.com/OpenIntelWireless/itlwm/releases/download/v2.0.0/itlwm_v2.0.0_stable.kext.zip; mkdir itlwm-2.0.0; cd itlwm-2.0.0; unzip ../itlwm-2.0.0.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o itlwm-2.1.0.zip https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0/itlwm_v2.1.0_stable.kext.zip; mkdir itlwm-2.1.0; cd itlwm-2.1.0; unzip ../itlwm-2.1.0.zip`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AirportItlwm-2.0.0.zip https://github.com/OpenIntelWireless/itlwm/releases/download/v2.0.0/AirportItlwm_v2.0.0_stable_${os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))}.kext.zip; mkdir AirportItlwm-2.0.0; cd AirportItlwm-2.0.0; unzip ../AirportItlwm-2.0.0.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o AirportItlwm-2.1.0.zip https://github.com/OpenIntelWireless/itlwm/releases/download/v2.1.0/AirportItlwm_v2.1.0_stable_${os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))}.kext.zip; mkdir AirportItlwm-2.1.0; cd AirportItlwm-2.1.0; unzip ../AirportItlwm-2.1.0.zip`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o IntelBluetoothFirmware-2.0.1.zip https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v2.0.1/IntelBluetoothFirmware-v2.0.1.zip; mkdir IntelBluetoothFirmware-2.0.1; cd IntelBluetoothFirmware-2.0.1; unzip ../IntelBluetoothFirmware-2.0.1.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o IntelBluetoothFirmware-2.1.0.zip https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v2.1.0/IntelBluetoothFirmware-v2.1.0.zip; mkdir IntelBluetoothFirmware-2.1.0; cd IntelBluetoothFirmware-2.1.0; unzip ../IntelBluetoothFirmware-2.1.0.zip`);
     }
     if (kexts.includes('CpuTscSync.kext')) {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o CpuTscSync-1.0.5-RELEASE.zip https://github.com/acidanthera/CpuTscSync/releases/download/1.0.5/CpuTscSync-1.0.5-RELEASE.zip; mkdir CpuTscSync-1.0.5-RELEASE; cd CpuTscSync-1.0.5-RELEASE; unzip ../CpuTscSync-1.0.5-RELEASE.zip`);
@@ -193,7 +194,7 @@ electron.ipcMain.on('download-kexts', (evt, kexts) => {
         cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RealtekCardReader-0.9.6-RELEASE.zip https://github.com/0xFireWolf/RealtekCardReader/releases/download/v0.9.6/RealtekCardReader_0.9.6_b998818_RELEASE.zip; mkdir RealtekCardReader-0.9.6-RELEASE; cd RealtekCardReader-0.9.6-RELEASE; unzip ../RealtekCardReader-0.9.6-RELEASE.zip`);
     }
     if (kexts.includes('RealtekCardReaderFriend.kext')) {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RealtekCardReaderFriend-1.0.1-RELEASE.zip https://github.com/0xFireWolf/RealtekCardReaderFriend/releases/download/v1.0.1/RealtekCardReaderFriend_1.0.1_76ed58e_RELEASE.zip; mkdir RealtekCardReaderFriend-1.0.1-RELEASE; cd RealtekCardReaderFriend-1.0.1-RELEASE; unzip ../RealtekCardReaderFriend-1.0.1-RELEASE.zip`);
+        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o RealtekCardReaderFriend-1.0.2-RELEASE.zip https://github.com/0xFireWolf/RealtekCardReaderFriend/releases/download/v1.0.2/RealtekCardReaderFriend_1.0.2_7f6639a_RELEASE.zip; mkdir RealtekCardReaderFriend-1.0.2-RELEASE; cd RealtekCardReaderFriend-1.0.2-RELEASE; unzip ../RealtekCardReaderFriend-1.0.2-RELEASE.zip`);
     }
     evt.returnValue = 'success';
 });
@@ -206,14 +207,14 @@ electron.ipcMain.on('create-backup', (evt, dir) => {
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
-    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
-    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
+    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
+    fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
     if (fs.existsSync(`${dir}/OC/Tools/VerifyMsrE2.efi`)) fs.renameSync(`${dir}/OC/Tools/VerifyMsrE2.efi`, `${dir}/OC/Tools/ControlMsrE2.efi`);
     // if VBoxHfs.efi exists at ${dir}/OC/Drivers, rename it to OpenHfsPlus.efi
     if (fs.existsSync(`${dir}/OC/Drivers/VBoxHfs.efi`)) fs.renameSync(`${dir}/OC/Drivers/VBoxHfs.efi`, `${dir}/OC/Drivers/OpenHfsPlus.efi`);
-    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/OC/Drivers`)) {
+    for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/OC/Drivers`)) {
         if (fs.existsSync(`${dir}/OC/Drivers/${driver}`)) {
-            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
+            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/OC/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
         }
     }
     for (let driver of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers`)) {
@@ -221,9 +222,9 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
             fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Drivers/${driver}`, `${dir}/OC/Drivers/${driver}`);
         }
     }
-    for (let tool of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/OC/Tools`)) {
+    for (let tool of fs.readdirSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/OC/Tools`)) {
         if (fs.existsSync(`${dir}/OC/Tools/${tool}`)) {
-            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.6-RELEASE/X64/EFI/OC/Tools/${tool}`, `${dir}/OC/Tools/${tool}`);
+            fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore-0.7.7-RELEASE/X64/EFI/OC/Tools/${tool}`, `${dir}/OC/Tools/${tool}`);
         }
     }
     cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources" "${dir}/OC"`);
@@ -246,16 +247,16 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VirtualSMC-1.2.8-RELEASE/Kexts/SMCDellSensors.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('Lilu.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/Lilu-1.5.8-RELEASE/Lilu.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/Lilu-1.5.9-RELEASE/Lilu.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('WhateverGreen.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/WhateverGreen-1.5.5-RELEASE/WhateverGreen.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/WhateverGreen-1.5.6-RELEASE/WhateverGreen.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AppleALC.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.7-RELEASE/AppleALC.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.8-RELEASE/AppleALC.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AppleALCU.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.7-RELEASE/AppleALCU.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AppleALC-1.6.8-RELEASE/AppleALCU.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/VoodooPS2Controller-2.2.7-RELEASE/VoodooPS2Controller.kext" "${dir}/OC/Kexts"`);
@@ -303,16 +304,16 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/NVMeFix-1.0.9-RELEASE/NVMeFix.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('itlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm-2.0.0/itlwm.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm-2.1.0/itlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm-2.0.0/AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm-2.1.0/${os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'Big Sur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'High Sierra')))}/AirportItlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware-2.0.1/IntelBluetoothFirmware-v2.0.1/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware-2.1.0/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothInjector.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware-2.0.1/IntelBluetoothFirmware-v2.0.1/IntelBluetoothInjector.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware-2.1.0/IntelBluetoothInjector.kext" "${dir}/OC/Kexts"`);
     }
     // CpuTscSync.kext -> replace with CpuTscSync-1.0.5-RELEASE/CpuTscSync.kext
     if (kexts.includes('CpuTscSync.kext')) {
@@ -385,13 +386,13 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RealtekCardReader-0.9.6-RELEASE/RealtekCardReader.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes("RealtekCardReaderFriend.kext")) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RealtekCardReaderFriend-1.0.1-RELEASE/RealtekCardReaderFriend.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RealtekCardReaderFriend-1.0.2-RELEASE/RealtekCardReaderFriend.kext" "${dir}/OC/Kexts"`);
     }
     evt.returnValue = 'success'
 });
 electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
     while (true) {
-        if (ocver == 76) break;
+        if (ocver == 77) break;
         console.log(updates[ocver.toString()]);
         if (updates[ocver.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
