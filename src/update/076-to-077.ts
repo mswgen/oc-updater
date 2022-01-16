@@ -8,7 +8,7 @@ export default {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*
-        set NVRAM - Add - 7C436110-AB2A-4BBB-A880-FE41995C9F82 - SystemAudioVolumeDB to <Buffer e2>
+        set NVRAM - Add - 7C436110-AB2A-4BBB-A880-FE41995C9F82 - SystemAudioVolumeDB to <Buffer 00>
 
         set UEFI - AppleInput - PointerPollMin to 10
         set UEFI - AppleInput - PointerPollMax to 80
@@ -23,7 +23,7 @@ export default {
         remove UEFI - Audio - MinimumVolume
         remove UEFI - Audio - VolumeAmplifier
         */
-        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].SystemAudioVolumeDB = Buffer.from([0xE2]);
+        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].SystemAudioVolumeDB = Buffer.from([0x00]);
         plistParsed.UEFI.AppleInput.PointerPollMin = 10;
         plistParsed.UEFI.AppleInput.PointerPollMax = 80;
         plistParsed.UEFI.AppleInput.PointerPollMask = -1;
