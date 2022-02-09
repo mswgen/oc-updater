@@ -31,7 +31,7 @@ jobs:
         id: tagname
         run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
       - name: Create a new Tag
-        if: github.event_name == "workflow_dispatch"
+        if: github.event_name == 'workflow_dispatch'
         run: git tag v${{ steps.tagname.outputs.name }}
       - name: Create a draft release
         uses: softprops/action-gh-release@v1
@@ -52,26 +52,3 @@ jobs:
           path: |
             out/OpenCore Updater-*.*.*-universal.dmg
             out/latest-mac.yml
-  release:
-    name: Release
-    needs: build
-    runs-on: macos-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: '0'
-      
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-      - name: Publish to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body: "Changes(변경 사항)\n\n1. \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/main/README.md#installation) carefully!\n\n**설치하기 전 [여기](https://github.com/mswgen/oc-updater/blob/main/README-ko.md#installation)를 읽어주세요!**"
-          draft: true
-          tag_name: ${{ steps.tagname.outputs.name }}
-          files: |
-            mac/*
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
