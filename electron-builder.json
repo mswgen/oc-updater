@@ -4,6 +4,7 @@
     "directories": {
         "output": "out"
     },
+    "artifactName": "update.${ext}",
     "asar": true,
     "files": [
         "**/*",
@@ -28,11 +29,16 @@
             {
                 "target": "dmg",
                 "arch": ["universal"]
+            },
+            {
+                "target": "zip",
+                "arch": ["universal"]
             }
         ],
         "icon": "build/icon.icns"
     },
     "dmg": {
-        "title": "${productName}"
+        "title": "${productName}",
+        "artifactName": "${productName}-${version}-${arch}.dmg"
     }
 }
