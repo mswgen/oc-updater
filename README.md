@@ -96,11 +96,7 @@ all other kexts will not be updated. However, there might be a newer version of 
 
 ### Auto app update support
 
-Auto update is not supported. You need to manually update the app. This is because the app is not signed. You can download the latest version from [release page](https://github.com/mswgen/oc-updater/releases) and replace the app in /Applications.
-
-When you launch the updated version, a dialog will appear saying that the app cannot be opened. This is because the app is not signed. Please do the same thing you did when installing the app the first time.
-
-There's no plan to sign the app.
+Auto update is supported. When there's a new version of the app, the app will automatically download it in the background. Then, it will notify you about that. Update will be automatically applied when you close the app.
 
 ### When updating from 0.6.5 to 0.6.6, I get a warning
 
