@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import os from 'os';
 import cp from 'child_process';
 import plist from 'plist';
+import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
     'a2db0a0ca004be20a3a6347367a1cf9bf2b3c383c1927e0b5bf9aee88c19da20': '0.7.8',
@@ -49,6 +50,7 @@ function createWindow(): void {
     });
     window.loadFile(path.join(__dirname, app.getLocale() == 'ko' ? '../index-korean.html' : '../index.html'));
 }
+autoUpdater.checkForUpdatesAndNotify();
 electron.app.whenReady().then(() => {
     createWindow();
     electron.app.on('activate', (_, hasVisibleWindows) => {

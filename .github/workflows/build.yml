@@ -27,6 +27,20 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
+      - name: Determine tag name
+        id: tagname
+        run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
+      - name: Create a new Tag
+        if: github.event_name == "workflow_dispatch"
+        run: git tag v${{ steps.tagname.outputs.name }}
+      - name: Create a draft release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: "Changes(변경 사항)\n\n1. \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/main/README.md#installation) carefully!\n\n**설치하기 전 [여기](https://github.com/mswgen/oc-updater/blob/main/README-ko.md#installation)를 읽어주세요!**"
+          draft: true
+          tag_name: ${{ steps.tagname.outputs.name }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Install Dependencies
         run: yarn
       - name: Build
@@ -35,7 +49,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mac
-          path: out/OpenCore Updater-*.*.*-universal.dmg
+          path: |
+            out/OpenCore Updater-*.*.*-universal.dmg
+            out/latest-mac.yml
   release:
     name: Release
     needs: build
@@ -46,11 +62,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: '0'
-      - name: Determine tag name
-        id: tagname
-        run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
-      - name: Create a new Tag
-        run: git tag v${{ steps.tagname.outputs.name }}
+      
       - name: Download Artifacts
         uses: actions/download-artifact@v2
       - name: Publish to GitHub Release
