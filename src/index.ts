@@ -56,7 +56,7 @@ electron.app.whenReady().then(() => {
     createWindow();
     autoUpdater.checkForUpdatesAndNotify({
         title: app.getLocale() == 'ko' ? '업데이트를 설치할 준비가 완료되었어요.' : 'An update is ready to install.',
-        body: app.getLocale() == 'ko' ? '{appname} 버전 {version}이 다운로드되었으며, 앱 종료 시 자동으로 설치돼요.' : '{appName} version {version} has been downloaded and will be automatically installed on exit'
+        body: app.getLocale() == 'ko' ? '{appName} 버전 {version}이 다운로드되었으며, 앱 종료 시 자동으로 설치돼요.' : '{appName} version {version} has been downloaded and will be automatically installed on exit'
     });
     electron.app.on('activate', (_, hasVisibleWindows) => {
         if (!hasVisibleWindows) createWindow();
