@@ -6,7 +6,7 @@
 ## 설치
 이 앱은 macOS만 지원합니다. 
 
-[릴리즈 페이지](https://github.com/mswgen/oc-updater/releases)에서 최신 버전을 다운로드하세요.
+[릴리즈 페이지](https://github.com/mswgen/oc-updater/releases)에서 최신 버전의 DMG를 다운로드하세요.
 
 DMG를 마운트하고 OpenCore Updater를 응용 프로그램(/Applications)에 설치하세요.
 

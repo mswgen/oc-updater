@@ -6,7 +6,7 @@ English | [한국어(Korean)](./README-ko.md)
 ## Installation
 This app is supported on macOS only. 
 
-Download the latest version from [release page](https://github.com/mswgen/oc-updater/releases).
+Download the DMG of latest version from [release page](https://github.com/mswgen/oc-updater/releases).
 
 Mount the disk image and copy OpenCore Updater to /Applications.
 
