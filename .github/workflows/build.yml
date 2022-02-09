@@ -30,10 +30,8 @@ jobs:
       - name: Determine tag name
         id: tagname
         run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
-      - name: Create a new Tag
-        if: github.event_name == 'workflow_dispatch'
-        run: git tag v${{ steps.tagname.outputs.name }}
       - name: Create a draft release
+        if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
         with:
           body: "Changes(변경 사항)\n\n1. \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/main/README.md#installation) carefully!\n\n**설치하기 전 [여기](https://github.com/mswgen/oc-updater/blob/main/README-ko.md#installation)를 읽어주세요!**"
