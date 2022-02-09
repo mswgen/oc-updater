@@ -50,6 +50,8 @@ function createWindow(): void {
     });
     window.loadFile(path.join(__dirname, app.getLocale() == 'ko' ? '../index-korean.html' : '../index.html'));
 }
+app.commandLine.appendSwitch('disable-http2');
+autoUpdater.requestHeaders = { 'Cache-Control' : 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0' };
 autoUpdater.checkForUpdatesAndNotify();
 electron.app.whenReady().then(() => {
     createWindow();
