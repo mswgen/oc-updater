@@ -144,7 +144,7 @@ Bootstrap을 사용하지 않았다면 이 메세지는 뜨지 않습니다. 하
 
 [Apple](https://apple.com): macOS
 
-[junepark](https://x86.co.kr/@junepark): 테스트
+[junepark](https://x86.co.kr/@junepark): 테스트, 로고 제작
 
 [exacore39](https://x86.co.kr/@exacore39): 테스트
 

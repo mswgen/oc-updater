@@ -146,7 +146,7 @@ Fixed in 1.0.8. If you are using older versions of OpenCore Updater, update it t
 
 [Apple](https://apple.com) for macOS.
 
-[junepark](https://x86.co.kr/@junepark) for testing.
+[junepark](https://x86.co.kr/@junepark) for testing and logo.
 
 [exacore39](https://x86.co.kr/@exacore39) for testing.
 
