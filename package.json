@@ -1,7 +1,7 @@
 {
   "name": "oc-updater",
   "productName": "OpenCore Updater",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "OpenCore Updater",
   "main": "dist/index.js",
   "scripts": {

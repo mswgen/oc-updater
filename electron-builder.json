@@ -39,7 +39,6 @@
     },
     "dmg": {
         "title": "${productName}",
-        "artifactName": "${productName}-${version}-${arch}.dmg",
-        "sign": true
+        "artifactName": "${productName}-${version}-${arch}.dmg"
     }
 }
