@@ -16,8 +16,8 @@ export default {
         set Init to Misc - Debug - SerialInit value
         finally, delete Misc - Debug - SerialInit
         */
-        plistParsed.Misc.Quirks.CustomPciSerialDevice = false;
-        plistParsed.Misc.Quirks.ForceAquantiaEthernet = false;
+        plistParsed.Kernel.Quirks.CustomPciSerialDevice = false;
+        plistParsed.Kernel.Quirks.ForceAquantiaEthernet = false;
         plistParsed.Misc.Serial = {
             Override: false,
             Init: plistParsed.Misc.Debug.SerialInit
