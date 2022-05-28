@@ -8,6 +8,7 @@ import plist from 'plist';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'fd918e96a271e3bd7cebed9f5fcdbf8437fa91640d8e58f9ab950f03bec360fe': '0.8.0',
     '297602a36ba60b3968e876297fc5d94770a7abefffdc7ed59cd56a9bd01f8917': '0.7.9',
     'a2db0a0ca004be20a3a6347367a1cf9bf2b3c383c1927e0b5bf9aee88c19da20': '0.7.8',
     'b8f1408556f338b9af478e92df494c7400149fd24c4148928fcbef0cc8b7f991': '0.7.8',
@@ -35,11 +36,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.7.9', 79],
+    OpenCore: ['0.8.0', 80],
     VirtualSMC: '1.2.9',
     Lilu: '1.6.0',
     WhateverGreen: '1.5.8',
-    AppleALC: '1.7.0',
+    AppleALC: '1.7.1',
     VoodooPS2Controller: '2.2.8',
     VoodooI2C: '2.7',
     ECEnabler: '1.0.2',
@@ -51,8 +52,8 @@ const versions = {
     NVMeFix: '1.0.9',
     itlwm: '2.1.0',
     IntelBluetoothFirmware: '2.1.0',
-    CpuTscSync: '1.0.7',
-    CPUFriend: '1.2.4',
+    CpuTscSync: '1.0.8',
+    CPUFriend: '1.2.5',
     AirportBrcmFixup: '2.1.4',
     BrcmPatchRAM: '2.6.1',
     RealtekCardReader: ['0.9.6', '0.9.6_b998818'],
