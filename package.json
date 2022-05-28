@@ -27,7 +27,7 @@
   "homepage": "https://github.com/mswgen/oc-updater#readme",
   "dependencies": {
     "electron-updater": "^4.6.5",
-    "plist": "^3.0.4"
+    "plist": "^3.0.5"
   },
   "devDependencies": {
     "@types/node": "^16.11.6",
