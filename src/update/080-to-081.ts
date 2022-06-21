@@ -10,7 +10,7 @@ export default {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*
-        // Changes of OpenCore 0.8.1:
+        Changes of OpenCore 0.8.1:
         if Misc - Serial - Custom exists:
             create DetectCable below and set to false
         if Misc - Boot - TakeoffDelay is 0:
