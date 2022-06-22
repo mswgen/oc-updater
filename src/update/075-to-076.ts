@@ -24,10 +24,10 @@ export default {
         } else if (plistParsed.Booter.Quirks.ResizeAppleGpuBars != -1) {
             plistParsed.Booter.Quirks.ResizeAppleGpuBars = 0;
         }
-        plistParsed.UEFI.Output.ReconnectGraphicsOnConnect = false;
-        delete plistParsed.NVRAM.Add['4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14'].UIScale;
-        plistParsed.UEFI.Output.UIScale = 0;
-        plistParsed.UEFI.Quirks.EnableVmx = false;
+        plistParsed.UEFI.Output.ReconnectGraphicsOnConnect ??= false;
+        if (plistParsed.NVRAM.Add['4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14'].UIScale) delete plistParsed.NVRAM.Add['4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14'].UIScale;
+        plistParsed.UEFI.Output.UIScale ??= 0;
+        plistParsed.UEFI.Quirks.EnableVmx ??= false;
         // write plistParsed to ${file}
         fs.writeFileSync(file, plist.build(plistParsed));
     }

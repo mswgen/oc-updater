@@ -11,7 +11,7 @@ export default {
             plistParsed.UEFI.APFS.MinDate = -1;
             plistParsed.UEFI.APFS.MinVersion = -1;
         }
-        plistParsed.UEFI.AppleInput.GraphicsInputMirroring = true;
+        plistParsed.UEFI.AppleInput.GraphicsInputMirroring ??= true;
         fs.writeFileSync(file, plist.build(plistParsed));
     }
 }

@@ -6,23 +6,27 @@ export default {
     exec: (file: string) => {
         if (!fs.existsSync(file)) return;
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
-        plistParsed.Kernel.Quirks.ProvideCurrentCpuInfo = false;
-        plistParsed.Misc.Security.AllowToggleSip = false;
+        plistParsed.Kernel.Quirks.ProvideCurrentCpuInfo ??= false;
+        plistParsed.Misc.Security.AllowToggleSip ??= false;
         let cnt = 0;
-        for (let entry of plistParsed.Misc.Entries) {
-            plistParsed.Misc.Entries[cnt].Flavour = 'Auto';
+        for (let _ of plistParsed.Misc.Entries) {
+            plistParsed.Misc.Entries[cnt].Flavour ??= 'Auto';
             cnt++;
         }
-        let cnt2 = 0;
-        for (let tool of plistParsed.Misc.Tools) {
-            plistParsed.Misc.Tools[cnt2].Flavour = 'Auto';
-            cnt2++;
+        cnt = 0;
+        for (let _ of plistParsed.Misc.Tools) {
+            plistParsed.Misc.Tools[cnt].Flavour ??= 'Auto';
+            cnt++;
         }
-        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].ForceDisplayRotationInEFI = 0;
-        plistParsed.PlatformInfo.Generic.AdviseFeatures = plistParsed.PlatformInfo.Generic.AdviseWindows ? true : false;
-        delete plistParsed.PlatformInfo.Generic.AdviseWindows;
-        plistParsed.UEFI.Output.GopPassThrough = plistParsed.UEFI.Output.GopPassThrough == true ? 'Enabled' : 'Disabled';
-        plistParsed.UEFI.ProtocolOverrides.AppleEg2Info = false;
+        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].ForceDisplayRotationInEFI ??= 0;
+        plistParsed.PlatformInfo.Generic.AdviseFeatures ??= plistParsed.PlatformInfo.Generic.AdviseWindows ? true : false;
+        if (plistParsed.PlatformInfo.Generic.AdviseWindows) delete plistParsed.PlatformInfo.Generic.AdviseWindows;
+        if (plistParsed.UEFI.Output.GopPassThrough == true) {
+            plistParsed.UEFI.Output.GopPassThrough == 'Enabled';
+        } else if (plistParsed.UEFI.Output.GopPassThrough == false) {
+            plistParsed.UEFI.Output.GopPassThrough == 'Disabled';
+        }
+        plistParsed.UEFI.ProtocolOverrides.AppleEg2Info ??= false;
         if (!('PickerVariant' in plistParsed.Misc.Boot)) plistParsed.Misc.Boot.PickerVariant = 'Modern';
         switch (plistParsed.Misc.Boot.PickerVariant) {
             case 'Auto':
@@ -36,9 +40,6 @@ export default {
                 break;
             case 'Old':
                 plistParsed.Misc.Boot.PickerVariant = 'Acidanthera\\Chardonnay';
-                break;
-            default:
-                plistParsed.Misc.Boot.PickerVariant = 'Acidanthera\\GoldenGate';
                 break;
         }
         fs.writeFileSync(file, plist.build(plistParsed));

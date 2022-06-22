@@ -8,16 +8,16 @@ export default {
         let cnt = 0;
         if ('Patch' in plistParsed.Booter) {
             for (let booterPatch of plistParsed.Booter.Patch) {
-                if (booterPatch.Identifier == '') {
+                if (booterPatch.Identifier && booterPatch.Identifier == '') {
                     plistParsed.Booter.Patch[cnt].Identifier = 'Any';
                 }
                 cnt++;
             }
         }
-        plistParsed.UEFI.Audio.ResetTrafficClass = false;
-        delete plistParsed.UEFI.Input.KeyMergeThreshold;
-        plistParsed.UEFI.Output.GopPassThrough = false;
-        plistParsed.UEFI.Quirks.ActivateHpetSupport = false;
+        plistParsed.UEFI.Audio.ResetTrafficClass ??= false;
+        if (plistParsed.UEFI.Input.KeyMergeThreshold) delete plistParsed.UEFI.Input.KeyMergeThreshold;
+        plistParsed.UEFI.Output.GopPassThrough ??= false;
+        plistParsed.UEFI.Quirks.ActivateHpetSupport ??= false;
         fs.writeFileSync(file, plist.build(plistParsed));
     }
 }

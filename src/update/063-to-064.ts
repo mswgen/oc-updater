@@ -21,19 +21,19 @@ export default {
         1. true: set it to Enabled
         2. false: set it to Disabled
         */
-        plistParsed.Booter.Patch = [];
-        plistParsed.Booter.Quirks.AllowRelocationBlock = false;
-        plistParsed.Misc.Security.BlacklistAppleUpdate = true;
+        plistParsed.Booter.Patch ??= [];
+        plistParsed.Booter.Quirks.AllowRelocationBlock ??= false;
+        plistParsed.Misc.Security.BlacklistAppleUpdate ??= true;
         plistParsed.Misc.Tools.forEach((tool: any) => {
-            tool.RealPath = false;
-            tool.TextMode = false;
+            tool.RealPath ??= false;
+            tool.TextMode ??= false;
         });
         plistParsed.Misc.Entries.forEach((entry: any) => {
-            entry.TextMode = false;
+            entry.TextMode ??= false;
         });
-        if (plistParsed.UEFI.Audio.PlayChime === true) {
+        if (plistParsed.UEFI.Audio.PlayChime == true) {
             plistParsed.UEFI.Audio.PlayChime = 'Enabled';
-        } else {
+        } else if (plistParsed.UEFI.Audio.PlayChime == false) {
             plistParsed.UEFI.Audio.PlayChime = 'Disabled';
         }
         // write plistParsed to ${file}

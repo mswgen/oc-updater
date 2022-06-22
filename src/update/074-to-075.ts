@@ -16,8 +16,8 @@ export default {
         set Booter - Quirks - ResizeAppleGpuBars to -1
         set UEFI - Quirks - ResizeGpuBars to -1
         */
-        plistParsed.Booter.Quirks.ResizeAppleGpuBars = -1;
-        plistParsed.UEFI.Quirks.ResizeGpuBars = -1;
+        plistParsed.Booter.Quirks.ResizeAppleGpuBars ??= -1;
+        plistParsed.UEFI.Quirks.ResizeGpuBars ??= -1;
         // write plistParsed to {file}
         fs.writeFileSync(file, plist.build(plistParsed));
     }

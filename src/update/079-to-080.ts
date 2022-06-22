@@ -16,13 +16,13 @@ export default {
         set Init to Misc - Debug - SerialInit value
         finally, delete Misc - Debug - SerialInit
         */
-        plistParsed.Kernel.Quirks.CustomPciSerialDevice = false;
-        plistParsed.Kernel.Quirks.ForceAquantiaEthernet = false;
-        plistParsed.Misc.Serial = {
+        plistParsed.Kernel.Quirks.CustomPciSerialDevice ??= false;
+        plistParsed.Kernel.Quirks.ForceAquantiaEthernet ??= false;
+        plistParsed.Misc.Serial ??= {
             Override: false,
-            Init: plistParsed.Misc.Debug.SerialInit
+            Init: plistParsed.Misc.Debug.SerialInit || false
         };
-        delete plistParsed.Misc.Debug.SerialInit;
+        if (plistParsed.Misc.Debug.SerialInit) delete plistParsed.Misc.Debug.SerialInit;
         // finally, write it back
         fs.writeFileSync(file, plist.build(plistParsed));
     }
