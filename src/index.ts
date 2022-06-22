@@ -579,7 +579,7 @@ electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
     }
     const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8'));
     if (isBeta) {
-        const updateCode = (await axios.get('https://raw.githubusercontent.com/mswgen/oc-updater/main/src/update-beta.min.js')).data.split('\n').join(';')
+        const updateCode = (await axios.get('https://raw.githubusercontent.com/mswgen/oc-updater/main/src/update-beta.min.js')).data.split('\n').filter((line: string) => !line.startsWith('//')).join(';')
         if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
             Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/config.plist`, PID);
         } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
