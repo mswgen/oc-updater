@@ -568,7 +568,6 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
 electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
     while (true) {
         if (ocver == versions.OpenCore[1]) break;
-        console.log(updates[ocver.toString()]);
         if (updates[ocver.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
                 updates[ocver.toString()].exec(`${efidir}/OC/config.plist`, PID);
@@ -579,20 +578,20 @@ electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
         ocver++;
     }
     const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8'));
+    if (isBeta) {
+        const updateCode = (await axios.get('https://raw.githubusercontent.com/mswgen/oc-updater/main/src/update-beta.min.js')).data.split('\n').join(';')
+        if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
+            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/config.plist`, PID);
+        } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
+            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/Config.plist`, PID);
+        }
+    }
     if (plistParsed.Misc.Security.Vault != 'Optional') {
         plistParsed.Misc.Security.Vault = 'Optional';
         // build plistParsed, and write it back to file
         fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plist.build(plistParsed));
         evt.returnValue = 'vault-disabled';
         return;
-    }
-    if (isBeta) {
-        const updateCode = (await axios.get('https://raw.githubusercontent.com/mswgen/oc-updater/main/src/update-beta.min.js')).data;
-        if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
-            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/config.plist`, PID);
-        } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
-            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/Config.plist`, PID);
-        }
     }
     evt.returnValue = 'success'
 });
