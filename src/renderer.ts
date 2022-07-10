@@ -5,10 +5,6 @@ async function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function updateOC(ocverNum: number, kexts: Array<string>, isBeta: boolean = false) {
-    if (isBeta && !confirm(isKorean
-        ? 'OpenCore 베타는 정상 동작이 검증되지 않았으며, 수시로 올라오는 베타의 특성상 OpenCore Updater가 대응할 수 없을 수도 있습니다. 그래도 진행하시겠어요?'
-        : 'OpenCore Beta is not verified to work properly. And because OpenCore Beta is released frequently, OpenCore Updater may not be able to support the update. Do you still want to continue?'
-    )) return;
     if (ocverNum < 66) {
         if (ipc.sendSync('check-bootstrap', efidir)) {
             if (!confirm(isKorean ? `경고: Bootstrap.efi 감지됨

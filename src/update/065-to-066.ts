@@ -1,17 +1,16 @@
 import plist from 'plist';
 import fs from 'fs';
-import path from 'path';
 export default {
     from: 65,
     configPlistChange: true,
     exec: (file: string) => {
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
-        const ocDir = path.dirname(file);
+        const ocDir = file.split('/').slice(0, -1).join('/');
         if (fs.existsSync(`${ocDir}/Bootstrap`)) {
             fs.rmdirSync(`${ocDir}/Bootstrap`, { recursive: true });
-            plistParsed.Misc.Boot.LauncherPath ??= 'Default';
-            plistParsed.Misc.Boot.LauncherOption ??= plistParsed.Misc.Security.BootProtect == 'BootstrapShort' ? 'Short' : (plistParsed.Misc.Security.BootProtect == 'Bootstrap' ? 'Full' : 'Disabled');
-            if (plistParsed.Misc.Security.BootProtect) delete plistParsed.Misc.Security.BootProtect;
+            plistParsed.Misc.Boot.LauncherPath = 'Default';
+            plistParsed.Misc.Boot.LauncherOption = plistParsed.Misc.Security.BootProtect == 'BootstrapShort' ? 'Short' : (plistParsed.Misc.Security.BootProtect == 'Bootstrap' ? 'Full' : 'Disabled');
+            delete plistParsed.Misc.Security.BootProtect;
         }
         /*
         create plist - Kernel - Quirks - SetApfsTrimTimeout = -1
@@ -26,11 +25,11 @@ export default {
 
         if plist - UEFI - Drivers (array of string) has VBoxHfs.efi, rename it to OpenHfsPlus.efi
         */
-        plistParsed.Kernel.Quirks.SetApfsTrimTimeout ??= -1;
-        plistParsed.PlatformInfo.UseRawUuidEncoding ??= false;
-        plistParsed.PlatformInfo.Generic.MaxBIOSVersion ??= false;
-        plistParsed.UEFI.Quirks.DisableSecurityPolicy ??= false;
-        if (plistParsed.Misc.Tools && plistParsed.Misc.Tools.find((x: any) => x.Path == 'HdaCodecDump.efi')) {
+        plistParsed.Kernel.Quirks.SetApfsTrimTimeout = -1;
+        plistParsed.PlatformInfo.UseRawUuidEncoding = false;
+        plistParsed.PlatformInfo.Generic.MaxBIOSVersion = false;
+        plistParsed.UEFI.Quirks.DisableSecurityPolicy = false;
+        if (plistParsed.Misc.Tools.find((x: any) => x.Path == 'HdaCodecDump.efi')) {
             plistParsed.Misc.Tools = plistParsed.Misc.Tools.filter((x: any) => x.Path != 'HdaCodecDump.efi');
             plistParsed.Misc.Debug.SysReport = true;
             fs.rmSync(`${ocDir}/Tools/HdaCodecDump.efi`, {

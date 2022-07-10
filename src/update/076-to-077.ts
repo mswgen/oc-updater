@@ -23,18 +23,18 @@ export default {
         remove UEFI - Audio - MinimumVolume
         remove UEFI - Audio - VolumeAmplifier
         */
-        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].SystemAudioVolumeDB ??= Buffer.from([0x00]);
-        plistParsed.UEFI.AppleInput.PointerPollMin ??= 10;
-        plistParsed.UEFI.AppleInput.PointerPollMax ??= 80;
-        plistParsed.UEFI.AppleInput.PointerPollMask ??= -1;
-        plistParsed.UEFI.Audio.AudioOutMask ??= -1;
-        plistParsed.UEFI.Audio.DisconnectHda ??= false;
-        plistParsed.UEFI.Audio.MaximumGain ??= -15;
-        plistParsed.UEFI.Audio.MinimumAssistGain ??= -30;
-        plistParsed.UEFI.Audio.MinimumAudibleGain ??= -55;
-        if (plistParsed.UEFI.Audio.AudioOut) delete plistParsed.UEFI.Audio.AudioOut;
-        if (plistParsed.UEFI.Audio.MinimumVolume) delete plistParsed.UEFI.Audio.MinimumVolume;
-        if (plistParsed.UEFI.Audio.VolumeAmplifier) delete plistParsed.UEFI.Audio.VolumeAmplifier;
+        plistParsed.NVRAM.Add['7C436110-AB2A-4BBB-A880-FE41995C9F82'].SystemAudioVolumeDB = Buffer.from([0x00]);
+        plistParsed.UEFI.AppleInput.PointerPollMin = 10;
+        plistParsed.UEFI.AppleInput.PointerPollMax = 80;
+        plistParsed.UEFI.AppleInput.PointerPollMask = -1;
+        plistParsed.UEFI.Audio.AudioOutMask = -1;
+        plistParsed.UEFI.Audio.DisconnectHda = false;
+        plistParsed.UEFI.Audio.MaximumGain = -15;
+        plistParsed.UEFI.Audio.MinimumAssistGain = -30;
+        plistParsed.UEFI.Audio.MinimumAudibleGain = -55;
+        delete plistParsed.UEFI.Audio.AudioOut;
+        delete plistParsed.UEFI.Audio.MinimumVolume;
+        delete plistParsed.UEFI.Audio.VolumeAmplifier;
         // write plistParsed to ${file}
         fs.writeFileSync(file, plist.build(plistParsed));
     }

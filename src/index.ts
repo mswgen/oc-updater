@@ -587,11 +587,12 @@ electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
         return;
     }
     if (isBeta) {
-        const updateCode = (await axios.get('https://raw.githubusercontent.com/mswgen/oc-updater/main/src/update-beta.min.js')).data;
-        if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
-            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/config.plist`, PID);
-        } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
-            Function(`return function (plist, fs, file, PID) { ${updateCode} }`)()(plist, fs, `${efidir}/OC/Config.plist`, PID);
+        if (updates[versions.OpenCore[1]].configPlistChange) {
+            if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
+                updates[versions.OpenCore[1]].exec(`${efidir}/OC/config.plist`, PID);
+            } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
+                updates[versions.OpenCore[1]].exec(`${efidir}/OC/Config.plist`, PID);
+            }
         }
     }
     evt.returnValue = 'success'
@@ -600,9 +601,11 @@ electron.ipcMain.on('finish', (evt, efidir) => {
     cp.execSync(`rm -rf ${os.homedir()}/.oc-update/${PID}`);
     // read config.plist or Config.plist and assign to plistRaw (type string)
     let plistRaw: string = fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
+    // don't parse plistRaw
     // in plistRaw, replace all <data/> to <data></data>
     // replace all <string/> to <string></string>
-    // do the same for all <array/> and <dict/>\
+    // do the same for all <array/> and <dict/>
+    // don't use regex, instead use while true and break
     while (true) {
         if (plistRaw.includes('<data/>')) {
             plistRaw = plistRaw.replace('<data/>', '<data></data>');

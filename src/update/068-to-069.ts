@@ -10,10 +10,10 @@ export default {
         plistParsed.UEFI.AppleInput.KeyInitialDelay = 50;
         plistParsed.UEFI.AppleInput.KeySubsequentDelay = 5;
         plistParsed.UEFI.AppleInput.PointerSpeedMul = 1;
-        if (plistParsed.UEFI.ProtocolOverrides.AppleEventType) delete plistParsed.UEFI.ProtocolOverrides.AppleEventType;
-        plistParsed.UEFI.Quirks.EnableVectorAcceleration ??= false;
-        plistParsed.UEFI.Quirks.ForgeUefiSupport ??= false;
-        plistParsed.UEFI.Quirks.ReloadOptionRoms ??= false;
+        delete plistParsed.UEFI.ProtocolOverrides.AppleEventType;
+        plistParsed.UEFI.Quirks.EnableVectorAcceleration = false;
+        plistParsed.UEFI.Quirks.ForgeUefiSupport = false;
+        plistParsed.UEFI.Quirks.ReloadOptionRoms = false;
         fs.writeFileSync(file, plist.build(plistParsed));
     }
 }

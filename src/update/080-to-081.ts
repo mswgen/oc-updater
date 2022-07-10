@@ -26,27 +26,27 @@ export default {
         finally, delete Misc - Security - AllowNvramReset and Misc - Security - AllowToggleSip
         */
         if (plistParsed.Misc.Serial.Custom) {
-            plistParsed.Misc.Serial.DetectCable ??= false;
+            plistParsed.Misc.Serial.DetectCable = false;
         }
         if (plistParsed.Misc.Boot.TakeoffDelay == 0) {
             plistParsed.Misc.Boot.TakeoffDelay = 750000;
         }
         fs.copyFileSync(path.join(os.homedir(), '.oc-update', PID.toString(), 'OpenCore', 'X64', 'EFI', 'OC', 'Drivers', 'ResetNvramEntry.efi'), path.join(path.dirname(file), 'Drivers', 'ResetNvramEntry.efi'));
         fs.copyFileSync(path.join(os.homedir(), '.oc-update', PID.toString(), 'OpenCore', 'X64', 'EFI', 'OC', 'Drivers', 'ToggleSipEntry.efi'), path.join(path.dirname(file), 'Drivers', 'ToggleSipEntry.efi'));
-        if (plistParsed.UEFI.Drivers.some((drv: any) => drv.Path == 'ResetNvramEntry.efi')) plistParsed.UEFI.Drivers.push({
+        plistParsed.UEFI.Drivers.push({
             Arguments: '',
             Comment: 'Reset NVRAM',
             Enabled: plistParsed.Misc.Security.AllowNvramReset || false,
             Path: 'ResetNvramEntry.efi'
         });
-        if (plistParsed.UEFI.Drivers.some((drv: any) => drv.Path == 'ToggleSipEntry.efi')) plistParsed.UEFI.Drivers.push({
+        plistParsed.UEFI.Drivers.push({
             Arguments: '',
             Comment: 'Toggle SIP',
             Enabled: plistParsed.Misc.Security.AllowToggleSip || false,
             Path: 'ToggleSipEntry.efi'
         });
-        if (plistParsed.Misc.Security.AllowNvramReset) delete plistParsed.Misc.Security.AllowNvramReset;
-        if (plistParsed.Misc.Security.AllowToggleSip) delete plistParsed.Misc.Security.AllowToggleSip;
+        delete plistParsed.Misc.Security.AllowNvramReset;
+        delete plistParsed.Misc.Security.AllowToggleSip;
         // finally, write it back
         fs.writeFileSync(file, plist.build(plistParsed));
     }

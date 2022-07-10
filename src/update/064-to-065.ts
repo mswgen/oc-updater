@@ -12,9 +12,9 @@ export default {
         add plist - UEFI - Audio - SetupDelay = 0
         remove plist - UEFI - Quirks - DeduplicateBootOrder
         */
-        plistParsed.Misc.Boot.PickerVariant ??= 'Modern';
-        plistParsed.UEFI.Audio.SetupDelay ??= 0;
-        if (plistParsed.UEFI.Quirks.DeduplicateBootOrder) delete plistParsed.UEFI.Quirks.DeduplicateBootOrder;
+        plistParsed.Misc.Boot.PickerVariant = 'Modern';
+        plistParsed.UEFI.Audio.SetupDelay = 0;
+        delete plistParsed.UEFI.Quirks.DeduplicateBootOrder;
         // write plistParsed to ${file}
         fs.writeFileSync(file, plist.build(plistParsed));
     }
