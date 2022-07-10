@@ -8,7 +8,7 @@ export default {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*
-        Changes of OpenCore 0.8.0:
+        // Changes of OpenCore 0.8.0:
         set Kernel - Quirks - CustomPciSerialDevice to false
         set Kernel - Quirks - ForceAquantiaEthernet to false
         create a new dictionary at Misc - Serial

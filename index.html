@@ -12,7 +12,7 @@
     <div id="get-started">
         <img src="./Logo.png" alt="OpenCore Logo" height="30%" width="30%">
         <h1>OpenCore Updater</h1>
-        <h2>Current supported version: 0.8.1(0.8.2 Beta)</h2>
+        <h2>Current supported version: 0.8.1</h2>
         <button id="start">Get started</button>
     </div>
     <div id="select-opencore-version">
@@ -26,7 +26,6 @@
             <li>Versions older than 0.6.3 are not supported.</li>
         </ul>
         <select id="oc-version-selection">
-            <option value="0.8.2">0.8.2(Beta)</option>
             <option value="0.8.1" selected>0.8.1</option>
             <option value="0.8.0">0.8.0</option>
             <option value="0.7.9">0.7.9</option>
@@ -51,13 +50,12 @@
     </div>
     <div id="efiinfo">
         <h1>Your EFI info</h1>
-        <p>Latest version is 0.8.1(Beta 0.8.2).</p>
+        <p>Latest version is 0.8.1.</p>
         <p>Your OpenCore version is <span id="oc-version"></span>.</p>
         <p>You're using the following kexts:</p>
         <div id="using-kexts"></div>
         <p id="is-outdated">Your OpenCore is up to date.</p>
         <button id="update">Update</button>
-        <button id="updatebeta">Update to Beta</button>
     </div>
     <div id="update-in-progress">
         <h1>Updating...</h1>

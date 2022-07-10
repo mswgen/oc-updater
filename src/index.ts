@@ -6,7 +6,6 @@ import os from 'os';
 import cp from 'child_process';
 import plist from 'plist';
 import util from 'util';
-import axios from 'axios';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
@@ -71,9 +70,6 @@ for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.
     updates[mod.from] = mod;
 }
 const cpexec = util.promisify(cp.exec);
-let betaInfo: any;
-let itlwmBeta: Array<string> | any, intelBlueBeta: Array<string> | any;
-let isBeta: boolean = false;
 let backupDir: string = '';
 let window: electron.BrowserWindow;
 function createWindow(): void {
@@ -144,17 +140,8 @@ electron.ipcMain.on('check-opencore-version', (evt, ocfile) => {
 electron.ipcMain.on('kextinfo', (evt, kextdir) => {
     evt.returnValue = fs.readdirSync(kextdir).filter(x => x.endsWith('.kext')).filter(x => !x.startsWith('._'));
 });
-electron.ipcMain.on('toggle-beta', (evt, toggleBeta) => {
-    isBeta = toggleBeta;
-    evt.returnValue = 'success';
-})
-electron.ipcMain.on('download-oc', async evt => {
-    if (isBeta) {
-        betaInfo = (await axios.get('https://raw.githubusercontent.com/dortania/build-repo/builds/config.json')).data;
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore.zip ${betaInfo.OpenCorePkg.versions[0].links.release}; mkdir OpenCore; cd OpenCore; unzip ../OpenCore.zip`);
-    } else {
-        cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore.zip https://github.com/acidanthera/OpenCorePkg/releases/download/${versions.OpenCore[0]}/OpenCore-${versions.OpenCore[0]}-RELEASE.zip; mkdir OpenCore; cd OpenCore; unzip ../OpenCore.zip`);
-    }
+electron.ipcMain.on('download-oc', evt => {
+    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore.zip https://github.com/acidanthera/OpenCorePkg/releases/download/${versions.OpenCore[0]}/OpenCore-${versions.OpenCore[0]}-RELEASE.zip; mkdir OpenCore; cd OpenCore; unzip ../OpenCore.zip`);
     evt.returnValue = 'success';
 });
 electron.ipcMain.on('download-kexts', async (evt, kexts) => {
@@ -164,31 +151,31 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }> = [];
     if (kexts.includes('VirtualSMC.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.VirtualSMC.versions[0].links.release : `https://github.com/acidanthera/VirtualSMC/releases/download/${versions.VirtualSMC}/VirtualSMC-${versions.VirtualSMC}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/VirtualSMC/releases/download/${versions.VirtualSMC}/VirtualSMC-${versions.VirtualSMC}-RELEASE.zip`,
             name: 'VirtualSMC'
         });
     }
     if (kexts.includes('Lilu.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.Lilu.versions[0].links.release : `https://github.com/acidanthera/Lilu/releases/download/${versions.Lilu}/Lilu-${versions.Lilu}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/Lilu/releases/download/${versions.Lilu}/Lilu-${versions.Lilu}-RELEASE.zip`,
             name: 'Lilu'
         });
     }
     if (kexts.includes('WhateverGreen.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.WhateverGreen.versions[0].links.release : `https://github.com/acidanthera/WhateverGreen/releases/download/${versions.WhateverGreen}/WhateverGreen-${versions.WhateverGreen}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/WhateverGreen/releases/download/${versions.WhateverGreen}/WhateverGreen-${versions.WhateverGreen}-RELEASE.zip`,
             name: 'WhateverGreen'
         });
     }
     if (kexts.includes('AppleALC.kext') || kexts.includes('AppleALCU.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.AppleALC.versions[0].links.release : `https://github.com/acidanthera/AppleALC/releases/download/${versions.AppleALC}/AppleALC-${versions.AppleALC}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/AppleALC/releases/download/${versions.AppleALC}/AppleALC-${versions.AppleALC}-RELEASE.zip`,
             name: 'AppleALC'
         });
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.VoodooPS2.versions[0].links.release : `https://github.com/acidanthera/VoodooPS2/releases/download/${versions.VoodooPS2Controller}/VoodooPS2Controller-${versions.VoodooPS2Controller}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/VoodooPS2/releases/download/${versions.VoodooPS2Controller}/VoodooPS2Controller-${versions.VoodooPS2Controller}-RELEASE.zip`,
             name: 'VoodooPS2Controller'
         });
     }
@@ -206,7 +193,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('BrightnessKeys.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.BrightnessKeys.versions[0].links.release : `https://github.com/acidanthera/BrightnessKeys/releases/download/${versions.BrightnessKeys}/BrightnessKeys-${versions.BrightnessKeys}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/BrightnessKeys/releases/download/${versions.BrightnessKeys}/BrightnessKeys-${versions.BrightnessKeys}-RELEASE.zip`,
             name: 'BrightnessKeys'
         });
     }
@@ -236,82 +223,49 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('IntelMausi.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.IntelMausi.versions[0].links.release : `https://github.com/acidanthera/IntelMausi/releases/download/${versions.IntelMausi}/IntelMausi-${versions.IntelMausi}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/IntelMausi/releases/download/${versions.IntelMausi}/IntelMausi-${versions.IntelMausi}-RELEASE.zip`,
             name: 'IntelMausi'
         });
     }
     if (kexts.includes('NVMeFix.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.NVMeFix.versions[0].links.release : `https://github.com/acidanthera/NVMeFix/releases/download/${versions.NVMeFix}/NVMeFix-${versions.NVMeFix}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/NVMeFix/releases/download/${versions.NVMeFix}/NVMeFix-${versions.NVMeFix}-RELEASE.zip`,
             name: 'NVMeFix'
         });
     }
-    if (kexts.includes('itlwm.kext') || kexts.includes('AirportItlwm.kext')) {
-        try {
-            itlwmBeta = (await axios.get('https://api.github.com/repos/OpenIntelWireless/itlwm/releases')).data[0]
-            itlwmBeta = [itlwmBeta.assets.find((asset: any) => asset.name.startsWith('itlwm')).browser_download_url, itlwmBeta.assets.find((asset: any) => asset.name.includes(
-                os.release().startsWith('22.') ? 'Ventura' : (
-                    os.release().startsWith('21.') ? 'Monterey' : (
-                        os.release().startsWith('20.') ? 'Big_Sur' : (
-                            os.release().startsWith('19.') ? 'Catalina' : (
-                                os.release().startsWith('18.') ? 'Mojave' : 'High_Sierra'
-                            )
-                        )
-                    )
-                )
-            )).browser_download_url]
-        } catch (e) {
-            itlwmBeta = ['https://github.com/OpenIntelWireless/itlwm/releases/download/v2.2.0-alpha/itlwm-v2.2.0-DEBUG-alpha-62f8a88.zip', `https://github.com/OpenIntelWireless/itlwm/releases/download/v2.2.0-alpha/AirportItlwm-${
-                os.release().startsWith('22.') ? 'Ventura' : (
-                    os.release().startsWith('21.') ? 'Monterey' : (
-                        os.release().startsWith('20.') ? 'Big_Sur' : (
-                            os.release().startsWith('19.') ? 'Catalina' : (
-                                os.release().startsWith('18.') ? 'Mojave' : 'High_Sierra'
-                            )
-                        )
-                    )
-                )
-            }-v2.2.0-DEBUG-alpha-62f8a88.zip`];
-        }
-    }
     if (kexts.includes('itlwm.kext')) {
         kextsToDownload.push({
-            url: isBeta ? itlwmBeta[0] : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/itlwm_v${versions.itlwm}_stable.kext.zip`,
+            url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/itlwm_v${versions.itlwm}_stable.kext.zip`,
             name: 'itlwm'
         });
     }
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
-            url: isBeta ? itlwmBeta[1] : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('22.') ? 'Monterey' /* will be Ventura */ : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra'))))}.kext.zip`,
+            url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('22.') ? 'Monterey' /* will be Ventura */ : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra'))))}.kext.zip`,
             name: 'AirportItlwm'
         });
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
-        try {
-            intelBlueBeta = (await axios.get('https://api.github.com/repos/OpenIntelWireless/IntelBluetoothFirmware/releases')).data[0].assets[0].browser_download_url;
-        } catch (e) {
-            intelBlueBeta = 'https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v2.1.0/IntelBluetoothFirmware-v2.1.0.zip'
-        }
         kextsToDownload.push({
-            url: isBeta ? intelBlueBeta : `https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v${versions.IntelBluetoothFirmware}/IntelBluetoothFirmware-v${versions.IntelBluetoothFirmware}.zip`,
+            url: `https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v${versions.IntelBluetoothFirmware}/IntelBluetoothFirmware-v${versions.IntelBluetoothFirmware}.zip`,
             name: 'IntelBluetoothFirmware'
         });
     }
     if (kexts.includes('CpuTscSync.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.CpuTscSync.versions[0].links.release : `https://github.com/acidanthera/CpuTscSync/releases/download/${versions.CpuTscSync}/CpuTscSync-${versions.CpuTscSync}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/CpuTscSync/releases/download/${versions.CpuTscSync}/CpuTscSync-${versions.CpuTscSync}-RELEASE.zip`,
             name: 'CpuTscSync'
         });
     }
     if (kexts.includes('CPUFriend.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.CPUFriend.versions[0].links.release : `https://github.com/acidanthera/CPUFriend/releases/download/${versions.CPUFriend}/CPUFriend-${versions.CPUFriend}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/CPUFriend/releases/download/${versions.CPUFriend}/CPUFriend-${versions.CPUFriend}-RELEASE.zip`,
             name: 'CPUFriend'
         });
     }
     if (kexts.includes('AirportBrcmFixup.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.AirportBrcmFixup.versions[0].links.release : `https://github.com/acidanthera/AirportBrcmFixup/releases/download/${versions.AirportBrcmFixup}/AirportBrcmFixup-${versions.AirportBrcmFixup}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/AirportBrcmFixup/releases/download/${versions.AirportBrcmFixup}/AirportBrcmFixup-${versions.AirportBrcmFixup}-RELEASE.zip`,
             name: 'AirportBrcmFixup'
         });
     }
@@ -331,7 +285,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     */
     if (kexts.includes('BlueToolFixup.kext') || kexts.includes('BrcmBluetoothInjector.kext') || kexts.includes('BrcmBluetoothInjectorLegacy.kext') || kexts.includes('BrcmFirmwareData.kext') || kexts.includes('BrcmFirmwareRepo.kext') || kexts.includes('BrcmNonPatchRAM.kext') || kexts.includes('BrcmNonPatchRAM2.kext') || kexts.includes('BrcmPatchRAM.kext') || kexts.includes('BrcmPatchRAM2.kext') || kexts.includes('BrcmPatchRAM3.kext')) {
         kextsToDownload.push({
-            url: isBeta ? betaInfo.BrcmPatchRAM.versions[0].links.release : `https://github.com/acidanthera/BrcmPatchRAM/releases/download/${versions.BrcmPatchRAM}/BrcmPatchRAM-${versions.BrcmPatchRAM}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/BrcmPatchRAM/releases/download/${versions.BrcmPatchRAM}/BrcmPatchRAM-${versions.BrcmPatchRAM}-RELEASE.zip`,
             name: 'BrcmPatchRAM'
         });
     }
@@ -482,7 +436,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/${os.release().startsWith('22.') ? (isBeta ? 'Ventura' : 'Monterey' /* will be Ventura */) : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'Big Sur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'High Sierra'))))}/AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/${os.release().startsWith('22.') ? 'Monterey' /* will be Ventura */ : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'Big Sur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'High Sierra'))))}/AirportItlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
@@ -565,7 +519,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     }
     evt.returnValue = 'success'
 });
-electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
+electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
     while (true) {
         if (ocver == versions.OpenCore[1]) break;
         console.log(updates[ocver.toString()]);
@@ -585,15 +539,6 @@ electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
         fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plist.build(plistParsed));
         evt.returnValue = 'vault-disabled';
         return;
-    }
-    if (isBeta) {
-        if (updates[versions.OpenCore[1]].configPlistChange) {
-            if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
-                updates[versions.OpenCore[1]].exec(`${efidir}/OC/config.plist`, PID);
-            } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
-                updates[versions.OpenCore[1]].exec(`${efidir}/OC/Config.plist`, PID);
-            }
-        }
     }
     evt.returnValue = 'success'
 });
