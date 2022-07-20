@@ -68,7 +68,7 @@ const versions = {
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
     const mod = require(`./update/${file}`).default;
-    if (!mod.from || (mod.configPlistChange != true && mod.configPlistChange != false) || !mod.exec) continue;
+    if (!mod.from || (mod.configPlistChange != true && mod.configPlistChange != false)) continue;
     updates[mod.from] = mod;
 }
 const cpexec = util.promisify(cp.exec);
