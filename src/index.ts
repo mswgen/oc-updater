@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '3dc7df26265e80b3bd93033e485abf11fc29026c23c8623f8748403ccc07c7f9': '0.8.2',
+    '93871f5d2dab7feb315d1a25e98cfe8fe4a1e94cd9f69a7db430abb8f66ec90f': '0.8.2',
     '27f4252f1fa8de69d9d3198032d8b16252cccd514ffd73d4de59dbb05543586d': '0.8.1',
     '8599d2300b54a537f1f06024800ecd094a233e8b7422cd7c8463beb521e628d4': '0.8.1',
     'fd918e96a271e3bd7cebed9f5fcdbf8437fa91640d8e58f9ab950f03bec360fe': '0.8.0',
@@ -40,28 +42,28 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.1', 81],
-    VirtualSMC: '1.2.9',
-    Lilu: '1.6.0',
-    WhateverGreen: '1.5.9',
-    AppleALC: '1.7.2',
-    VoodooPS2Controller: '2.2.8',
+    OpenCore: ['0.8.2', 82],
+    VirtualSMC: '1.3.0',
+    Lilu: '1.6.1',
+    WhateverGreen: '1.5.0',
+    AppleALC: '1.7.3',
+    VoodooPS2Controller: '2.2.9',
     VoodooI2C: '2.7',
-    ECEnabler: '1.0.2',
+    ECEnabler: '1.0.3',
     BrightnessKeys: '1.0.2',
     RealtekRTL8111: '2.4.2',
     AtherosE2200Ethernet: '2.2.2',
     USBInjectAll: '2018-1108',
     IntelMausi: '1.0.7',
-    NVMeFix: '1.0.9',
+    NVMeFix: '1.1.0',
     itlwm: '2.1.0',
     IntelBluetoothFirmware: '2.1.0',
-    CpuTscSync: '1.0.8',
-    CPUFriend: '1.2.5',
-    AirportBrcmFixup: '2.1.5',
-    BrcmPatchRAM: '2.6.2',
+    CpuTscSync: '1.0.9',
+    CPUFriend: '1.2.6',
+    AirportBrcmFixup: '2.1.6',
+    BrcmPatchRAM: '2.6.3',
     RealtekCardReader: ['0.9.6', '0.9.6_b998818'],
-    RealtekCardReaderFriend: ['1.0.2', '1.0.2_7f6639a']
+    RealtekCardReaderFriend: ['1.0.3', '1.0.3_71e4bac']
 }
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
