@@ -45,7 +45,7 @@ const versions = {
     OpenCore: ['0.8.2', 82],
     VirtualSMC: '1.3.0',
     Lilu: '1.6.1',
-    WhateverGreen: '1.5.0',
+    WhateverGreen: '1.6.0',
     AppleALC: '1.7.3',
     VoodooPS2Controller: '2.2.9',
     VoodooI2C: '2.7',
