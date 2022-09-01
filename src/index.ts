@@ -9,6 +9,7 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '443ff1623cc618514cfc571b1f89ddd43526dbe349d5629ca529f2c42857b2e6': '0.8.3',
     '3dc7df26265e80b3bd93033e485abf11fc29026c23c8623f8748403ccc07c7f9': '0.8.2',
     '93871f5d2dab7feb315d1a25e98cfe8fe4a1e94cd9f69a7db430abb8f66ec90f': '0.8.2',
     '27f4252f1fa8de69d9d3198032d8b16252cccd514ffd73d4de59dbb05543586d': '0.8.1',
@@ -42,11 +43,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.2', 82],
+    OpenCore: ['0.8.3', 83],
     VirtualSMC: '1.3.0',
-    Lilu: '1.6.1',
-    WhateverGreen: '1.6.0',
-    AppleALC: '1.7.3',
+    Lilu: '1.6.2',
+    WhateverGreen: '1.6.1',
+    AppleALC: '1.7.4',
     VoodooPS2Controller: '2.2.9',
     VoodooI2C: '2.7',
     ECEnabler: '1.0.3',
