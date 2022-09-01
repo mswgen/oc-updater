@@ -1,10 +1,13 @@
-// import plist and fs
+// import plist, cp, os. path, and fs
 import fs from 'fs';
 import plist from 'plist';
+import cp from 'child_process';
+import os from 'os';
+import path from 'path';
 export default {
     from: 83,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: (file: string, PID: number) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*
@@ -42,7 +45,22 @@ export default {
         plistParsed.Misc.Security.ExposeSensitiveData = 15;
         plistParsed.UEFI.Audio.SetupDelay /= 1000;
         delete plistParsed.NVRAM.LegacyEnable;
-        // finally, write it back
+        /*
+            Intel Bluetooth: Add IntelBTPatcher.kext
+        */
+        if (plistParsed.Kernel.Add.some((x: any) => x.BundlePath == 'IntelBluetoothFirmware.kext')) {
+            cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext" "${path.dirname(file)}/OC/Kexts"`);
+            plistParsed.Kernel.Add.push({
+                Arch: 'any',
+                BundlePath: 'IntelBTPatcher.kext',
+                Comment: '',
+                Enabled: true,
+                ExecutablePath: 'Contents/MacOS/IntelBTPatcher',
+                MaxKernel: '',
+                MinKernel: '',
+                PlistPath: 'Contents/Info.plist'
+            });
+        }
         fs.writeFileSync(file, plist.build(plistParsed));
     }
 }

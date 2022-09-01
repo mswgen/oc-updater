@@ -58,7 +58,7 @@ const versions = {
     IntelMausi: '1.0.7',
     NVMeFix: '1.1.0',
     itlwm: '2.1.0',
-    IntelBluetoothFirmware: '2.1.0',
+    IntelBluetoothFirmware: '2.2.0',
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
     AirportBrcmFixup: '2.1.6',
@@ -446,6 +446,9 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     }
     if (kexts.includes('IntelBluetoothInjector.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothInjector.kext" "${dir}/OC/Kexts"`);
+    }
+    if (kexts.includes('IntelBTPatcher.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext" "${dir}/OC/Kexts"`);
     }
     // CpuTscSync.kext -> replace with CpuTscSync/CpuTscSync.kext
     if (kexts.includes('CpuTscSync.kext')) {
