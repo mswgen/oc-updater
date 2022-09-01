@@ -5,7 +5,7 @@ import cp from 'child_process';
 import os from 'os';
 import path from 'path';
 export default {
-    from: 83,
+    from: 82,
     configPlistChange: true,
     exec: (file: string, PID: number) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
