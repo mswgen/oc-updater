@@ -250,7 +250,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v${versions.IntelBluetoothFirmware}/IntelBluetoothFirmware-v${versions.IntelBluetoothFirmware}.zip`,
+            url: `https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases/download/v${versions.IntelBluetoothFirmware}/IntelBluetooth-v${versions.IntelBluetoothFirmware}.zip`,
             name: 'IntelBluetoothFirmware'
         });
     }
@@ -306,7 +306,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('AppleMCEReporterDisabler.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/acidanthera/bugtracker/files/3703498/AppleMCEReporterDisabler.zip`,
+            url: `https://github.com/acidanthera/bugtracker/files/3703498/AppleMCEReporterDisabler.kext.zip`,
             name: 'AppleMCEReporterDisabler'
         });
     }
