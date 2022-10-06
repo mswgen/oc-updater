@@ -43,12 +43,12 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.3', 83],
+    OpenCore: ['0.8.5', 85],
     VirtualSMC: '1.3.0',
     Lilu: '1.6.2',
     WhateverGreen: '1.6.1',
-    AppleALC: '1.7.4',
-    VoodooPS2Controller: '2.2.9',
+    AppleALC: '1.7.5',
+    VoodooPS2Controller: '2.3.1',
     VoodooI2C: '2.7',
     ECEnabler: '1.0.3',
     BrightnessKeys: '1.0.2',
@@ -62,7 +62,7 @@ const versions = {
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
     AirportBrcmFixup: '2.1.6',
-    BrcmPatchRAM: '2.6.3',
+    BrcmPatchRAM: '2.6.4',
     RealtekCardReader: ['0.9.6', '0.9.6_b998818'],
     RealtekCardReaderFriend: ['1.0.3', '1.0.3_71e4bac']
 }
