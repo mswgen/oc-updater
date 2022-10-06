@@ -181,7 +181,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/acidanthera/VoodooPS2/releases/download/${versions.VoodooPS2Controller}/VoodooPS2Controller-${versions.VoodooPS2Controller}-RELEASE.zip`,
+            url: `https://github.com/acidanthera/VoodooPS2/releases/download/v${versions.VoodooPS2Controller}/VoodooPS2Controller-${versions.VoodooPS2Controller}-RELEASE.zip`,
             name: 'VoodooPS2Controller'
         });
     }

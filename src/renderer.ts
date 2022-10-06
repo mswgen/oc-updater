@@ -86,6 +86,7 @@ Do you want to contnue?`)) ipc.send('quit');
                 'AirportItlwm.kext',
                 'IntelBluetoothFirmware.kext',
                 'IntelBluetoothInjector.kext',
+                'IntelBTPatcher.kext',
                 'NVMeFix.kext',
                 'CpuTscSync.kext',
                 'CPUFriend.kext',
