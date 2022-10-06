@@ -9,6 +9,9 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '2b4fcc93e039f6ca289ec4cff5db5d94d50dab3eff2c70a05e44b738d5aa7fc6': '0.8.5',
+    'a175242302a50511de74c080057c018a23f9e88467bf1c1b4d445f82c486c95b': '0.8.4',
+    '168b2694c8edc9a80c818700c7ed2fa12daad38ed6d53be8c9cfb79c89ac67af': '0.8.4',
     '443ff1623cc618514cfc571b1f89ddd43526dbe349d5629ca529f2c42857b2e6': '0.8.3',
     '3dc7df26265e80b3bd93033e485abf11fc29026c23c8623f8748403ccc07c7f9': '0.8.2',
     '93871f5d2dab7feb315d1a25e98cfe8fe4a1e94cd9f69a7db430abb8f66ec90f': '0.8.2',
