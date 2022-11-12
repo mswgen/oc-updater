@@ -9,6 +9,7 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '562b0fb7905feac796863979e8e62de7065b89c60348e8226a3b86f338fbe90c': '0.8.6',
     '2b4fcc93e039f6ca289ec4cff5db5d94d50dab3eff2c70a05e44b738d5aa7fc6': '0.8.5',
     'a175242302a50511de74c080057c018a23f9e88467bf1c1b4d445f82c486c95b': '0.8.4',
     '168b2694c8edc9a80c818700c7ed2fa12daad38ed6d53be8c9cfb79c89ac67af': '0.8.4',
@@ -46,11 +47,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.5', 85],
+    OpenCore: ['0.8.6', 86],
     VirtualSMC: '1.3.0',
     Lilu: '1.6.2',
     WhateverGreen: '1.6.1',
-    AppleALC: '1.7.5',
+    AppleALC: '1.7.6',
     VoodooPS2Controller: '2.3.1',
     VoodooI2C: '2.7',
     ECEnabler: '1.0.3',
@@ -66,8 +67,8 @@ const versions = {
     CPUFriend: '1.2.6',
     AirportBrcmFixup: '2.1.6',
     BrcmPatchRAM: '2.6.4',
-    RealtekCardReader: ['0.9.6', '0.9.6_b998818'],
-    RealtekCardReaderFriend: ['1.0.3', '1.0.3_71e4bac']
+    RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
+    RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
 }
 const updates: any = {};
 for (let file of fs.readdirSync(`${__dirname}/update`).filter(x => x.endsWith('.js'))) {
