@@ -130,7 +130,7 @@ electron.ipcMain.on('check-efi-validity', (evt, efidir) => {
         return;
     }
     const secondDepth = fs.readdirSync(`${efidir}/OC`);
-    if (!secondDepth.includes('ACPI') || !secondDepth.includes('Drivers') || !secondDepth.includes('Kexts') || !secondDepth.includes('OpenCore.efi') || !(secondDepth.includes('config.plist') || secondDepth.includes('Config.plist')) || !secondDepth.includes('Resources') || !secondDepth.includes('Tools')) {
+    if (!secondDepth.includes('ACPI') || !secondDepth.includes('Drivers') || !secondDepth.includes('Kexts') || !secondDepth.includes('OpenCore.efi') || !(secondDepth.includes('config.plist') || secondDepth.includes('Config.plist'))) {
         evt.returnValue = false;
         return;
     }
