@@ -71,6 +71,7 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * NVMeFix
 * CpuTscSync
 * CPUFriend
+* HibernationFixup
 * AirportBrcmFixup
 * BrcmPatchRAM kexts
   * BlueToolFixup

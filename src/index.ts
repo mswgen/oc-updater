@@ -65,6 +65,7 @@ const versions = {
     IntelBluetoothFirmware: '2.2.0',
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
+    HibernationFixup: '1.4.6',
     AirportBrcmFixup: '2.1.6',
     BrcmPatchRAM: '2.6.4',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
@@ -277,6 +278,12 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
             name: 'CPUFriend'
         });
     }
+    if (kexts.includes('HibernationFixup.kext')) {
+        kextsToDownload.push({
+            url: `https://github.com/acidanthera/HibernationFixup/releases/download/${versions.HibernationFixup}/HibernationFixup-${versions.HibernationFixup}-RELEASE.zip`,
+            name: 'HibernationFixup'
+        });
+    }
     if (kexts.includes('AirportBrcmFixup.kext')) {
         kextsToDownload.push({
             url: `https://github.com/acidanthera/AirportBrcmFixup/releases/download/${versions.AirportBrcmFixup}/AirportBrcmFixup-${versions.AirportBrcmFixup}-RELEASE.zip`,
@@ -468,6 +475,10 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     // CPUFriend.kext -> replace with CPUFriend/CPUFriend.kext
     if (kexts.includes('CPUFriend.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CPUFriend/CPUFriend.kext" "${dir}/OC/Kexts"`);
+    }
+    // HibernationFixup.kext -> replace with HibernationFixup/HibernationFixup.kext
+    if (kexts.includes('HibernationFixup.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/HibernationFixup/HibernationFixup.kext" "${dir}/OC/Kexts"`);
     }
     // AirportBrcmFixup.kext -> replace with AirportBrcmFixup/AirportBrcmFixup.kext
     if (kexts.includes('AirportBrcmFixup.kext')) {

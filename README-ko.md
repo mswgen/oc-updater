@@ -71,6 +71,7 @@ OpenCore Updater는 모든 kext를 업데이트하지 않고, 앱 내부 리스�
 * NVMeFix
 * CpuTscSync
 * CPUFriend
+* HibernationFixup
 * AirportBrcmFixup
 * BrcmPatchRAM kexts
   * BlueToolFixup

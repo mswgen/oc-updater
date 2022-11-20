@@ -90,6 +90,7 @@ Do you want to contnue?`)) ipc.send('quit');
                 'NVMeFix.kext',
                 'CpuTscSync.kext',
                 'CPUFriend.kext',
+                'HibernationFixup.kext',
                 'AirportBrcmFixup.kext',
                 'BlueToolFixup.kext',
                 'BrcmBluetoothInjector.kext',
