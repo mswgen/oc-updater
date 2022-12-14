@@ -68,6 +68,7 @@ OpenCore Updater doesn't update all kexts, but it will update the ones that are 
 * AirportItlwm
 * IntelBluetoothFirmware
 * IntelBluetoothInjector
+* IntelBTPatcher
 * NVMeFix
 * CpuTscSync
 * CPUFriend

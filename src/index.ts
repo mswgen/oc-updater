@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '80fb8017dffa74dea70fc0ee0baf10b57d47ad51f2fa7a0915c9760e48effc9c': '0.8.7',
+    '48e87cd14d440ae122986c23b7442156d95c336e796bcd743ec5a904036c4fb8': '0.8.7',
     '562b0fb7905feac796863979e8e62de7065b89c60348e8226a3b86f338fbe90c': '0.8.6',
     '2b4fcc93e039f6ca289ec4cff5db5d94d50dab3eff2c70a05e44b738d5aa7fc6': '0.8.5',
     'a175242302a50511de74c080057c018a23f9e88467bf1c1b4d445f82c486c95b': '0.8.4',
@@ -47,12 +49,12 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.6', 86],
+    OpenCore: ['0.8.7', 87],
     VirtualSMC: '1.3.0',
     Lilu: '1.6.2',
-    WhateverGreen: '1.6.1',
-    AppleALC: '1.7.6',
-    VoodooPS2Controller: '2.3.1',
+    WhateverGreen: '1.6.2',
+    AppleALC: '1.7.7',
+    VoodooPS2Controller: '2.3.2',
     VoodooI2C: '2.7',
     ECEnabler: '1.0.3',
     BrightnessKeys: '1.0.2',
@@ -65,7 +67,7 @@ const versions = {
     IntelBluetoothFirmware: '2.2.0',
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
-    HibernationFixup: '1.4.6',
+    HibernationFixup: '1.4.7',
     AirportBrcmFixup: '2.1.6',
     BrcmPatchRAM: '2.6.4',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
@@ -250,7 +252,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     if (kexts.includes('AirportItlwm.kext')) {
         if (os.release().startsWith('22.')) {
             kextsToDownload.push({
-                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/main/etc/AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-ee56708.zip',
+                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/main/etc/AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-acc7ff9.zip',
                 name: 'AirportItlwm'
             })
         } else {
@@ -349,10 +351,9 @@ electron.ipcMain.on('download-bindata', evt => {
     cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OcBinaryData-master.zip https://github.com/acidanthera/OcBinaryData/archive/refs/heads/master.zip; mkdir OcBinaryData-master; cd OcBinaryData-master; unzip ../OcBinaryData-master.zip`);
     evt.returnValue = 'success';
 });
-electron.ipcMain.on('create-backup', (evt, dir) => {
-    const dat = new Date();
-    const dateStr = `${dat.getFullYear()}-${dat.getMonth() + 1}-${dat.getDate()}-${dat.getHours()}-${dat.getMinutes()}-${dat.getSeconds()}`;
-    backupDir = `${os.homedir()}/EFI-${dateStr}`;
+electron.ipcMain.on('create-backup', (evt, dir, oldver) => {
+    if (!fs.existsSync(`${os.homedir()}/EFI Backup`) || !fs.lstatSync(`${os.homedir()}/EFI Backup`).isDirectory()) fs.mkdirSync(`${os.homedir()}/EFI Backup`);
+    backupDir = `${os.homedir()}/EFI Backup/OC ${oldver}`;
     cp.execSync(`mkdir -p "${backupDir}"; cp -r "${dir}" "${backupDir}"`);
     evt.returnValue = 'success';
 });

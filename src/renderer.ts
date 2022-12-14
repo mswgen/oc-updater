@@ -11,7 +11,7 @@ function afterOcverSelection(ocver: string, efidir: string) {
     const ocverNum = Number(ocver.split('.').join(''));
     document.querySelector('#oc-version')!.innerHTML = ocver;
     document.querySelector('#using-kexts')!.innerHTML = kexts.join('<br>');
-    if (ocverNum < 86) {
+    if (ocverNum < 87) {
         document.querySelector('#is-outdated')!.innerHTML = isKorean ? '구버전 OpenCore를 사용하고 있어요.' : 'Your OpenCore is outdated.';
         document.querySelector<HTMLElement>('#update')!.style.display = 'block';
         document.querySelector('#update')?.addEventListener('click', async () => {
@@ -50,7 +50,7 @@ Do you want to contnue?`)) ipc.send('quit');
             ipc.sendSync('download-bindata');
             document.querySelector('#progress')!.innerHTML = isKorean ? '4/7. 백업 생성 중...' : '4/7. Creating backup...'
             await sleep(1000);
-            ipc.sendSync('create-backup', efidir);
+            ipc.sendSync('create-backup', efidir, ocver);
             document.querySelector('#progress')!.innerHTML = isKorean ? '5/7. 파일 변경 중...' : '5/7. Swapping files...'
             await sleep(1000);
             ipc.sendSync('swap-files', efidir, kexts);
