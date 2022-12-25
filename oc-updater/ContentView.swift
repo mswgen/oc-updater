@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var stage = 0;
     var body: some View {
-        VStack {
-            Text("OpenCore Updater")
-                .font(.title)
+        switch stage {
+        case 0:
+            Home()
+        case 1:
+            EFISelector()
+        default:
+            Home()
         }
-        .padding()
     }
 }
 

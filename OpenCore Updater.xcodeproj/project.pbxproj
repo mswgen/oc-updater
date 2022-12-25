@@ -14,6 +14,10 @@
 		4F55FAA82951FECF00F336C4 /* oc_updaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F55FAA72951FECF00F336C4 /* oc_updaterTests.swift */; };
 		4F55FAB22951FECF00F336C4 /* oc_updaterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F55FAB12951FECF00F336C4 /* oc_updaterUITests.swift */; };
 		4F55FAB42951FECF00F336C4 /* oc_updaterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F55FAB32951FECF00F336C4 /* oc_updaterUITestsLaunchTests.swift */; };
+		4F55FAC12952070400F336C4 /* EFISelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F55FAC02952070400F336C4 /* EFISelector.swift */; };
+		4F55FAC32952072400F336C4 /* GetESPs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F55FAC22952072400F336C4 /* GetESPs.swift */; };
+		4FBB2092295713C800C6469E /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB2091295713C800C6469E /* Home.swift */; };
+		4FDB503A2955FDE900F6747C /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDB50392955FDE900F6747C /* DiskView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,10 @@
 		4F55FAAD2951FECF00F336C4 /* OpenCore UpdaterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OpenCore UpdaterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F55FAB12951FECF00F336C4 /* oc_updaterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oc_updaterUITests.swift; sourceTree = "<group>"; };
 		4F55FAB32951FECF00F336C4 /* oc_updaterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oc_updaterUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4F55FAC02952070400F336C4 /* EFISelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EFISelector.swift; sourceTree = "<group>"; };
+		4F55FAC22952072400F336C4 /* GetESPs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetESPs.swift; sourceTree = "<group>"; };
+		4FBB2091295713C800C6469E /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		4FDB50392955FDE900F6747C /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +105,13 @@
 			children = (
 				4F55FA952951FECD00F336C4 /* oc_updaterApp.swift */,
 				4F55FA972951FECD00F336C4 /* ContentView.swift */,
+				4FBB2091295713C800C6469E /* Home.swift */,
+				4F55FAC02952070400F336C4 /* EFISelector.swift */,
 				4F55FA992951FECF00F336C4 /* Assets.xcassets */,
 				4F55FA9E2951FECF00F336C4 /* oc_updater.entitlements */,
 				4F55FA9B2951FECF00F336C4 /* Preview Content */,
+				4F55FAC22952072400F336C4 /* GetESPs.swift */,
+				4FDB50392955FDE900F6747C /* DiskView.swift */,
 			);
 			path = "oc-updater";
 			sourceTree = "<group>";
@@ -259,8 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FDB503A2955FDE900F6747C /* DiskView.swift in Sources */,
 				4F55FA982951FECD00F336C4 /* ContentView.swift in Sources */,
 				4F55FA962951FECD00F336C4 /* oc_updaterApp.swift in Sources */,
+				4F55FAC12952070400F336C4 /* EFISelector.swift in Sources */,
+				4FBB2092295713C800C6469E /* Home.swift in Sources */,
+				4F55FAC32952072400F336C4 /* GetESPs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

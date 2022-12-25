@@ -12,6 +12,7 @@ struct oc_updaterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(width: 1280, height: 720, alignment: .center)
         }
     }
 }

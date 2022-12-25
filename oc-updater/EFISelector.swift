@@ -9,7 +9,17 @@ import SwiftUI
 
 struct EFISelector: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Select EFI")
+            .font(.title)
+        Text("Choose a disk or folder")
+            .font(.subheadline)
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach (getListOfESP(), id: \.self) {disk in
+                    DiskView(diskInfo: disk)
+                }
+            }
+        }
     }
 }
 
