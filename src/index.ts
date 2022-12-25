@@ -252,7 +252,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     if (kexts.includes('AirportItlwm.kext')) {
         if (os.release().startsWith('22.')) {
             kextsToDownload.push({
-                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/main/etc/AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-acc7ff9.zip',
+                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc/AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-acc7ff9.zip',
                 name: 'AirportItlwm'
             })
         } else {
