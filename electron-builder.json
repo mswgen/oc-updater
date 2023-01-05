@@ -1,6 +1,6 @@
 {
     "appId": "com.mswgen.opencore-updater",
-    "copyright": "Copyright (c) 2021~2022 mswgen",
+    "copyright": "Copyright (c) 2021~2023 mswgen",
     "directories": {
         "output": "out"
     },
@@ -21,7 +21,8 @@
         "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
         "!**/{appveyor.yml,.travis.yml,circle.yml}",
         "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-        "!out"
+        "!out",
+        "!etc"
     ],
     "mac": {
         "category": "public.app-category-utilities",

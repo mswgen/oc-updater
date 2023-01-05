@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '70329873e36573ebfe81ba53fc6800bd513cad3644371f1600819ded772b171a': '0.8.8',
+    '674d63caa32fb7e959e3840992e28c6ebc41bb2f96a6940ae241904e0d16bff7': '0.8.8',
     '80fb8017dffa74dea70fc0ee0baf10b57d47ad51f2fa7a0915c9760e48effc9c': '0.8.7',
     '48e87cd14d440ae122986c23b7442156d95c336e796bcd743ec5a904036c4fb8': '0.8.7',
     '562b0fb7905feac796863979e8e62de7065b89c60348e8226a3b86f338fbe90c': '0.8.6',
@@ -49,13 +51,13 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.7', 87],
+    OpenCore: ['0.8.8', 88],
     VirtualSMC: '1.3.0',
-    Lilu: '1.6.2',
-    WhateverGreen: '1.6.2',
-    AppleALC: '1.7.7',
-    VoodooPS2Controller: '2.3.2',
-    VoodooI2C: '2.7',
+    Lilu: '1.6.3',
+    WhateverGreen: '1.6.3',
+    AppleALC: '1.7.8',
+    VoodooPS2Controller: '2.3.3',
+    VoodooI2C: '2.7.1',
     ECEnabler: '1.0.3',
     BrightnessKeys: '1.0.2',
     RealtekRTL8111: '2.4.2',
@@ -252,7 +254,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     if (kexts.includes('AirportItlwm.kext')) {
         if (os.release().startsWith('22.')) {
             kextsToDownload.push({
-                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc/AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-acc7ff9.zip',
+                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc//AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-e0f745e.zip',
                 name: 'AirportItlwm'
             })
         } else {
