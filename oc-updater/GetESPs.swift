@@ -12,27 +12,28 @@ import DiskArbitration
 
 enum DiskType: String {
     case PCIe = "NVMe SSD";
-    case SATA = "SATA SSD or HDD";
-    case USB = "USB stick or External SSD/HDD"
+    case SATA = "SATA Disk";
+    case USB = "External Disk"
     case other = "Unknown"
 }
 
-struct DiskInfo: Hashable {
+struct PartInfo: Hashable {
     var BSDName: String;
     var model: String;
     var devType: DiskType;
     var sizeGB: Int;
     var ESPBSDName: String;
+    var dskBSDName: String;
     var iconBundle: String;
     var iconPath: String;
 }
 
-func getListOfESP() -> [DiskInfo] {
+func getListOfESP() -> [PartInfo] {
     var kernRetn: kern_return_t;
     var servicesIter: io_iterator_t = 0;
     var service: io_object_t;
     let daSession = DASessionCreate(kCFAllocatorDefault)
-    var retnVal: [DiskInfo] = [];
+    var retnVal: [PartInfo] = [];
     if #available(macOS 12.0, *) {
         kernRetn = IOServiceGetMatchingServices(kIOMainPortDefault, IOServiceMatching(kIOBlockStorageDriverClass), &servicesIter)
     } else {
@@ -41,7 +42,6 @@ func getListOfESP() -> [DiskInfo] {
     if kernRetn != KERN_SUCCESS {
         
     } else {
-        var pDict: Unmanaged<CFMutableDictionary>?
         while true {
             service = IOIteratorNext(servicesIter);
             var deviceIter: io_iterator_t = 0;
@@ -65,11 +65,26 @@ func getListOfESP() -> [DiskInfo] {
                     } else {
                         let dict = propertyDictionary!.takeRetainedValue() as! Dictionary<String, Any>
                         if dict["Content"] as? String == "GUID_partition_scheme" {
-                            let disk = DADiskCreateFromBSDName(kCFAllocatorDefault, daSession!, dict["BSD Name"] as! String)!
-                            let rawInfo = DADiskCopyDescription(disk) as! [String: Any]
-                            if ["PCI-Express", "SATA", "USB"].contains(rawInfo["DADeviceProtocol"] as! String) {
-                                let diskInfo = DiskInfo(BSDName: rawInfo["DAMediaBSDName"] as! String, model: (rawInfo["DADeviceModel"] as! String).trimmingCharacters(in: CharacterSet(charactersIn: " ")), devType: rawInfo["DADeviceProtocol"] as! String == "PCI-Express" ? .PCIe : (rawInfo["DADeviceProtocol"] as! String == "SATA" ? .SATA : .other), sizeGB: (rawInfo["DAMediaSize"] as! Int) / 1000000000, ESPBSDName: "\(rawInfo["DAMediaBSDName"] as! String)s1", iconBundle: (rawInfo["DAMediaIcon"] as! [String: String])["CFBundleIdentifier"]!, iconPath: (rawInfo["DAMediaIcon"] as! [String: String])["IOBundleResourceFile"]!)
-                                retnVal.append(diskInfo)
+                            
+                        } else if dict["Content"] as? String == "C12A7328-F81F-11D2-BA4B-00A0C93EC93B" {
+                            let part = DADiskCreateFromBSDName(kCFAllocatorDefault, daSession!, dict["BSD Name"] as! String)!
+                            let partRawInfo = DADiskCopyDescription(part) as! [String: Any]
+                            print(partRawInfo)
+                            let disk = DADiskCreateFromBSDName(kCFAllocatorDefault, daSession!, (dict["BSD Name"] as! String).split(separator: "s", maxSplits: 2).prefix(2).joined(separator: "s"))!
+                            let dskRawInfo = DADiskCopyDescription(disk) as! [String: Any]
+                            print(dskRawInfo)
+                            print("------")
+                            if ["PCI-Express", "SATA", "USB"].contains(dskRawInfo["DADeviceProtocol"] as? String) {
+                                let partInfo = PartInfo(
+                                    BSDName: dskRawInfo["DAMediaBSDName"] as! String,
+                                    model: (dskRawInfo["DADeviceModel"] as! String).trimmingCharacters(in: CharacterSet(charactersIn: " ")),
+                                    devType: dskRawInfo["DADeviceProtocol"] as! String == "PCI-Express" ? .PCIe : (dskRawInfo["DADeviceProtocol"] as! String == "SATA" ? .SATA : .other),
+                                    sizeGB: (dskRawInfo["DAMediaSize"] as! Int) / 1000000000,
+                                    ESPBSDName: dskRawInfo["DAMediaBSDName"] as! String,
+                                    dskBSDName: (dskRawInfo["DAMediaBSDName"] as! String).split(separator: "s", maxSplits: 2).prefix(2).joined(separator: "s"),
+                                    iconBundle: (dskRawInfo["DAMediaIcon"] as! [String: String])["CFBundleIdentifier"]!,
+                                    iconPath: (dskRawInfo["DAMediaIcon"] as! [String: String])["IOBundleResourceFile"]!)
+                                retnVal.append(partInfo)
                             }
                         }
                     }

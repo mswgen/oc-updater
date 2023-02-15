@@ -14,5 +14,6 @@ struct oc_updaterApp: App {
             ContentView()
                 .frame(width: 1280, height: 720, alignment: .center)
         }
+        .windowToolbarStyle(.unified)
     }
 }

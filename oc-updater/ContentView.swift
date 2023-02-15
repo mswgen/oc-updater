@@ -9,14 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var stage = 0;
+    @State private var EFIDirs: [String] = [];
     var body: some View {
         switch stage {
         case 0:
-            Home()
+            Home(stage: $stage, EFIDirs: $EFIDirs)
         case 1:
-            EFISelector()
+            EFISelector(stage: $stage)
         default:
-            Home()
+            Home(stage: $stage, EFIDirs: $EFIDirs)
         }
     }
 }
