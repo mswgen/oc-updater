@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'd7092e886803f8775557378b7d80b75b6813ccf2f8eb507160ff14dc258455be': '0.9.0',
+    '57d2d66a01f9fd225d7f92616b0bff4b2d1fd5036400acb76a2e8704f694789d': '0.9.0',
     '5bc6f10ff45a1ee8558dec953e3ee8990ca2ab0dcc6e4750f130b42211f5333a': '0.8.9',
     '9a8b23aabff27a1850555d561961ed69c23496346a2b4d609b7cc68269ed9de2': '0.8.9',
     '70329873e36573ebfe81ba53fc6800bd513cad3644371f1600819ded772b171a': '0.8.8',
@@ -53,13 +55,13 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.8.9', 89],
-    VirtualSMC: '1.3.0',
-    Lilu: '1.6.3',
+    OpenCore: ['0.9.0', 90],
+    VirtualSMC: '1.3.1',
+    Lilu: '1.6.4',
     WhateverGreen: '1.6.4',
-    AppleALC: '1.7.9',
-    VoodooPS2Controller: '2.3.3',
-    VoodooI2C: '2.7.1',
+    AppleALC: '1.8.0',
+    VoodooPS2Controller: '2.3.4',
+    VoodooI2C: '2.8',
     ECEnabler: '1.0.3',
     BrightnessKeys: '1.0.2',
     RealtekRTL8111: '2.4.2',
