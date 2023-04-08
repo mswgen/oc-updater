@@ -21,6 +21,11 @@ Right click OpenCore Updater and select "Open". Another dialog will appear sayin
 When the app opens, press `Get Started`. A dialog will appear asking you to select the EFI directory.
 
 Select your EFI directory. It's usually /Volumes/EFI/EFI. It should have BOOT and OC directories inside.
+ 
+If EFI directory has not mounted, type below command in Terminal which is pre-installed app with MacOS to mount to /Volumes/EFI/EFI.
+``` shell
+sudo mkdir -p /Volumes/EFI/EFI; sudo mount -t msdos /dev/`diskutil list | grep -in 'EFI' | head -1 | awk '{ print $7 }'` /Volumes/EFI/EFI
+```
 
 If your OpenCore version is detected, your OpenCore version and list of kexts you are using will be displayed.
 
