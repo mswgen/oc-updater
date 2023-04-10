@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '6129ad67049b1d4328e31dc3ab7e545dac9c404a7b2f53fdee462170fed36ea8': '0.9.1',
+    '8f8cafcd8ba2773d46686d407049b57327cd8199a4d34801c7332a4daac1f597': '0.9.1',
     'd7092e886803f8775557378b7d80b75b6813ccf2f8eb507160ff14dc258455be': '0.9.0',
     '57d2d66a01f9fd225d7f92616b0bff4b2d1fd5036400acb76a2e8704f694789d': '0.9.0',
     '5bc6f10ff45a1ee8558dec953e3ee8990ca2ab0dcc6e4750f130b42211f5333a': '0.8.9',
@@ -55,15 +57,15 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.0', 90],
+    OpenCore: ['0.9.1', 91],
     VirtualSMC: '1.3.1',
     Lilu: '1.6.4',
     WhateverGreen: '1.6.4',
-    AppleALC: '1.8.0',
-    VoodooPS2Controller: '2.3.4',
+    AppleALC: '1.8.1',
+    VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.3',
-    BrightnessKeys: '1.0.2',
+    BrightnessKeys: '1.0.3',
     RealtekRTL8111: '2.4.2',
     AtherosE2200Ethernet: '2.2.2',
     USBInjectAll: '2018-1108',
@@ -74,8 +76,8 @@ const versions = {
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
     HibernationFixup: '1.4.8',
-    AirportBrcmFixup: '2.1.6',
-    BrcmPatchRAM: '2.6.4',
+    AirportBrcmFixup: '2.1.7',
+    BrcmPatchRAM: '2.6.5',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
     RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
 }
