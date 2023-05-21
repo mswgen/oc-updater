@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '3b9252efdc3798ea73e6e9fc37ca812d59eaacb2c4cd2a7cf6658bc8cab88ae5': '0.9.2',
+    '5d8f82d5333b4d5f93ade2300ddaeb359db33db1424083ac1891ff827d3ec354': '0.9.2',
     '6129ad67049b1d4328e31dc3ab7e545dac9c404a7b2f53fdee462170fed36ea8': '0.9.1',
     '8f8cafcd8ba2773d46686d407049b57327cd8199a4d34801c7332a4daac1f597': '0.9.1',
     'd7092e886803f8775557378b7d80b75b6813ccf2f8eb507160ff14dc258455be': '0.9.0',
@@ -57,11 +59,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.1', 91],
+    OpenCore: ['0.9.2', 92],
     VirtualSMC: '1.3.1',
-    Lilu: '1.6.4',
+    Lilu: '1.6.5',
     WhateverGreen: '1.6.4',
-    AppleALC: '1.8.1',
+    AppleALC: '1.8.2',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.3',
@@ -77,7 +79,7 @@ const versions = {
     CPUFriend: '1.2.6',
     HibernationFixup: '1.4.8',
     AirportBrcmFixup: '2.1.7',
-    BrcmPatchRAM: '2.6.5',
+    BrcmPatchRAM: '2.6.6',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
     RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
 }
@@ -260,7 +262,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     if (kexts.includes('AirportItlwm.kext')) {
         if (os.release().startsWith('22.')) {
             kextsToDownload.push({
-                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc//AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-ddd2768.zip',
+                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc//AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-3984afe.zip',
                 name: 'AirportItlwm'
             })
         } else {
