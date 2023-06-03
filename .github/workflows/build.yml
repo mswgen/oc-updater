@@ -29,7 +29,7 @@ jobs:
           security list-keychain -d user -s $KEYCHAIN_PATH
       - name: Determine tag name
         id: tagname
-        run: echo "::set-output name=name::$(node -e "console.log(require('./package.json').version)")"
+        run: echo "name=$(node -e "console.log(require('./package.json').version)")" >> $GITHUB_OUTPUT
       - name: Create a draft release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
