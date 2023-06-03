@@ -73,7 +73,7 @@ const versions = {
     USBInjectAll: '2018-1108',
     IntelMausi: '1.0.7',
     NVMeFix: '1.1.0',
-    itlwm: '2.1.0',
+    itlwm: '2.2.0',
     IntelBluetoothFirmware: '2.2.0',
     CpuTscSync: '1.0.9',
     CPUFriend: '1.2.6',
@@ -260,17 +260,10 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
         });
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        if (os.release().startsWith('22.')) {
-            kextsToDownload.push({
-                url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/etc//AirportItlwm-Ventura-v2.2.0-DEBUG-alpha-3984afe.zip',
-                name: 'AirportItlwm'
-            })
-        } else {
-            kextsToDownload.push({
-                url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))}.kext.zip`,
-                name: 'AirportItlwm'
-            });
-        }
+        kextsToDownload.push({
+            url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra'))))}.kext.zip`,
+            name: 'AirportItlwm'
+        });
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         kextsToDownload.push({
@@ -468,7 +461,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/${os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'Big Sur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'High Sierra'))))}/AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm//AirportItlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
