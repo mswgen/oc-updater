@@ -22,6 +22,12 @@ OpenCore Updater를 우클릭하고 "열기"를 선택하세요. macOS가 개발
 
 EFI 디렉토리(보통 /Volumes/EFI/EFI)를 선택하세요. 바로 아래에 BOOT와 OC 폴더가 있어야 합니다.
 
+EFI가 마운트되지 않았다면, 터널에서 아래 명령어를 입력해 EFI를 마운트하세요:
+  
+  ```bash
+  sudo diskutil mount $(diskutil list | grep -in "EFI" | head -n1 | awk '{print $7}')
+  ```
+
 OpenCore 버전이 감지되었다면, 사용중인 OpenCore 버전과 사용중인 kext 리스트가 뜹니다.
 
 OpenCore 버전이 감지되지 않았다면, 사용중인 OpenCore 버전을 선택하라는 창이 뜹니다. 사용중인 버전을 선택하고 `버전 선택`을 누르세요.

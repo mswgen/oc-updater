@@ -22,6 +22,12 @@ When the app opens, press `Get Started`. A dialog will appear asking you to sele
 
 Select your EFI directory. It's usually /Volumes/EFI/EFI. It should have BOOT and OC directories inside.
 
+If the EFI is not mounted, run the following command in Terminal to mount EFI:
+  
+  ```bash
+  sudo diskutil mount $(diskutil list | grep -in "EFI" | head -n1 | awk '{print $7}')
+  ```
+
 If your OpenCore version is detected, your OpenCore version and list of kexts you are using will be displayed.
 
 If your OpenCore version is not detected, you will be asked to select the OpenCore version you are using. Select the version you are using and press `Select this version`.
