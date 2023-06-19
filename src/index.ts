@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'b1599f3c2dff751367d907fade59020d356344a7413e18ed474193046a2bc7ba': '0.9.3',
+    '444d287a497bfd087195ed3451ed06e11eb168f8c108de32be493ddeea22071c': '0.9.3',
     '3b9252efdc3798ea73e6e9fc37ca812d59eaacb2c4cd2a7cf6658bc8cab88ae5': '0.9.2',
     '5d8f82d5333b4d5f93ade2300ddaeb359db33db1424083ac1891ff827d3ec354': '0.9.2',
     '6129ad67049b1d4328e31dc3ab7e545dac9c404a7b2f53fdee462170fed36ea8': '0.9.1',
@@ -59,14 +61,14 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.2', 92],
-    VirtualSMC: '1.3.1',
-    Lilu: '1.6.5',
-    WhateverGreen: '1.6.4',
-    AppleALC: '1.8.2',
+    OpenCore: ['0.9.3', 93],
+    VirtualSMC: '1.3.2',
+    Lilu: '1.6.6',
+    WhateverGreen: '1.6.5',
+    AppleALC: '1.8.3',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
-    ECEnabler: '1.0.3',
+    ECEnabler: '1.0.4',
     BrightnessKeys: '1.0.3',
     RealtekRTL8111: '2.4.2',
     AtherosE2200Ethernet: '2.2.2',
@@ -75,11 +77,14 @@ const versions = {
     NVMeFix: '1.1.0',
     itlwm: '2.2.0',
     IntelBluetoothFirmware: '2.2.0',
-    CpuTscSync: '1.0.9',
-    CPUFriend: '1.2.6',
-    HibernationFixup: '1.4.8',
+    CpuTscSync: '1.1.0',
+    CPUFriend: '1.2.7',
+    HibernationFixup: '1.4.9',
     AirportBrcmFixup: '2.1.7',
-    BrcmPatchRAM: '2.6.6',
+    BrcmPatchRAM: '2.6.7',
+    FeatureUnlock: '1.1.5',
+    RestrictEvents: '1.1.2',
+    CpuTopologyRebuild: '1.1.0',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
     RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
 }
@@ -289,6 +294,18 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
             name: 'HibernationFixup'
         });
     }
+    if (kexts.includes('FeatureUnlock.kext')) {
+        kextsToDownload.push({
+            url: `https://github.com/acidanthera/FeatureUnlock/releases/download/${versions.FeatureUnlock}/FeatureUnlock-${versions.FeatureUnlock}-RELEASE.zip`,
+            name: 'FeatureUnlock'
+        });
+    }
+    if (kexts.includes('RestrictEvents.kext')) {
+        kextsToDownload.push({
+            url: `https://github.com/acidanthera/RestrictEvents/releases/download/${versions.RestrictEvents}/RestrictEvents-${versions.RestrictEvents}-RELEASE.zip`,
+            name: 'RestrictEvents'
+        });
+    }
     if (kexts.includes('AirportBrcmFixup.kext')) {
         kextsToDownload.push({
             url: `https://github.com/acidanthera/AirportBrcmFixup/releases/download/${versions.AirportBrcmFixup}/AirportBrcmFixup-${versions.AirportBrcmFixup}-RELEASE.zip`,
@@ -461,7 +478,7 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm//AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
@@ -483,6 +500,18 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     // HibernationFixup.kext -> replace with HibernationFixup/HibernationFixup.kext
     if (kexts.includes('HibernationFixup.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/HibernationFixup/HibernationFixup.kext" "${dir}/OC/Kexts"`);
+    }
+    // FeatureUnlock.kext -> replace with FeatureUnlock/FeatureUnlock.kext
+    if (kexts.includes('FeatureUnlock.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/FeatureUnlock/FeatureUnlock.kext" "${dir}/OC/Kexts"`);
+    }
+    // RestrictEvents.kext -> replace with RestrictEvents/RestrictEvents.kext
+    if (kexts.includes('RestrictEvents.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RestrictEvents/RestrictEvents.kext" "${dir}/OC/Kexts"`);
+    }
+    // CpuTopologyRebuild.kext -> replace with CpuTopologyRebuild/CpuTopologyRebuild.kext
+    if (kexts.includes('CpuTopologyRebuild.kext')) {
+        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/CpuTopologyRebuild/CpuTopologyRebuild.kext" "${dir}/OC/Kexts"`);
     }
     // AirportBrcmFixup.kext -> replace with AirportBrcmFixup/AirportBrcmFixup.kext
     if (kexts.includes('AirportBrcmFixup.kext')) {

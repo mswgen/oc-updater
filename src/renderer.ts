@@ -11,7 +11,7 @@ function afterOcverSelection(ocver: string, efidir: string) {
     const ocverNum = Number(ocver.split('.').join(''));
     document.querySelector('#oc-version')!.innerHTML = ocver;
     document.querySelector('#using-kexts')!.innerHTML = kexts.join('<br>');
-    if (ocverNum < 92) {
+    if (ocverNum < 93) {
         document.querySelector('#is-outdated')!.innerHTML = isKorean ? '구버전 OpenCore를 사용하고 있어요.' : 'Your OpenCore is outdated.';
         document.querySelector<HTMLElement>('#update')!.style.display = 'block';
         document.querySelector('#update')?.addEventListener('click', async () => {
@@ -91,6 +91,9 @@ Do you want to contnue?`)) ipc.send('quit');
                 'CpuTscSync.kext',
                 'CPUFriend.kext',
                 'HibernationFixup.kext',
+                'FeatureUnlock.kext',
+                'RestrictEvents.kext',
+                'CpuTopologyRebuild.kext',
                 'AirportBrcmFixup.kext',
                 'BlueToolFixup.kext',
                 'BrcmBluetoothInjector.kext',
