@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'dad93195c897adb324b8d8364d1b07fa1dd48fa95280d11c613a409f4ccb20ca': '0.9.4',
+    '88aa4d87ac6782a943a97527e24f6d3423f3cd706f7042c72b6c1475d78e572f': '0.9.4',
     'b1599f3c2dff751367d907fade59020d356344a7413e18ed474193046a2bc7ba': '0.9.3',
     '444d287a497bfd087195ed3451ed06e11eb168f8c108de32be493ddeea22071c': '0.9.3',
     '3b9252efdc3798ea73e6e9fc37ca812d59eaacb2c4cd2a7cf6658bc8cab88ae5': '0.9.2',
@@ -61,11 +63,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.3', 93],
+    OpenCore: ['0.9.4', 94],
     VirtualSMC: '1.3.2',
-    Lilu: '1.6.6',
-    WhateverGreen: '1.6.5',
-    AppleALC: '1.8.3',
+    Lilu: '1.6.7',
+    WhateverGreen: '1.6.6',
+    AppleALC: '1.8.4',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -74,14 +76,14 @@ const versions = {
     AtherosE2200Ethernet: '2.2.2',
     USBInjectAll: '2018-1108',
     IntelMausi: '1.0.7',
-    NVMeFix: '1.1.0',
+    NVMeFix: '1.1.1',
     itlwm: '2.2.0',
-    IntelBluetoothFirmware: '2.2.0',
+    IntelBluetoothFirmware: '2.3.0',
     CpuTscSync: '1.1.0',
     CPUFriend: '1.2.7',
     HibernationFixup: '1.4.9',
     AirportBrcmFixup: '2.1.7',
-    BrcmPatchRAM: '2.6.7',
+    BrcmPatchRAM: '2.6.8',
     FeatureUnlock: '1.1.5',
     RestrictEvents: '1.1.2',
     CpuTopologyRebuild: '1.1.0',
@@ -304,6 +306,12 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
         kextsToDownload.push({
             url: `https://github.com/acidanthera/RestrictEvents/releases/download/${versions.RestrictEvents}/RestrictEvents-${versions.RestrictEvents}-RELEASE.zip`,
             name: 'RestrictEvents'
+        });
+    }
+    if (kexts.includes('CpuTopologyRebuild.kext')) {
+        kextsToDownload.push({
+            url: `https://github.com/b00t0x/CpuTopologyRebuild/releases/download/${versions.CpuTopologyRebuild}/RestrictEvents-${versions.CpuTopologyRebuild}-RELEASE.zip`,
+            name: 'CpuTopologyRebuild'
         });
     }
     if (kexts.includes('AirportBrcmFixup.kext')) {
