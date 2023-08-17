@@ -310,7 +310,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('CpuTopologyRebuild.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/b00t0x/CpuTopologyRebuild/releases/download/${versions.CpuTopologyRebuild}/RestrictEvents-${versions.CpuTopologyRebuild}-RELEASE.zip`,
+            url: `https://github.com/b00t0x/CpuTopologyRebuild/releases/download/${versions.CpuTopologyRebuild}/CpuTopologyRebuild-${versions.CpuTopologyRebuild}-RELEASE.zip`,
             name: 'CpuTopologyRebuild'
         });
     }
