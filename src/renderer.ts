@@ -11,7 +11,7 @@ function afterOcverSelection(ocver: string, efidir: string) {
     const ocverNum = Number(ocver.split('.').join(''));
     document.querySelector('#oc-version')!.innerHTML = ocver;
     document.querySelector('#using-kexts')!.innerHTML = kexts.join('<br>');
-    if (ocverNum < 94) {
+    if (ocverNum < 95) {
         document.querySelector('#is-outdated')!.innerHTML = isKorean ? '구버전 OpenCore를 사용하고 있어요.' : 'Your OpenCore is outdated.';
         document.querySelector<HTMLElement>('#update')!.style.display = 'block';
         document.querySelector('#update')?.addEventListener('click', async () => {

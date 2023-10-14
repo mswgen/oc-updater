@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'd477b2df332da3debf309c65d75cbd234663ead11e9afd7595ededd1c9d3641d': '0.9.5',
+    '92f4925887808635a3315c86bb47c2f6e62e9c7d631736eca9653e4668694538': '0.9.5',
     'dad93195c897adb324b8d8364d1b07fa1dd48fa95280d11c613a409f4ccb20ca': '0.9.4',
     '88aa4d87ac6782a943a97527e24f6d3423f3cd706f7042c72b6c1475d78e572f': '0.9.4',
     'b1599f3c2dff751367d907fade59020d356344a7413e18ed474193046a2bc7ba': '0.9.3',
@@ -63,11 +65,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.4', 94],
+    OpenCore: ['0.9.5', 95],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
-    AppleALC: '1.8.4',
+    AppleALC: '1.8.6',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -82,10 +84,10 @@ const versions = {
     CpuTscSync: '1.1.0',
     CPUFriend: '1.2.7',
     HibernationFixup: '1.4.9',
-    AirportBrcmFixup: '2.1.7',
+    AirportBrcmFixup: '2.1.8',
     BrcmPatchRAM: '2.6.8',
     FeatureUnlock: '1.1.5',
-    RestrictEvents: '1.1.2',
+    RestrictEvents: '1.1.3',
     CpuTopologyRebuild: '1.1.0',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
     RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
@@ -268,7 +270,8 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra'))))}.kext.zip`,
+            url: os.release().startsWith('23.') ? 'https://github.com/OpenIntelWireless/itlwm/files/12299048/AirportItlwm-Sonoma-Preview05.zip'
+            : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
     }
@@ -486,7 +489,8 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        if (os.release().startsWith('23.')) cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma/AirportItlwm.kext" "${dir}/OC/Kexts"`);
+        else cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext" "${dir}/OC/Kexts"`);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext" "${dir}/OC/Kexts"`);
