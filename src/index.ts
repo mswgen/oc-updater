@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'bc5a6c8fbd2cbfc7f41fc256bc4eb7c9fc16d30fa5d250d06e6dd6f21902ddc3': '0.9.6',
+    'dedd0673df265737b2cb35abe96f1f1a329bc6b203d20bd9e70bc64dac1fd0c2': '0.9.6',
     'd477b2df332da3debf309c65d75cbd234663ead11e9afd7595ededd1c9d3641d': '0.9.5',
     '92f4925887808635a3315c86bb47c2f6e62e9c7d631736eca9653e4668694538': '0.9.5',
     'dad93195c897adb324b8d8364d1b07fa1dd48fa95280d11c613a409f4ccb20ca': '0.9.4',
@@ -65,11 +67,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.5', 95],
+    OpenCore: ['0.9.6', 96],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
-    AppleALC: '1.8.6',
+    AppleALC: '1.8.7',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -270,7 +272,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
-            url: os.release().startsWith('23.') ? 'https://github.com/OpenIntelWireless/itlwm/files/12299048/AirportItlwm-Sonoma-Preview05.zip'
+            url: os.release().startsWith('23.') ? 'http://github.com/mswgen/oc-updater/blob/v1/AirportItlwm-Sonoma-v2.3.0-DEBUG-alpha-ff1138b.zip'
             : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
