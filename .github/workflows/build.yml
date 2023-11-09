@@ -34,7 +34,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
         with:
-          body: "Changes(변경 사항)\n\n1. \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/main/README.md#installation) carefully!**\n\n**설치하기 전 [여기](https://github.com/mswgen/oc-updater/blob/main/README-ko.md#installation)를 읽어주세요!**"
+          body: "Changes(변경 사항)\n\n1. \n\n**Before installing, please read [this](https://github.com/mswgen/oc-updater/blob/v1/README.md#installation) carefully!**\n\n**설치하기 전 [여기](https://github.com/mswgen/oc-updater/blob/v1/README-ko.md#installation)를 읽어주세요!**"
           draft: true
           tag_name: ${{ steps.tagname.outputs.name }}
         env:
