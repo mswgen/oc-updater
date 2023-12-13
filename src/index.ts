@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    'd5c1a8ab4f8c29a2967dc363ddbe671cbb711546e7edde015a37dd50171f8109': '0.9.7',
+    '17cb2c28ee3d32566a9c31c4238ff6ad4d4d1f5d83d5c799cd12265f5c626772': '0.9.7',
     'bc5a6c8fbd2cbfc7f41fc256bc4eb7c9fc16d30fa5d250d06e6dd6f21902ddc3': '0.9.6',
     'dedd0673df265737b2cb35abe96f1f1a329bc6b203d20bd9e70bc64dac1fd0c2': '0.9.6',
     'd477b2df332da3debf309c65d75cbd234663ead11e9afd7595ededd1c9d3641d': '0.9.5',
@@ -67,11 +69,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.6', 96],
+    OpenCore: ['0.9.7', 97],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
-    AppleALC: '1.8.7',
+    AppleALC: '1.8.8',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -371,7 +373,7 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     }
     if (kexts.includes('RealtekCardReaderFriend.kext')) {
         kextsToDownload.push({
-            url: `https://github.com/0xFireWolf/RealtekCardReaderFriend/releases/download/v${versions.RealtekCardReaderFriend[0]}/RealtekCardReaderFriend_${versions.RealtekCardReaderFriend[1]}_RELEASE.zip`,
+            url: 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/RealtekCardReaderFriend_1.0.4_a2cea90_RELEASE.zip', //`https://github.com/0xFireWolf/RealtekCardReaderFriend/releases/download/v${versions.RealtekCardReaderFriend[0]}/RealtekCardReaderFriend_${versions.RealtekCardReaderFriend[1]}_RELEASE.zip`,
             name: 'RealtekCardReaderFriend'
         });
     }
