@@ -4,7 +4,7 @@ import os from 'os';
 export default {
     from: 71,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         if (!fs.existsSync(file)) return;
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         if (Number(os.release().split('.')[0]) < 20) {

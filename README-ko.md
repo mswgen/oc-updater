@@ -83,7 +83,7 @@ OpenCore Updater는 모든 kext를 업데이트하지 않고, 앱 내부 리스�
 * RestrictEvents
 * CpuTopologyRebuild
 * AirportBrcmFixup
-* BrcmPatchRAM kexts
+* BrcmPatchRAM 관련 kext
   * BlueToolFixup
   * BrcmBluetoothInjector
   * BrcmBluetoothInjectorLegacy
@@ -108,6 +108,7 @@ OpenCore Updater는 모든 kext를 업데이트하지 않고, 앱 내부 리스�
 ### 앱 자동 업데이트
 
 이 앱은 자동 업데이트를 지원합니다. 업데이트가 있을 경우 백그라운드에서 다운로드 후 알림이 뜨며, 앱을 닫으면 업데이트가 설치됩니다.
+앱을 닫고 업데이트가 설치되기까지 시간이 오래 걸릴 수 있습니다. 앱을 다시 열었는데 업데이트되지 않았다면 알림이 뜰 때 앱을 닫고 1분 정도 기다렸다가 다시 열어주세요.
 
 ### 0.6.5에서 0.6.6으로 업데이트할 때 경고가 뜰 경우
 
@@ -137,7 +138,7 @@ Bootstrap을 사용하지 않았다면 이 메세지는 뜨지 않습니다. 하
 1. `yarn`을 실행해서 의존성 패키지를 설치하세요.
 1. 개발용으로 앱을 열려면 `yarn start`를 실행하세요.
 1. `yarn build` 를 실행해서 앱을 빌드하세요. Mac이나 해킨토시가 필요합니다.
-1. `out` 디렉토리에 DMG가 있어요. 이 앱은 Intel Mac(해킨토시 포함)과 Apple Sillicon Mac에서 실행할 수 있어요.
+1. `out` 디렉토리에 DMG가 있습니다. 이 앱은 Intel Mac(해킨토시 포함)과 Apple Sillicon Mac에서 실행할 수 있습니다.
 
 ## 크레딧
 

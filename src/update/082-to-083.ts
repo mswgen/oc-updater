@@ -7,7 +7,7 @@ import path from 'path';
 export default {
     from: 82,
     configPlistChange: true,
-    exec: (file: string, PID: number) => {
+    exec: async (file: string, _app: any, _ipc: any, _webContents: any, PID: number) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*

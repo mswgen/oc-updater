@@ -9,7 +9,7 @@ export default {
     */
     from: 74,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         // read plist {file} as type any and parse, then store as plistParsed
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*

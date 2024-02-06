@@ -7,7 +7,7 @@ import path from 'path';
 export default {
     from: 83,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         // the 082 -> 083 update code of version 1.2.6 had a typo where Kernel - Add[BundlePath = IntelBTPatcher.kext] - Arch was any, not Any(note the capital A). fix this here

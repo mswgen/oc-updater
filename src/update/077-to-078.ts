@@ -4,7 +4,7 @@ import plist from 'plist';
 export default {
     from: 77,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         // remove NVRAM - Add - 7C436110-AB2A-4BBB-A880-FE41995C9F82 - SystemAudioVolumeDB

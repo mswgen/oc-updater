@@ -36,7 +36,7 @@ If you are not using the latest version of OpenCore, the app will ask you to upd
 
 The app will start to download OpenCore, kexts, and Binary Data. this might take some time and you might see the spinning beach ball. DO NOT CLOSE THE APP.
 
-When the app finishes downloading, it will create a backup of your old EFI and will swap files with the new ones.
+When the app finishes downloading, it will create a backup of your old EFI and will replace files with the new ones.
 
 Then, it will update config.plist. When it's done, it will display that it's done. It will also display the list of not updated kexts, the backup directory, and that OpenCore Vault is disabled(if it was enabled). You need to reboot your computer to see the changes.
 
@@ -108,6 +108,8 @@ all other kexts will not be updated. However, there might be a newer version of 
 ### Auto app update support
 
 Auto update is supported. When there's a new version of the app, the app will automatically download it in the background. Then, it will notify you about that. Update will be automatically applied when you close the app.
+
+It may take some time to install the update. If you open the app and the update is not applied, wait for the notification, close the app, wait about 1 minute, and open the app again.
 
 ### When updating from 0.6.5 to 0.6.6, I get a warning
 

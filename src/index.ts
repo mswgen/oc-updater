@@ -1,4 +1,4 @@
-import electron, { app } from 'electron';
+import electron, { BrowserWindow, app } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
@@ -9,6 +9,8 @@ import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const PID = Math.floor(Math.random() * 1000000);
 const checksums = {
+    '2b522620488affbc71bab1057e020309f5af4335138e730770f3a8f9f32a7d1c': '0.9.8',
+    '3c4fe37014381aa7f4e4e88b2110280982c5f6fb7ae96ec9dab7b7c8d8f3097e': '0.9.8',
     'd5c1a8ab4f8c29a2967dc363ddbe671cbb711546e7edde015a37dd50171f8109': '0.9.7',
     '17cb2c28ee3d32566a9c31c4238ff6ad4d4d1f5d83d5c799cd12265f5c626772': '0.9.7',
     'bc5a6c8fbd2cbfc7f41fc256bc4eb7c9fc16d30fa5d250d06e6dd6f21902ddc3': '0.9.6',
@@ -69,11 +71,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.7', 97],
+    OpenCore: ['0.9.8', 98],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
-    AppleALC: '1.8.8',
+    AppleALC: '1.8.9',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -120,8 +122,8 @@ autoUpdater.requestHeaders = { 'Cache-Control' : 'no-store, no-cache, must-reval
 electron.app.whenReady().then(() => {
     createWindow();
     autoUpdater.checkForUpdatesAndNotify({
-        title: app.getLocale() == 'ko' ? '업데이트를 설치할 준비가 완료되었어요.' : 'An update is ready to install.',
-        body: app.getLocale() == 'ko' ? '{appName} 버전 {version}이 다운로드되었으며, 앱 종료 시 자동으로 설치돼요.' : '{appName} version {version} has been downloaded and will be automatically installed on exit'
+        title: app.getLocale() == 'ko' ? '업데이트를 설치할 준비가 완료되었습니다.' : 'An update is ready to install.',
+        body: app.getLocale() == 'ko' ? '{appName} 버전 {version}이 다운로드되었으며, 앱 종료 시 자동으로 설치됩니다.' : '{appName} version {version} has been downloaded and will be automatically installed on exit'
     });
     electron.app.on('activate', (_, hasVisibleWindows) => {
         if (!hasVisibleWindows) createWindow();
@@ -133,7 +135,7 @@ electron.ipcMain.on('select-efi-directory', evt => {
         title: 'Select EFI directory',
         buttonLabel: app.getLocale() == 'ko' ? '선택하기' : 'Select',
         properties: ['openDirectory', 'showHiddenFiles'],
-        message: app.getLocale() == 'ko' ? '업데이트할 EFI 디렉토리를 선택해주세요. 디렉토리 바로 아래에 BOOT와 OC 디렉토리가 있어야 해요.' : 'Select EFI directory to update. Directory should contain BOOT and OC directories.'
+        message: app.getLocale() == 'ko' ? '업데이트할 EFI 디렉토리를 선택해주세요. 디렉토리 바로 아래에 BOOT와 OC 디렉토리가 있어야 합니다.' : 'Select EFI directory to update. Directory should contain BOOT and OC directories.'
     });
     if (!dir) {
         evt.returnValue = 'cancel button pressed';
@@ -173,9 +175,9 @@ electron.ipcMain.on('check-opencore-version', (evt, ocfile) => {
 electron.ipcMain.on('kextinfo', (evt, kextdir) => {
     evt.returnValue = fs.readdirSync(kextdir).filter(x => x.endsWith('.kext')).filter(x => !x.startsWith('._'));
 });
-electron.ipcMain.on('download-oc', evt => {
-    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore.zip https://github.com/acidanthera/OpenCorePkg/releases/download/${versions.OpenCore[0]}/OpenCore-${versions.OpenCore[0]}-RELEASE.zip; mkdir OpenCore; cd OpenCore; unzip ../OpenCore.zip`);
-    evt.returnValue = 'success';
+electron.ipcMain.on('download-oc', async evt => {
+    await cpexec(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OpenCore.zip https://github.com/acidanthera/OpenCorePkg/releases/download/${versions.OpenCore[0]}/OpenCore-${versions.OpenCore[0]}-RELEASE.zip; mkdir OpenCore; cd OpenCore; unzip ../OpenCore.zip`);
+    evt.reply('downloaded-oc');
 });
 electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     let kextsToDownload: Array<{
@@ -380,19 +382,19 @@ electron.ipcMain.on('download-kexts', async (evt, kexts) => {
     await Promise.all(kextsToDownload.map(async (kext) => {
         await cpexec(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o ${kext.name}.zip ${kext.url}; mkdir ${kext.name}; cd ${kext.name}; unzip ../${kext.name}.zip`);
     }));
-    evt.returnValue = 'success';
+    evt.reply('downloaded-kexts');
 });
-electron.ipcMain.on('download-bindata', evt => {
-    cp.execSync(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OcBinaryData-master.zip https://github.com/acidanthera/OcBinaryData/archive/refs/heads/master.zip; mkdir OcBinaryData-master; cd OcBinaryData-master; unzip ../OcBinaryData-master.zip`);
-    evt.returnValue = 'success';
+electron.ipcMain.on('download-bindata', async evt => {
+    await cpexec(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OcBinaryData-master.zip https://github.com/acidanthera/OcBinaryData/archive/refs/heads/master.zip; mkdir OcBinaryData-master; cd OcBinaryData-master; unzip ../OcBinaryData-master.zip`);
+    evt.reply('downloaded-bindata');
 });
 electron.ipcMain.on('create-backup', (evt, dir, oldver) => {
     if (!fs.existsSync(`${os.homedir()}/EFI Backup`) || !fs.lstatSync(`${os.homedir()}/EFI Backup`).isDirectory()) fs.mkdirSync(`${os.homedir()}/EFI Backup`);
     backupDir = `${os.homedir()}/EFI Backup/OC ${oldver}`;
     cp.execSync(`mkdir -p "${backupDir}"; cp -r "${dir}" "${backupDir}"`);
-    evt.returnValue = 'success';
+    evt.reply('created-backup');
 });
-electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
+electron.ipcMain.on('update-files', (evt, dir, kexts) => {
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore/X64/EFI/BOOT/BOOTx64.efi`, `${dir}/BOOT/BOOTx64.efi`);
     fs.copyFileSync(`${os.homedir()}/.oc-update/${PID}/OpenCore/X64/EFI/OC/OpenCore.efi`, `${dir}/OC/OpenCore.efi`);
     if (fs.existsSync(`${dir}/OC/Tools/VerifyMsrE2.efi`)) fs.renameSync(`${dir}/OC/Tools/VerifyMsrE2.efi`, `${dir}/OC/Tools/ControlMsrE2.efi`);
@@ -594,17 +596,17 @@ electron.ipcMain.on('swap-files', (evt, dir, kexts) => {
     if (kexts.includes("RealtekCardReaderFriend.kext")) {
         cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/RealtekCardReaderFriend/RealtekCardReaderFriend.kext" "${dir}/OC/Kexts"`);
     }
-    evt.returnValue = 'success'
+    evt.reply('updated-files');
 });
-electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
+electron.ipcMain.on('update-config-plist', async (evt, efidir, ocver) => {
     while (true) {
         if (ocver == versions.OpenCore[1]) break;
         console.log(updates[ocver.toString()]);
         if (updates[ocver.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
-                updates[ocver.toString()].exec(`${efidir}/OC/config.plist`, PID);
+                await updates[ocver.toString()].exec(`${efidir}/OC/config.plist`, app, electron.ipcMain, window.webContents, PID);
             } else if (fs.readdirSync(`${efidir}/OC`).includes('Config.plist')) {
-                updates[ocver.toString()].exec(`${efidir}/OC/Config.plist`, PID);
+                await updates[ocver.toString()].exec(`${efidir}/OC/Config.plist`, app, electron.ipcMain, window.webContents, PID);
             }
         }
         ocver++;
@@ -614,12 +616,12 @@ electron.ipcMain.on('update-config-plist', (evt, efidir, ocver) => {
         plistParsed.Misc.Security.Vault = 'Optional';
         // build plistParsed, and write it back to file
         fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plist.build(plistParsed));
-        evt.returnValue = 'vault-disabled';
+        evt.reply('updated-config-plist', true);
         return;
     }
-    evt.returnValue = 'success'
+    evt.reply('updated-config-plist', false);
 });
-electron.ipcMain.on('finish', (evt, efidir) => {
+electron.ipcMain.on('finish', (evt, vaultResult, efidir) => {
     cp.execSync(`rm -rf ${os.homedir()}/.oc-update/${PID}`);
     // read config.plist or Config.plist and assign to plistRaw (type string)
     let plistRaw: string = fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
@@ -658,7 +660,7 @@ electron.ipcMain.on('finish', (evt, efidir) => {
     }
     // write plistRaw back
     fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plistRaw);
-    evt.returnValue = backupDir;
+    evt.reply('finished', vaultResult, backupDir);
 });
 electron.ipcMain.on('check-bootstrap', (evt, efidir) => {
     // read ${efidir}/OC directory, if Bootstrap directory doesn't exist, return false

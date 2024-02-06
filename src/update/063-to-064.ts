@@ -4,7 +4,7 @@ import fs from 'fs';
 export default {
     from: 63,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         // read ${file}, parse plist and store as plistParsed
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*

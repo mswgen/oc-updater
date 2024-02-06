@@ -4,7 +4,7 @@ import plist from 'plist';
 export default {
     from: 75,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         // read ${file} as utf8, parse it as plist, and save it to variable `plistParsed`
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         /*

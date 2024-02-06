@@ -3,7 +3,7 @@ import fs from 'fs';
 export default {
     from: 67,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         for (let i = 0; i < plistParsed.ACPI.Patch.length; i++) {
             plistParsed.ACPI.Patch[i].Base = '';

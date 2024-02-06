@@ -3,7 +3,7 @@ import fs from 'fs';
 export default {
     from: 66,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         let cnt = 0;
         if ('Patch' in plistParsed.Booter) {

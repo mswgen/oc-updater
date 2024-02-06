@@ -24,16 +24,25 @@
         "!out",
         "!etc"
     ],
+    "buildNumber": "2",
     "mac": {
         "category": "public.app-category-utilities",
+        "electronLanguages": [
+            "en_US",
+            "ko"
+        ],
         "target": [
             {
                 "target": "dmg",
-                "arch": ["universal"]
+                "arch": [
+                    "universal"
+                ]
             },
             {
                 "target": "zip",
-                "arch": ["universal"]
+                "arch": [
+                    "universal"
+                ]
             }
         ],
         "icon": "build/icon.icns"

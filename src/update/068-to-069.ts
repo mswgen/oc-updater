@@ -3,7 +3,7 @@ import fs from 'fs';
 export default {
     from: 68,
     configPlistChange: true,
-    exec: (file: string) => {
+    exec: async (file: string) => {
         if (!fs.existsSync(file)) return;
         const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
         plistParsed.UEFI.AppleInput.CustomDelays = false;
