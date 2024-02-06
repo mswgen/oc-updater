@@ -24,11 +24,11 @@
         "!out",
         "!etc"
     ],
-    "buildNumber": "3",
+    "buildNumber": "0",
     "mac": {
         "category": "public.app-category-utilities",
         "electronLanguages": [
-            "en_US",
+            "en",
             "ko"
         ],
         "target": [

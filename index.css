@@ -4,7 +4,7 @@
 }
 body {
     text-align: center;
-    font-family: -apple-system, 'SF Pro', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif;
+    font-family: BlinkMacSystemFont, 'SF Pro', 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif;
 }
 
 li {
