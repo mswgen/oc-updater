@@ -1,6 +1,6 @@
 {
     "appId": "com.mswgen.opencore-updater",
-    "copyright": "Copyright (c) 2021~2023 mswgen",
+    "copyright": "Copyright (c) 2021~2024 mswgen",
     "directories": {
         "output": "out"
     },
@@ -24,7 +24,7 @@
         "!out",
         "!etc"
     ],
-    "buildNumber": "2",
+    "buildNumber": "3",
     "mac": {
         "category": "public.app-category-utilities",
         "electronLanguages": [
