@@ -72,10 +72,10 @@ window.addEventListener('load', async () => {
     ipc.on('theme', (_event: any, isDark: boolean) => {
         if (isDark) {
             document.querySelector('body')!.style.backgroundColor = '#332f2f';
-            document.querySelector('body')!.style.color = '#cccccc';
+            document.querySelector('body')!.style.color = '#dfdfdf';
         } else {
-            document.querySelector('body')!.style.backgroundColor = 'white';
-            document.querySelector('body')!.style.color = '#2c3e50';
+            document.querySelector('body')!.style.backgroundColor = '#f1efee';
+            document.querySelector('body')!.style.color = '#242424';
         }
     });
     ipc.on('downloaded-oc', async (_event: any, ocver: string, kexts: Array<string>, PID: number) => {
@@ -166,15 +166,10 @@ window.addEventListener('load', async () => {
             const ocImg = document.createElement('img');
             ocImg.src = 'opencore.svg';
             ocImg.alt = 'OpenCore';
-            ocImg.style.height = '50px';
             card.appendChild(ocImg);
             const ocInfo = document.createElement('div');
-            ocInfo.style.marginTop = 'auto';
-            ocInfo.style.marginBottom = 'auto';
-            ocInfo.style.marginLeft = '10px';
-            ocInfo.style.textAlign = 'left';
-            ocInfo.style.width = '100%';
             const ocInfoTitle = document.createElement('div');
+            ocInfoTitle.className = 'oc-info-title';
             if (ocver) ocInfoTitle.innerHTML = `OpenCore ${ocver}`;
             else {
                 ocInfoTitle.innerHTML = 'OpenCore';
@@ -193,15 +188,11 @@ window.addEventListener('load', async () => {
                 ocInfoTitle.appendChild(ocVersionSelector);
                 ocInfoTitle.appendChild(document.createElement('div'));
             }
-            ocInfoTitle.style.fontWeight = '600';
-            ocInfoTitle.style.fontSize = 'large';
             ocInfo.appendChild(ocInfoTitle);
             const ocInfoDesc = document.createElement('div');
             ocInfoDesc.className = 'oc-info-desc';
             if (!ocver) ocInfoDesc.innerHTML = isKorean ? '64비트 RELEASE 버전이 지원됨' : '64-bit RELEASE versions are supported';
             else ocInfoDesc.innerHTML = ocverNum < 98 ? (isKorean ? '0.9.8로 업데이트하기' : 'Update to 0.9.8') : (isKorean ? '최신 버전' : 'Up to date');
-            ocInfoDesc.style.fontWeight = '300';
-            ocInfoDesc.style.fontSize = 'small';
             ocInfo.appendChild(ocInfoDesc);
             card.appendChild(ocInfo);
             card.appendChild(document.createElement('div'));
@@ -216,25 +207,16 @@ window.addEventListener('load', async () => {
                 ocInfoUpdate.style.transform = 'translateY(-50%)';
                 ocInfoUpdate.style.height = '50%';
                 ocInfoUpdate.addEventListener('click', async () => {
-                    console.log(`.card[data-pid="${pid}"] .update-btn`);
                     (document.querySelector(`.card[data-pid="${pid}"] .update-btn`) as HTMLButtonElement).disabled = true;
                     ocver = ocver || (document.querySelector(`.card[data-pid="${pid}"] .version-selector`) as HTMLSelectElement).value;
+                    document.querySelector(`.card[data-pid="${pid}"] .oc-info-title`)!.innerHTML = `OpenCore ${ocver}`;
+                    (document.querySelector(`.card[data-pid="${pid}"] .oc-info-title`) as HTMLElement).style.display = 'block';
                     document.querySelector(`.card[data-pid="${pid}"] .oc-info-desc`)!.innerHTML = isKorean ? `1/7. OpenCore 다운로드 중...` : `1/7. Downloading OpenCore...`
                     await sleep(50);
                     ipc.send('download-oc', ocver, kexts, pid);
                 });
                 card.appendChild(ocInfoUpdate);
             }
-            card.style.display = 'grid';
-            card.style.gridTemplateColumns = 'auto auto 1fr auto';
-            card.style.height = '50px';
-            card.style.marginTop = '2%';
-            card.style.width = '95%';
-            card.style.marginLeft = 'auto';
-            card.style.marginRight = 'auto';
-            card.style.border = '1px solid #545050';
-            card.style.borderRadius = '7px';
-            card.style.backgroundColor = '#363232';
             document.querySelector<HTMLDivElement>('#update-list')!.appendChild(card);
         }
     });
