@@ -22,23 +22,27 @@ When the app opens, press `Get Started`. A dialog will appear asking you to sele
 
 Select your EFI directory. It's usually /Volumes/EFI/EFI. It should have BOOT and OC directories inside.
 
+You may also drag the EFI directory to the Dock icon of the app.
+
 If the EFI is not mounted, run the following command in Terminal to mount EFI:
   
   ```bash
   sudo diskutil mount $(diskutil list | grep -in "EFI" | head -n1 | awk '{print $7}')
   ```
 
-If your OpenCore version is detected, your OpenCore version and list of kexts you are using will be displayed.
+If your OpenCore version is detected, your OpenCore version will be displayed.
 
-If your OpenCore version is not detected, you will be asked to select the OpenCore version you are using. Select the version you are using and press `Select this version`.
+If your OpenCore version is not detected, you will be asked to select the OpenCore version you are using. Select the version you are using.
 
 If you are not using the latest version of OpenCore, the app will ask you to update. Press `Update` to update OpenCore.
 
-The app will start to download OpenCore, kexts, and Binary Data. this might take some time and you might see the spinning beach ball. DO NOT CLOSE THE APP.
+The app will start to download OpenCore, kexts, and Binary Data.
 
 When the app finishes downloading, it will create a backup of your old EFI and will replace files with the new ones.
 
-Then, it will update config.plist. When it's done, it will display that it's done. It will also display the list of not updated kexts, the backup directory, and that OpenCore Vault is disabled(if it was enabled). You need to reboot your computer to see the changes.
+Then, it will update config.plist. When it's done, it will display that it's done. Click the 'Finished' text to see the list of not updated kexts, the backup directory, and whether OpenCore Vault is disabled. You need to reboot your computer to see the changes.
+
+To update multiple EFis, drag each EFI directory to the Dock icon of the app or click 'Open another EFI'.
 
 ## Troubleshooting
 
@@ -50,7 +54,7 @@ So if you want to use OpenCore Vault, you need to create vault again and enable 
 
 ### My OpenCore version is not detected
 
-OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't detect your OpenCore version. You can just manually select the version you are using and press `Select this version`.
+OpenCore Updater checks your OpenCore version by comparing the SHA-256 hash of your OpenCore.efi and the list of hashes in the app. If the hash is not listed in the app, it can't detect your OpenCore version. You can just manually select the version you are using.
 
 If you are using too old version (before 0.6.3), you need to manually update to 0.6.3 first and then use this app to update to the latest version.
 

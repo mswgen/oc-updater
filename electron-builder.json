@@ -24,7 +24,7 @@
         "!out",
         "!etc"
     ],
-    "buildNumber": "0",
+    "buildNumber": "53",
     "mac": {
         "category": "public.app-category-utilities",
         "electronLanguages": [
@@ -45,10 +45,12 @@
                 ]
             }
         ],
-        "icon": "build/icon.icns"
+        "icon": "build/icon.icns",
+        "darkModeSupport": true
     },
     "dmg": {
         "title": "${productName}",
         "artifactName": "${productName}-${version}-${arch}.dmg"
-    }
+    },
+    "afterPack": "build/after-pack.js"
 }

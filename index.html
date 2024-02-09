@@ -4,6 +4,7 @@
 <head>
     <title>OpenCore Updater</title>
     <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="index.css">
     <script src="dist/renderer.js"></script>
 </head>
@@ -15,87 +16,10 @@
         <h2>Current supported version: 0.9.8</h2>
         <button id="start">Get started</button>
     </div>
-    <div id="select-opencore-version">
-        <h1>Select OpenCore version</h1>
-        <p>Your OpenCore version is unknown. Please select your version.</p>
-        <p>However, there are some limitations.</p>
-        <ul>
-            <li>DEBUG builds will be replaced with RELEASE.</li>
-            <li>32-bit versions will be replaced with 64-bit.</li>
-            <li>If you're using OpenCore vault, it will be removed. If this is your case, please set config.plist-Misc-Security-Vault to Optional.</li>
-            <li>Versions older than 0.6.3 are not supported.</li>
-        </ul>
-        <select id="oc-version-selection">
-            <option value="0.9.8" selected>0.9.8</option>
-            <option value="0.9.7">0.9.7</option>
-            <option value="0.9.6">0.9.6</option>
-            <option value="0.9.5">0.9.5</option>
-            <option value="0.9.4">0.9.4</option>
-            <option value="0.9.3">0.9.3</option>
-            <option value="0.9.2">0.9.2</option>
-            <option value="0.9.1">0.9.1</option>
-            <option value="0.9.0">0.9.0</option>
-            <option value="0.8.9">0.8.9</option>
-            <option value="0.8.8">0.8.8</option>
-            <option value="0.8.7">0.8.7</option>
-            <option value="0.8.6">0.8.6</option>
-            <option value="0.8.5">0.8.5</option>
-            <option value="0.8.4">0.8.4</option>
-            <option value="0.8.3">0.8.3</option>
-            <option value="0.8.2">0.8.2</option>
-            <option value="0.8.1">0.8.1</option>
-            <option value="0.8.0">0.8.0</option>
-            <option value="0.7.9">0.7.9</option>
-            <option value="0.7.8">0.7.8</option>
-            <option value="0.7.7">0.7.7</option>
-            <option value="0.7.6">0.7.6</option>
-            <option value="0.7.5">0.7.5</option>
-            <option value="0.7.4">0.7.4</option>
-            <option value="0.7.3">0.7.3</option>
-            <option value="0.7.2">0.7.2</option>
-            <option value="0.7.1">0.7.1</option>
-            <option value="0.7.0">0.7.0</option>
-            <option value="0.6.9">0.6.9</option>
-            <option value="0.6.8">0.6.8</option>
-            <option value="0.6.7">0.6.7</option>
-            <option value="0.6.6">0.6.6</option>
-            <option value="0.6.5">0.6.5</option>
-            <option value="0.6.4">0.6.4</option>
-            <option value="0.6.3">0.6.3</option>
-        </select>
-        <button id="confirm-version">Select this version</button>
-    </div>
-    <div id="efiinfo">
-        <h1>Your EFI info</h1>
-        <p>Latest version is 0.9.8.</p>
-        <p>Your OpenCore version is <span id="oc-version"></span>.</p>
-        <p>You're using the following kexts:</p>
-        <div id="using-kexts"></div>
-        <p id="is-outdated">Your OpenCore is up to date.</p>
-        <button id="update">Update</button>
-    </div>
-    <div id="update-in-progress">
-        <h1>Updating...</h1>
-        <p>Your EFI is being updated.</p>
-        <br><br>
-        <p id="progress">1/7. Downloading OpenCore...</p>
-        <!--
-            1. Downloading OpenCore...
-            2. Downloading kexts...
-            3. Downloading binary data...
-            4. Creating backup...
-            5. Swapping files...
-            6. Updating config.plist...
-            7. Cleaning up...
-        -->
-    </div>
-    <div id="success">
-        <img src="checkmark-flat.png" alt="checkmark" height="30%" width="30%">
-        <h1>You're up to date!</h1>
-        <p>OpenCore is updated. <span id="kexts-not-updated-exists">However, these kexts are not updated. There might be a newer version of them.</span></p>
-        <p id="kexts-not-updated"></p>
-        <p id="vault-removed">OpenCore vault was detected and config.plist-Misc-Security-Vault is set to Optional. If you want to enable vaulting, please create vault again.</p>
-        <p>A backup of your old EFI was created. It is at <span id="backup-location"></span>.</p>
+    <div id="update-list"></div>
+    <div id="open-efi-container">
+        <div></div>
+        <button id="open-efi">Open another EFI</button>
     </div>
 </body>
 

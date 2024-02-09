@@ -4,6 +4,7 @@
 <head>
     <title>OpenCore Updater</title>
     <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="index.css">
     <script src="dist/renderer.js"></script>
 </head>
@@ -15,87 +16,10 @@
         <h2>지원되는 최신 버전: 0.9.8</h2>
         <button id="start">시작하기</button>
     </div>
-    <div id="select-opencore-version">
-        <h1>OpenCore 버전 선택</h1>
-        <p>OpenCore 버전을 확인할 수 없습니다. 아래에서 버전을 선택해주세요.</p>
-        <p>제한 사항:</p>
-        <ul>
-            <li>DEBUG 빌드는 RELEASE 빌드로 변경됩니다.</li>
-            <li>32비트 버전은 64비트 버전으로 변경됩니다.</li>
-            <li>OpenCore vault가 비활성화됩니다. 이 경우 config.plist-Misc-Security-Vault가 Optional로 바뀝니다.</li>
-            <li>0.6.3 미만의 버전은 지원되지 않습니다.</li>
-        </ul>
-        <select id="oc-version-selection">
-            <option value="0.9.8" selected>0.9.8</option>
-            <option value="0.9.7">0.9.7</option>
-            <option value="0.9.6">0.9.6</option>
-            <option value="0.9.5">0.9.5</option>
-            <option value="0.9.4">0.9.4</option>
-            <option value="0.9.3">0.9.3</option>
-            <option value="0.9.2">0.9.2</option>
-            <option value="0.9.1">0.9.1</option>
-            <option value="0.9.0">0.9.0</option>
-            <option value="0.8.9">0.8.9</option>
-            <option value="0.8.8">0.8.8</option>
-            <option value="0.8.7">0.8.7</option>
-            <option value="0.8.6">0.8.6</option>
-            <option value="0.8.5">0.8.5</option>
-            <option value="0.8.4">0.8.4</option>
-            <option value="0.8.3">0.8.3</option>
-            <option value="0.8.2">0.8.2</option>
-            <option value="0.8.1">0.8.1</option>
-            <option value="0.8.0">0.8.0</option>
-            <option value="0.7.9">0.7.9</option>
-            <option value="0.7.8">0.7.8</option>
-            <option value="0.7.7">0.7.7</option>
-            <option value="0.7.6">0.7.6</option>
-            <option value="0.7.5">0.7.5</option>
-            <option value="0.7.4">0.7.4</option>
-            <option value="0.7.3">0.7.3</option>
-            <option value="0.7.2">0.7.2</option>
-            <option value="0.7.1">0.7.1</option>
-            <option value="0.7.0">0.7.0</option>
-            <option value="0.6.9">0.6.9</option>
-            <option value="0.6.8">0.6.8</option>
-            <option value="0.6.7">0.6.7</option>
-            <option value="0.6.6">0.6.6</option>
-            <option value="0.6.5">0.6.5</option>
-            <option value="0.6.4">0.6.4</option>
-            <option value="0.6.3">0.6.3</option>
-        </select>
-        <button id="confirm-version">버전 선택</button>
-    </div>
-    <div id="efiinfo">
-        <h1>EFI 정보</h1>
-        <p>최신 버전: 0.9.8</p>
-        <p>현재 버전: <span id="oc-version"></span></p>
-        <p>사용 중인 kext:</p>
-        <div id="using-kexts"></div>
-        <p id="is-outdated">최신 버전의 OpenCore를 사용하고 있습니다.</p>
-        <button id="update">업데이트</button>
-    </div>
-    <div id="update-in-progress">
-        <h1>업데이트 중...</h1>
-        <p>EFI를 업데이트하고 있습니다.</p>
-        <br><br>
-        <p id="progress">1/7. OpenCore 다운로드 중...</p>
-        <!--
-            1. OpenCore 다운로드 중...
-            2. kext 다운로드 중...
-            3. 바이너리 데이터 다운로드 중...
-            4. 백업 생성 중...
-            5. 파일 변경 중...
-            6. config.plist 수정 중...
-            7. 정리하는 중...
-        -->
-    </div>
-    <div id="success">
-        <img src="checkmark-flat.png" alt="checkmark" height="30%" width="30%">
-        <h1>업데이트 완료</h1>
-        <p>OpenCore가 업데이트되었습니다. <span id="kexts-not-updated-exists">하지만 다음 kext는 업데이트되지 않았지만, 최신 버전이 있을 수 있습니다:</span></p>
-        <p id="kexts-not-updated"></p>
-        <p id="vault-removed">OpenCore vault가 감지되어 config.plist-Misc-Security-Vault가 Optional로 변경되었습니다. OpenCore vault를 사용하려면 vault를 다시 만들어주세요.</p>
-        <p>기존 EFI의 백업이 <span id="backup-location"></span>에 생성되었습니다.</p>
+    <div id="update-list"></div>
+    <div id="open-efi-container">
+        <div></div>
+        <button id="open-efi">다른 EFI 열기</button>
     </div>
 </body>
 
