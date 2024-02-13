@@ -419,7 +419,16 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
 });
 electron.ipcMain.on('download-bindata', async (evt, ocver, kexts, PID) => {
     await cpexec(`cd ~; mkdir -p .oc-update/${PID}; cd .oc-update/${PID}; curl -L -s -o OcBinaryData-master.zip https://github.com/acidanthera/OcBinaryData/archive/refs/heads/master.zip; mkdir OcBinaryData-master; cd OcBinaryData-master; unzip ../OcBinaryData-master.zip`);
-    evt.reply('downloaded-bindata', ocver, kexts, PID);
+    electron.ipcMain.on('confirm-reply', async (event, pid, id, result) => {
+        if (pid == PID && id == 'bindata') {
+            if (result) {
+                await fs.promises.rm(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources/Audio/OCEFIAudio_VoiceOver_Boot.mp3`);
+                await fs.promises.copyFile(`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources/Audio/AXEFIAudio_VoiceOver_Boot.mp3`, `${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources/Audio/OCEFIAudio_VoiceOver_Boot.mp3`);
+            }
+            evt.reply('downloaded-bindata', ocver, kexts, PID);
+        }
+    });
+    window.webContents.send('confirm', PID, 'bindata', 'OpenCore 부팅음은 Mac의 실제 부팅음과 다르지만, 바이너리 데이터에는 OpenCore 부팅음과 Mac 부팅음이 모두 포함되어 있습니다. Mac 부팅음을 사용하시겠습니까?', 'The OpenCore boot chime is different from the real Mac boot chime, but both are included in the binary data. Would you like to use the real Mac boot chime?');
 });
 electron.ipcMain.on('create-backup', (evt, ocver, kexts, PID, dir) => {
     if (!fs.existsSync(`${os.homedir()}/EFI Backup`) || !fs.lstatSync(`${os.homedir()}/EFI Backup`).isDirectory()) fs.mkdirSync(`${os.homedir()}/EFI Backup`);

@@ -61,13 +61,13 @@ async function sleep(ms: number) {
 }
 window.addEventListener('load', async () => {
     ipc = (window as any).electron.ipcRenderer;
-    ipc.on('alert', (_event: any, PID: number, version: number, ko: string, en: string) => {
+    ipc.on('alert', (_event: any, PID: number, id: string, ko: string, en: string) => {
         alert(isKorean ? ko : en);
-        ipc.send('alert-closed', PID, version);
+        ipc.send('alert-closed', PID, id);
     });
-    ipc.on('confirm', (_event: any, PID: number, version: number, ko: string, en: string) => {
+    ipc.on('confirm', (_event: any, PID: number, id: string, ko: string, en: string) => {
         const result = confirm(isKorean ? ko : en);
-        ipc.send('confirm-reply', PID, version, result);
+        ipc.send('confirm-reply', PID, id, result);
     });
     ipc.on('theme', (_event: any, isDark: boolean) => {
         if (isDark) {

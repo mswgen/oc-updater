@@ -6,8 +6,8 @@ export default {
     configPlistChange: true,
     exec: (file: string, _app: any, ipc: electron.IpcMain, webContents: electron.WebContents, PID: number): Promise<null> => {
         return new Promise(resolve => {
-            ipc.on('alert-closed', (_event: any, pid: number, version: number) => {
-                if (version == 65 && pid == PID) {
+            ipc.on('alert-closed', (_event: any, pid: number, id: string) => {
+                if (id == '65' && pid == PID) {
                     const plistParsed: any = plist.parse(fs.readFileSync(file, 'utf8'));
                     const ocDir = file.split('/').slice(0, -1).join('/');
                     if (fs.existsSync(`${ocDir}/Bootstrap`)) {
@@ -53,7 +53,7 @@ export default {
                     resolve(null);
                 }
             });
-            webContents.send('alert', PID, 65, `경고: Bootstrap.efi 감지됨
+            webContents.send('alert', PID, '65', `경고: Bootstrap.efi 감지됨
 현재 Bootstrap.efi를 사용하고 있습니다. Bootstrap.efi는 0.6.6부터 LauncherOption으로 변경되었습니다.
 업데이트하려면 Bootstrap.efi를 비활성화하고 NVRAM 초기화를 해야 합니다.
 업데이트 후 재부팅 시 NVRAM 초기화를 진행해주세요.`, `Warning: Bootstrap.efi detected
