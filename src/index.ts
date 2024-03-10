@@ -306,8 +306,10 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
     }
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
-            url: os.release().startsWith('23.') ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma-v2.3.0-DEBUG-alpha-3e1624d.zip'
-                : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
+            url: os.release().startsWith('23.') ? (
+                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-42dc7bc.zip'
+                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-42dc7bc.zip`
+            ) : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
     }
@@ -545,7 +547,7 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
         filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext`, `${dir}/OC/Kexts`]);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        if (os.release().startsWith('23.')) filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma/AirportItlwm.kext`, `${dir}/OC/Kexts`]);
+        if (os.release().startsWith('23.')) filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma14.${parseInt(os.release().split('.')[1]) >= 4 ? '4' : '0'}/AirportItlwm.kext`, `${dir}/OC/Kexts`]);
         else filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext`, `${dir}/OC/Kexts`]);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
