@@ -8,6 +8,8 @@ import plist from 'plist';
 import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const checksums = {
+    'bd8eacc89485592fcb6ae09a9869ea77f50e5620c0503b5eed8a4f463fe068c7': '0.9.9',
+    '952009b5ec2abfd94bb8b8cc50726dccf76f615771bd6cd6e9450205a4ad33c0': '0.9.9',
     '2b522620488affbc71bab1057e020309f5af4335138e730770f3a8f9f32a7d1c': '0.9.8',
     '3c4fe37014381aa7f4e4e88b2110280982c5f6fb7ae96ec9dab7b7c8d8f3097e': '0.9.8',
     'd5c1a8ab4f8c29a2967dc363ddbe671cbb711546e7edde015a37dd50171f8109': '0.9.7',
@@ -70,7 +72,7 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.8', 98],
+    OpenCore: ['0.9.9', 99],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
@@ -85,7 +87,7 @@ const versions = {
     IntelMausi: '1.0.7',
     NVMeFix: '1.1.1',
     itlwm: '2.2.0',
-    IntelBluetoothFirmware: '2.3.0',
+    IntelBluetoothFirmware: '2.4.0',
     CpuTscSync: '1.1.0',
     CPUFriend: '1.2.7',
     HibernationFixup: '1.4.9',
@@ -307,8 +309,8 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
             url: os.release().startsWith('23.') ? (
-                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-42dc7bc.zip'
-                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-42dc7bc.zip`
+                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-e886ebb.zip'
+                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-e886ebb.zip`
             ) : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
