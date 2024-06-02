@@ -312,7 +312,7 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
         kextsToDownload.push({
             url: os.release().startsWith('23.') ? (
                 parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-4ac4c79.zip'
-                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-4ac4c79.zip`
+                    : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-4ac4c79.zip`
             ) : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
@@ -438,14 +438,16 @@ electron.ipcMain.on('download-bindata', async (evt, ocver, kexts, PID) => {
 });
 electron.ipcMain.on('create-backup', async (evt, ocver, kexts, PID, dir) => {
     if (!fs.existsSync(`${os.homedir()}/EFI Backup`) || !fs.lstatSync(`${os.homedir()}/EFI Backup`).isDirectory()) fs.mkdirSync(`${os.homedir()}/EFI Backup`);
-    let backupDir = `${os.homedir()}/EFI Backup/OC ${ocver}`;
+    let backupDir = `${os.homedir()}/EFI Backup/OC ${ocver}/EFI`;
     let i = 1;
     while (true) {
-        if (!fs.existsSync(backupDir)) break;
-        backupDir = `${os.homedir()}/EFI Backup/OC ${ocver} ${++i}`;
+        if (!fs.existsSync(backupDir)) {
+            await fs.promises.mkdir(backupDir, { recursive: true });
+            break;
+        }
+        backupDir = `${os.homedir()}/EFI Backup/OC ${ocver} ${++i}/EFI`;
     }
-    fs.mkdirSync(backupDir);
-   await fs.promises.cp(dir, backupDir, { recursive: true });
+    await fs.promises.cp(dir, backupDir, { recursive: true });
     evt.reply('created-backup', ocver, kexts, PID, backupDir);
 });
 electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDir) => {
@@ -471,125 +473,125 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
             filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/OpenCore/X64/EFI/OC/Tools/${tool}`, `${dir}/OC/Tools/${tool}`]);
         }
     }
-    filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources`, `${dir}/OC`]);
+    filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/OcBinaryData-master/OcBinaryData-master/Resources`, `${dir}/OC/Resources/`]);
     if (kexts.includes('VirtualSMC.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/VirtualSMC.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/VirtualSMC.kext`, `${dir}/OC/Kexts/VirtualSMC.kext`]);
     }
     if (kexts.includes('SMCProcessor.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCProcessor.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCProcessor.kext`, `${dir}/OC/Kexts/SMCProcessor.kext`]);
     }
     if (kexts.includes('SMCSuperIO.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCSuperIO.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCSuperIO.kext`, `${dir}/OC/Kexts/SMCSuperIO.kext`]);
     }
     if (kexts.includes('SMCBatteryManager.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCBatteryManager.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCBatteryManager.kext`, `${dir}/OC/Kexts/SMCBatteryManager.kext`]);
     }
     if (kexts.includes('SMCLightSensor.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCLightSensor.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCLightSensor.kext`, `${dir}/OC/Kexts/SMCLightSensor.kext`]);
     }
     if (kexts.includes('SMCDellSensors.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCDellSensors.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VirtualSMC/Kexts/SMCDellSensors.kext`, `${dir}/OC/Kexts/SMCDellSensors.kext`]);
     }
     if (kexts.includes('Lilu.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/Lilu/Lilu.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/Lilu/Lilu.kext`, `${dir}/OC/Kexts/Lilu.kext`]);
     }
     if (kexts.includes('WhateverGreen.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/WhateverGreen/WhateverGreen.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/WhateverGreen/WhateverGreen.kext`, `${dir}/OC/Kexts/WhateverGreen.kext`]);
     }
     if (kexts.includes('AppleALC.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleALC/AppleALC.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleALC/AppleALC.kext`, `${dir}/OC/Kexts/AppleALC.kext`]);
     }
     if (kexts.includes('AppleALCU.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleALC/AppleALCU.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleALC/AppleALCU.kext`, `${dir}/OC/Kexts/AppleALCU.kext`]);
     }
     if (kexts.includes('VoodooPS2Controller.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooPS2Controller/VoodooPS2Controller.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooPS2Controller/VoodooPS2Controller.kext`, `${dir}/OC/Kexts/VoodooPS2Controller.kext`]);
     }
     if (kexts.includes('VoodooI2C.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2C.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2C.kext`, `${dir}/OC/Kexts/VoodooI2C.kext`]);
     }
     if (kexts.includes('VoodooI2CHID.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CHID.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CHID.kext`, `${dir}/OC/Kexts/VoodooI2CHID.kext`]);
     }
     if (kexts.includes('VoodooI2CSynaptics.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CSynaptics.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CSynaptics.kext`, `${dir}/OC/Kexts/VoodooI2CSynaptics.kext`]);
     }
     if (kexts.includes('VoodooI2CELAN.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CELAN.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CELAN.kext`, `${dir}/OC/Kexts/VoodooI2CELAN.kext`]);
     }
     if (kexts.includes('VoodooI2CFTE.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CFTE.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CFTE.kext`, `${dir}/OC/Kexts/VoodooI2CFTE.kext`]);
     }
     if (kexts.includes('VoodooI2CAtmelMXT.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CAtmelMXT.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/VoodooI2C/VoodooI2CAtmelMXT.kext`, `${dir}/OC/Kexts/VoodooI2CAtmelMXT.kext`]);
     }
     if (kexts.includes('ECEnabler.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/ECEnabler/ECEnabler.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/ECEnabler/ECEnabler.kext`, `${dir}/OC/Kexts/ECEnabler.kext`]);
     }
     if (kexts.includes('BrightnessKeys.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrightnessKeys/BrightnessKeys.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrightnessKeys/BrightnessKeys.kext`, `${dir}/OC/Kexts/BrightnessKeys.kext`]);
     }
     if (kexts.includes('RealtekRTL8111.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekRTL8111/RealtekRTL8111-V${versions.RealtekRTL8111}/Release/RealtekRTL8111.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekRTL8111/RealtekRTL8111-V${versions.RealtekRTL8111}/Release/RealtekRTL8111.kext`, `${dir}/OC/Kexts/RealtekRTL8111.kext`]);
     }
     if (kexts.includes('AtherosE2200Ethernet.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AtherosE2200Ethernet/AtherosE2200Ethernet-V${versions.AtherosE2200Ethernet}/Release/AtherosE2200Ethernet.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AtherosE2200Ethernet/AtherosE2200Ethernet-V${versions.AtherosE2200Ethernet}/Release/AtherosE2200Ethernet.kext`, `${dir}/OC/Kexts/AtherosE2200Ethernet.kext`]);
     }
     if (kexts.includes('USBInjectAll.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RehabMan-USBInjectAll/Release/USBInjectAll.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RehabMan-USBInjectAll/Release/USBInjectAll.kext`, `${dir}/OC/Kexts/USBInjectAll.kext`]);
     }
     if (kexts.includes('XHCI-unsupported.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/OS-X-USB-Inject-All-master/OS-X-USB-Inject-All-master/XHCI-unsupported.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/OS-X-USB-Inject-All-master/OS-X-USB-Inject-All-master/XHCI-unsupported.kext`, `${dir}/OC/Kexts/XHCI-unsupported.kext`]);
     }
     if (kexts.includes('IntelMausi.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelMausi/IntelMausi.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelMausi/IntelMausi.kext`, `${dir}/OC/Kexts/IntelMausi.kext`]);
     }
     if (kexts.includes('NVMeFix.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/NVMeFix/NVMeFix.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/NVMeFix/NVMeFix.kext`, `${dir}/OC/Kexts/NVMeFix.kext`]);
     }
     if (kexts.includes('itlwm.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext`, `${dir}/OC/Kexts/itlwm.kext`]);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        if (os.release().startsWith('23.')) filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma14.${parseInt(os.release().split('.')[1]) >= 4 ? '4' : '0'}/AirportItlwm.kext`, `${dir}/OC/Kexts`]);
-        else filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext`, `${dir}/OC/Kexts`]);
+        if (os.release().startsWith('23.')) filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma14.${parseInt(os.release().split('.')[1]) >= 4 ? '4' : '0'}/AirportItlwm.kext`, `${dir}/OC/Kexts/AirportItlwm.kext`]);
+        else filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext`, `${dir}/OC/Kexts/AirportItlwm.kext`]);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext`, `${dir}/OC/Kexts/IntelBluetoothFirmware.kext`]);
     }
     if (kexts.includes('IntelBluetoothInjector.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothInjector.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothInjector.kext`, `${dir}/OC/Kexts/IntelBluetoothInjector.kext`]);
     }
     if (kexts.includes('IntelBTPatcher.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext`, `${dir}/OC/Kexts/IntelBTPatcher.kext`]);
     }
     // CpuTscSync.kext -> replace with CpuTscSync/CpuTscSync.kext
     if (kexts.includes('CpuTscSync.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CpuTscSync/CpuTscSync.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CpuTscSync/CpuTscSync.kext`, `${dir}/OC/Kexts/CpuTscSync.kext`]);
     }
     // CPUFriend.kext -> replace with CPUFriend/CPUFriend.kext
     if (kexts.includes('CPUFriend.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CPUFriend/CPUFriend.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CPUFriend/CPUFriend.kext`, `${dir}/OC/Kexts/CPUFriend.kext`]);
     }
     // HibernationFixup.kext -> replace with HibernationFixup/HibernationFixup.kext
     if (kexts.includes('HibernationFixup.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/HibernationFixup/HibernationFixup.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/HibernationFixup/HibernationFixup.kext`, `${dir}/OC/Kexts/HibernationFixup.kext`]);
     }
     // FeatureUnlock.kext -> replace with FeatureUnlock/FeatureUnlock.kext
     if (kexts.includes('FeatureUnlock.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/FeatureUnlock/FeatureUnlock.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/FeatureUnlock/FeatureUnlock.kext`, `${dir}/OC/Kexts/FeatureUnlock.kext`]);
     }
     // RestrictEvents.kext -> replace with RestrictEvents/RestrictEvents.kext
     if (kexts.includes('RestrictEvents.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RestrictEvents/RestrictEvents.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RestrictEvents/RestrictEvents.kext`, `${dir}/OC/Kexts/RestrictEvents.kext`]);
     }
     // CpuTopologyRebuild.kext -> replace with CpuTopologyRebuild/CpuTopologyRebuild.kext
     if (kexts.includes('CpuTopologyRebuild.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CpuTopologyRebuild/CpuTopologyRebuild.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CpuTopologyRebuild/CpuTopologyRebuild.kext`, `${dir}/OC/Kexts/CpuTopologyRebuild.kext`]);
     }
     // AirportBrcmFixup.kext -> replace with AirportBrcmFixup/AirportBrcmFixup.kext
     if (kexts.includes('AirportBrcmFixup.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportBrcmFixup/AirportBrcmFixup.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportBrcmFixup/AirportBrcmFixup.kext`, `${dir}/OC/Kexts/AirportBrcmFixup.kext`]);
     }
     /*
     if one of these kexts are installed: replace it with the appropriate kext in BrcmPatchRAM
@@ -607,50 +609,50 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
     BrcmPatchRAM3.kext
     */
     if (kexts.includes('BlueToolFixup.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BlueToolFixup.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BlueToolFixup.kext`, `${dir}/OC/Kexts/BlueToolFixup.kext`]);
     }
     if (kexts.includes('BrcmBluetoothInjector.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmBluetoothInjector.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmBluetoothInjector.kext`, `${dir}/OC/Kexts/BrcmBluetoothInjector.kext`]);
     }
     if (kexts.includes('BrcmBluetoothInjectorLegacy.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmBluetoothInjectorLegacy.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmBluetoothInjectorLegacy.kext`, `${dir}/OC/Kexts/BrcmBluetoothInjectorLegacy.kext`]);
     }
     if (kexts.includes('BrcmFirmwareData.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmFirmwareData.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmFirmwareData.kext`, `${dir}/OC/Kexts/BrcmFirmwareData.kext`]);
     }
     if (kexts.includes('BrcmFirmwareRepo.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmFirmwareRepo.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmFirmwareRepo.kext`, `${dir}/OC/Kexts/BrcmFirmwareRepo.kext`]);
     }
     if (kexts.includes('BrcmNonPatchRAM.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmNonPatchRAM.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmNonPatchRAM.kext`, `${dir}/OC/Kexts/BrcmNonPatchRAM.kext`]);
     }
     if (kexts.includes('BrcmNonPatchRAM2.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmNonPatchRAM2.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmNonPatchRAM2.kext`, `${dir}/OC/Kexts/BrcmNonPatchRAM2.kext`]);
     }
     if (kexts.includes('BrcmPatchRAM.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM.kext`, `${dir}/OC/Kexts/BrcmPatchRAM.kext`]);
     }
     if (kexts.includes('BrcmPatchRAM2.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM2.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM2.kext`, `${dir}/OC/Kexts/BrcmPatchRAM2.kext`]);
     }
     if (kexts.includes('BrcmPatchRAM3.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM3.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/BrcmPatchRAM/BrcmPatchRAM3.kext`, `${dir}/OC/Kexts/BrcmPatchRAM3.kext`]);
     }
     if (kexts.includes('CtlnaAHCIPort.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CtlnaAHCIPort/CtlnaAHCIPort.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/CtlnaAHCIPort/CtlnaAHCIPort.kext`, `${dir}/OC/Kexts/CtlnaAHCIPort.kext`]);
     }
     // do the same for SATA-unsupported and AppleMCEReporterDisabler
     if (kexts.includes('SATA-unsupported.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/SATA-unsupported/SATA-unsupported.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/SATA-unsupported/SATA-unsupported.kext`, `${dir}/OC/Kexts/SATA-unsupported.kext`]);
     }
     if (kexts.includes('AppleMCEReporterDisabler.kext')) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleMCEReporterDisabler/AppleMCEReporterDisabler.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AppleMCEReporterDisabler/AppleMCEReporterDisabler.kext`, `${dir}/OC/Kexts/AppleMCEReporterDisabler.kext`]);
     }
     if (kexts.includes("RealtekCardReader.kext")) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekCardReader/RealtekCardReader.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekCardReader/RealtekCardReader.kext`, `${dir}/OC/Kexts/RealtekCardReader.kext`]);
     }
     if (kexts.includes("RealtekCardReaderFriend.kext")) {
-        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekCardReaderFriend/RealtekCardReaderFriend.kext`, `${dir}/OC/Kexts`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/RealtekCardReaderFriend/RealtekCardReaderFriend.kext`, `${dir}/OC/Kexts/RealtekCardReaderFriend.kext`]);
     }
     window.webContents.send('fileprogress', ocver, kexts, PID, 0, filesToUpdate.length);
     await Promise.all(filesToUpdate.map(async (file) => {
@@ -684,7 +686,7 @@ electron.ipcMain.on('update-config-plist', async (evt, ocver, kexts, PID, efidir
     evt.reply('updated-config-plist', ocver, kexts, PID, false, backupDir);
 });
 electron.ipcMain.on('finish', async (evt, ocver, kexts, PID, efidir, vaultResult, backupDir) => {
-    await fs.promises.rmdir(`${os.homedir()}/.oc-update/${PID}`);
+    await fs.promises.rm(`${os.homedir()}/.oc-update/${PID}`, { force: true, recursive: true });
     // read config.plist or Config.plist and assign to plistRaw (type string)
     let plistRaw: string = await fs.promises.readFile(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
     // don't parse plistRaw
@@ -729,7 +731,7 @@ electron.ipcMain.on('check-bootstrap', async (evt, efidir) => {
     // otherwise, read ${efidir}/OC/config.plist or ${efidir}/OC/Config.plist
     // if plist - Misc - Security - BootProtect is either Bootstrap or BootstrapShort, return true
     // otherwise, return false
-    
+
 });
 electron.ipcMain.on('quit', () => {
     app.quit();
