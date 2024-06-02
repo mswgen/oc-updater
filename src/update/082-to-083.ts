@@ -49,7 +49,7 @@ export default {
             Intel Bluetooth: Add IntelBTPatcher.kext
         */
         if (plistParsed.Kernel.Add.some((x: any) => x.BundlePath == 'IntelBluetoothFirmware.kext') && !plistParsed.Kernel.Add.some((x: any) => x.BundlePath == 'IntelBTPatcher.kext')) {
-            cp.execSync(`cp -r "${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext" "${path.dirname(file)}/Kexts"`);
+            await fs.promises.cp(`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBTPatcher.kext`, `${path.dirname(file)}/Kexts`, { recursive: true });
             plistParsed.Kernel.Add.push({
                 Arch: 'Any',
                 BundlePath: 'IntelBTPatcher.kext',

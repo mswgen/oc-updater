@@ -131,7 +131,6 @@ window.addEventListener('load', async () => {
             (document.querySelector(`.card[data-pid="${PID}"] .oc-info-desc`) as HTMLElement).dataset.vault = 'disabled';
         }
         const ocInfoDesc = document.querySelector(`.card[data-pid="${PID}"] .oc-info-desc`) as HTMLDivElement;
-        console.log(ocInfoDesc.dataset.nonExistingValue);
         if (ocInfoDesc.dataset.notUpdatedKexts || ocInfoDesc.dataset.vault) {
             const alertContent = `${ocInfoDesc.dataset.notUpdatedKexts ? (isKorean ? '지원되지 않는 kext:\n' : 'Unsupported kexts:\n') + ocInfoDesc.dataset.notUpdatedKexts.split(';').join('\n') + (ocInfoDesc.dataset.vault ? '\n\n' : '') : ''}${ocInfoDesc.dataset.vault ? (isKorean ? 'OpenCore Vault가 비활성화되었습니다. Vault를 사용하려면 재설정이 필요합니다.' : 'OpenCore Vault is disabled. Please manually enable Vault if you want to use it.') : ''}`;
             ocInfoDesc.innerHTML = isKorean ? '완료(클릭해서 자세한 정보 확인)' : 'Finished (click for more info)';
@@ -192,7 +191,7 @@ window.addEventListener('load', async () => {
             const ocInfoDesc = document.createElement('div');
             ocInfoDesc.className = 'oc-info-desc';
             if (!ocver) ocInfoDesc.innerHTML = isKorean ? '64비트 RELEASE 버전이 지원됨' : '64-bit RELEASE versions are supported';
-            else ocInfoDesc.innerHTML = ocverNum < 99 ? (isKorean ? `0.9.9로 업데이트하기` : `Update to 0.9.9`) : (isKorean ? '최신 버전' : 'Up to date');
+            else ocInfoDesc.innerHTML = ocverNum < 100 ? (isKorean ? `1.0.0으로 업데이트하기` : `Update to 1.0.0`) : (isKorean ? '최신 버전' : 'Up to date');
             ocInfo.appendChild(ocInfoDesc);
             card.appendChild(ocInfo);
             card.appendChild(document.createElement('div'));

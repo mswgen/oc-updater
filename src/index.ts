@@ -8,6 +8,8 @@ import plist from 'plist';
 import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const checksums = {
+    'aae977bde412c10674f3ddc39a1ae0828845f672ddd610e8b159273f723d8b19': '1.0.0',
+    'dd79702944585e9964a4b05897aeedce031860136dd4f0f4483719a119ab30fc': '1.0.0',
     'bd8eacc89485592fcb6ae09a9869ea77f50e5620c0503b5eed8a4f463fe068c7': '0.9.9',
     '952009b5ec2abfd94bb8b8cc50726dccf76f615771bd6cd6e9450205a4ad33c0': '0.9.9',
     '2b522620488affbc71bab1057e020309f5af4335138e730770f3a8f9f32a7d1c': '0.9.8',
@@ -72,11 +74,11 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['0.9.9', 99],
+    OpenCore: ['1.0.0', 100],
     VirtualSMC: '1.3.2',
     Lilu: '1.6.7',
     WhateverGreen: '1.6.6',
-    AppleALC: '1.8.9',
+    AppleALC: '1.9.0',
     VoodooPS2Controller: '2.3.5',
     VoodooI2C: '2.8',
     ECEnabler: '1.0.4',
@@ -90,7 +92,7 @@ const versions = {
     IntelBluetoothFirmware: '2.4.0',
     CpuTscSync: '1.1.0',
     CPUFriend: '1.2.7',
-    HibernationFixup: '1.4.9',
+    HibernationFixup: '1.5.0',
     AirportBrcmFixup: '2.1.8',
     BrcmPatchRAM: '2.6.8',
     FeatureUnlock: '1.1.5',
@@ -113,9 +115,9 @@ app.on('open-file', async (evt, path) => {
     if (isLoaded) window.webContents.send('init-dir', path);
 });
 const cpexec = util.promisify(cp.exec);
-let window: electron.BrowserWindow;
+let window: BrowserWindow;
 function createWindow(): void {
-    window = new electron.BrowserWindow({
+    window = new BrowserWindow({
         width: 480,
         height: 720,
         webPreferences: {
@@ -138,16 +140,16 @@ function createWindow(): void {
 }
 app.commandLine.appendSwitch('disable-http2');
 autoUpdater.requestHeaders = { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0' };
-electron.app.whenReady().then(() => {
+app.whenReady().then(() => {
     createWindow();
     autoUpdater.checkForUpdatesAndNotify({
         title: app.getLocale() == 'ko' ? '업데이트를 설치할 준비가 완료되었습니다.' : 'An update is ready to install.',
         body: app.getLocale() == 'ko' ? '{appName} 버전 {version}이 다운로드되었으며, 앱 종료 시 자동으로 설치됩니다.' : '{appName} version {version} has been downloaded and will be automatically installed on exit'
     });
-    electron.app.on('activate', (_, hasVisibleWindows) => {
+    app.on('activate', (_, hasVisibleWindows) => {
         if (!hasVisibleWindows) createWindow();
     });
-    electron.app.on('window-all-closed', electron.app.quit);
+    app.on('window-all-closed', app.quit);
 });
 electron.nativeTheme.on('updated', () => {
     window.webContents.send('theme', electron.nativeTheme.shouldUseDarkColors);
@@ -309,8 +311,8 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
             url: os.release().startsWith('23.') ? (
-                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-e886ebb.zip'
-                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-e886ebb.zip`
+                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-4ac4c79.zip'
+                : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-4ac4c79.zip`
             ) : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
@@ -434,7 +436,7 @@ electron.ipcMain.on('download-bindata', async (evt, ocver, kexts, PID) => {
     });
     window.webContents.send('confirm', PID, 'bindata', 'OpenCore 부팅음은 Mac의 실제 부팅음과 다르지만, 바이너리 데이터에는 OpenCore 부팅음과 Mac 부팅음이 모두 포함되어 있습니다. Mac 부팅음을 사용하시겠습니까?', 'The OpenCore boot chime is different from the real Mac boot chime, but both are included in the binary data. Would you like to use the real Mac boot chime?');
 });
-electron.ipcMain.on('create-backup', (evt, ocver, kexts, PID, dir) => {
+electron.ipcMain.on('create-backup', async (evt, ocver, kexts, PID, dir) => {
     if (!fs.existsSync(`${os.homedir()}/EFI Backup`) || !fs.lstatSync(`${os.homedir()}/EFI Backup`).isDirectory()) fs.mkdirSync(`${os.homedir()}/EFI Backup`);
     let backupDir = `${os.homedir()}/EFI Backup/OC ${ocver}`;
     let i = 1;
@@ -443,7 +445,7 @@ electron.ipcMain.on('create-backup', (evt, ocver, kexts, PID, dir) => {
         backupDir = `${os.homedir()}/EFI Backup/OC ${ocver} ${++i}`;
     }
     fs.mkdirSync(backupDir);
-    cp.execSync(`cp -r "${dir}" "${backupDir}"`);
+   await fs.promises.cp(dir, backupDir, { recursive: true });
     evt.reply('created-backup', ocver, kexts, PID, backupDir);
 });
 electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDir) => {
@@ -652,7 +654,7 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
     }
     window.webContents.send('fileprogress', ocver, kexts, PID, 0, filesToUpdate.length);
     await Promise.all(filesToUpdate.map(async (file) => {
-        await cpexec(`cp -r ${file[0]} ${file[1]}`);
+        await fs.promises.cp(file[0], file[1], { recursive: true });
         fileCount++;
         window.webContents.send('fileprogress', ocver, kexts, PID, fileCount, filesToUpdate.length);
     }));
@@ -660,11 +662,8 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
 });
 electron.ipcMain.on('update-config-plist', async (evt, ocver, kexts, PID, efidir, backupDir) => {
     let ocverNum = parseInt(ocver.split('.').join(''));
-    console.log(ocverNum);
     while (true) {
         if (ocverNum == versions.OpenCore[1]) break;
-        console.log(updates[ocverNum.toString()]);
-        console.log(PID);
         if (updates[ocverNum.toString()].configPlistChange) {
             if (fs.readdirSync(`${efidir}/OC`).includes('config.plist')) {
                 await updates[ocverNum.toString()].exec(`${efidir}/OC/config.plist`, app, electron.ipcMain, window.webContents, PID);
@@ -684,11 +683,10 @@ electron.ipcMain.on('update-config-plist', async (evt, ocver, kexts, PID, efidir
     }
     evt.reply('updated-config-plist', ocver, kexts, PID, false, backupDir);
 });
-electron.ipcMain.on('finish', (evt, ocver, kexts, PID, efidir, vaultResult, backupDir) => {
-    console.log(vaultResult);
-    cp.execSync(`rm -rf ${os.homedir()}/.oc-update/${PID}`);
+electron.ipcMain.on('finish', async (evt, ocver, kexts, PID, efidir, vaultResult, backupDir) => {
+    await fs.promises.rmdir(`${os.homedir()}/.oc-update/${PID}`);
     // read config.plist or Config.plist and assign to plistRaw (type string)
-    let plistRaw: string = fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
+    let plistRaw: string = await fs.promises.readFile(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8');
     // don't parse plistRaw
     // in plistRaw, replace all <data/> to <data></data>
     // replace all <string/> to <string></string>
@@ -723,24 +721,15 @@ electron.ipcMain.on('finish', (evt, ocver, kexts, PID, efidir, vaultResult, back
         }
     }
     // write plistRaw back
-    fs.writeFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plistRaw);
+    await fs.promises.writeFile(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, plistRaw);
     evt.reply('finished', ocver, kexts, PID, vaultResult, backupDir);
 });
-electron.ipcMain.on('check-bootstrap', (evt, efidir) => {
+electron.ipcMain.on('check-bootstrap', async (evt, efidir) => {
     // read ${efidir}/OC directory, if Bootstrap directory doesn't exist, return false
     // otherwise, read ${efidir}/OC/config.plist or ${efidir}/OC/Config.plist
     // if plist - Misc - Security - BootProtect is either Bootstrap or BootstrapShort, return true
     // otherwise, return false
-    if (!fs.readdirSync(`${efidir}/OC`).includes('Bootstrap')) {
-        evt.returnValue = false;
-        return;
-    }
-    const plistParsed: any = plist.parse(fs.readFileSync(`${efidir}/OC/${fs.existsSync(`${efidir}/OC/config.plist`) ? 'c' : 'C'}onfig.plist`, 'utf8'));
-    if (plistParsed.Misc.Security.BootProtect == 'Bootstrap' || plistParsed.Misc.Security.BootProtect == 'BootstrapShort') {
-        evt.returnValue = true;
-        return;
-    }
-    evt.returnValue = false;
+    
 });
 electron.ipcMain.on('quit', () => {
     app.quit();

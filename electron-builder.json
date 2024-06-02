@@ -24,7 +24,7 @@
         "!out",
         "!etc"
     ],
-    "buildNumber": "78",
+    "buildNumber": "79",
     "mac": {
         "category": "public.app-category-utilities",
         "electronLanguages": [
