@@ -45,10 +45,3 @@ jobs:
         run: yarn build
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac
-          path: |
-            out/OpenCore Updater-*.*.*-universal.dmg
-            out/latest-mac.yml
