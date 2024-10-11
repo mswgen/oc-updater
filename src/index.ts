@@ -8,6 +8,10 @@ import plist from 'plist';
 import util from 'util';
 import { autoUpdater } from 'electron-updater';
 const checksums = {
+    '225a77dba1defb1bec0069a8857bee298e884f489e0e81dac995ad72bb09ae6e': '1.0.2',
+    'b3b5044f04ec1ba9d639e027751e90a3aecd5e193e56e66c518eff3c9684e66f': '1.0.2',
+    '4a5239c4a976d6d927995ba4c65e71c87d7d698add49eaca2b521bbd4db22d33': '1.0.1',
+    'eff9fd6b65743daef8ca6a59a7154a7ab962631cb90c94523a7e5d4736e6d3d3': '1.0.1',
     'aae977bde412c10674f3ddc39a1ae0828845f672ddd610e8b159273f723d8b19': '1.0.0',
     'dd79702944585e9964a4b05897aeedce031860136dd4f0f4483719a119ab30fc': '1.0.0',
     'bd8eacc89485592fcb6ae09a9869ea77f50e5620c0503b5eed8a4f463fe068c7': '0.9.9',
@@ -74,29 +78,29 @@ const checksums = {
     'dc2381c5ab49ac79ed6be75f9867c5933e6f1e88cb4e860359967fc5ee4916e3': '0.6.3'
 }
 const versions = {
-    OpenCore: ['1.0.0', 100],
-    VirtualSMC: '1.3.2',
-    Lilu: '1.6.7',
-    WhateverGreen: '1.6.6',
-    AppleALC: '1.9.0',
-    VoodooPS2Controller: '2.3.5',
+    OpenCore: ['1.0.2', 102],
+    VirtualSMC: '1.3.4',
+    Lilu: '1.6.9',
+    WhateverGreen: '1.6.8',
+    AppleALC: '1.9.2',
+    VoodooPS2Controller: '2.3.6',
     VoodooI2C: '2.8',
-    ECEnabler: '1.0.4',
+    ECEnabler: '1.0.5',
     BrightnessKeys: '1.0.3',
     RealtekRTL8111: '2.4.2',
     AtherosE2200Ethernet: '2.2.2',
     USBInjectAll: '2018-1108',
     IntelMausi: '1.0.7',
     NVMeFix: '1.1.1',
-    itlwm: '2.2.0',
+    itlwm: '2.3.0',
     IntelBluetoothFirmware: '2.4.0',
-    CpuTscSync: '1.1.0',
-    CPUFriend: '1.2.7',
-    HibernationFixup: '1.5.0',
-    AirportBrcmFixup: '2.1.8',
-    BrcmPatchRAM: '2.6.8',
-    FeatureUnlock: '1.1.5',
-    RestrictEvents: '1.1.3',
+    CpuTscSync: '1.1.1',
+    CPUFriend: '1.2.9',
+    HibernationFixup: '1.5.2',
+    AirportBrcmFixup: '2.1.9',
+    BrcmPatchRAM: '2.6.9',
+    FeatureUnlock: '1.1.7',
+    RestrictEvents: '1.1.5',
     CpuTopologyRebuild: '1.1.0',
     RealtekCardReader: ['0.9.7', '0.9.7_006a845'],
     RealtekCardReaderFriend: ['1.0.4', '1.0.4_e1e3301']
@@ -310,10 +314,7 @@ electron.ipcMain.on('download-kexts', async (evt, ocver, kexts, PID) => {
     }
     if (kexts.includes('AirportItlwm.kext')) {
         kextsToDownload.push({
-            url: os.release().startsWith('23.') ? (
-                parseInt(os.release().split('.')[1]) >= 4 ? 'https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.4-v2.3.0-DEBUG-alpha-4ac4c79.zip'
-                    : `https://raw.githubusercontent.com/mswgen/oc-updater/v1/AirportItlwm-Sonoma14.0-v2.3.0-DEBUG-alpha-4ac4c79.zip`
-            ) : `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${/*os.release().startsWith('23.') ? 'Sonoma' : */(os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
+            url: `https://github.com/OpenIntelWireless/itlwm/releases/download/v${versions.itlwm}/AirportItlwm_v${versions.itlwm}_stable_${os.release().startsWith('23.') ? 'Sonoma14.' + (parseInt(os.release().split('.')[1]) >= 4 ? '4' : '0') : (os.release().startsWith('22.') ? 'Ventura' : (os.release().startsWith('21.') ? 'Monterey' : (os.release().startsWith('20.') ? 'BigSur' : (os.release().startsWith('19.') ? 'Catalina' : (os.release().startsWith('18.') ? 'Mojave' : 'HighSierra')))))}.kext.zip`,
             name: 'AirportItlwm'
         });
     }
@@ -553,8 +554,7 @@ electron.ipcMain.on('update-files', async (evt, ocver, kexts, PID, dir, backupDi
         filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/itlwm/itlwm.kext`, `${dir}/OC/Kexts/itlwm.kext`]);
     }
     if (kexts.includes('AirportItlwm.kext')) {
-        if (os.release().startsWith('23.')) filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/Sonoma14.${parseInt(os.release().split('.')[1]) >= 4 ? '4' : '0'}/AirportItlwm.kext`, `${dir}/OC/Kexts/AirportItlwm.kext`]);
-        else filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext`, `${dir}/OC/Kexts/AirportItlwm.kext`]);
+        filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/AirportItlwm/AirportItlwm.kext`, `${dir}/OC/Kexts/AirportItlwm.kext`]);
     }
     if (kexts.includes('IntelBluetoothFirmware.kext')) {
         filesToUpdate.push([`${os.homedir()}/.oc-update/${PID}/IntelBluetoothFirmware/IntelBluetoothFirmware.kext`, `${dir}/OC/Kexts/IntelBluetoothFirmware.kext`]);

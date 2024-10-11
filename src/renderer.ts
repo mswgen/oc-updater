@@ -191,7 +191,7 @@ window.addEventListener('load', async () => {
             const ocInfoDesc = document.createElement('div');
             ocInfoDesc.className = 'oc-info-desc';
             if (!ocver) ocInfoDesc.innerHTML = isKorean ? '64비트 RELEASE 버전이 지원됨' : '64-bit RELEASE versions are supported';
-            else ocInfoDesc.innerHTML = ocverNum < 100 ? (isKorean ? `1.0.0으로 업데이트하기` : `Update to 1.0.0`) : (isKorean ? '최신 버전' : 'Up to date');
+            else ocInfoDesc.innerHTML = ocverNum < 102 ? (isKorean ? `1.0.2로 업데이트하기` : `Update to 1.0.2`) : (isKorean ? '최신 버전' : 'Up to date');
             ocInfo.appendChild(ocInfoDesc);
             card.appendChild(ocInfo);
             card.appendChild(document.createElement('div'));
